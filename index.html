@@ -771,6 +771,48 @@ body:has(#modal) .tutbox{display:none}
  .hthumb{width:auto}
  .hsep{display:none}
 }
+/* ===== photo card faces ===== */
+.rc.photo{background-color:#1b1f22}
+.rc.photo>.ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;border-radius:inherit}
+.rc.photo:not(.nophoto)>.rc-in,.rc.photo:not(.nophoto)>.rc-bolt,.rc.photo:not(.nophoto)>.rc-pin,.rc.photo:not(.nophoto)::before{visibility:hidden}
+.rc .phd{position:absolute;z-index:2;pointer-events:none;border-radius:2%}
+.rc .phd.hit{background:#1c1c1ccc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1.5 1.5L8.5 8.5M8.5 1.5L1.5 8.5' stroke='%23ff5e52' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center/86% no-repeat}
+.rc.photo.nophoto .phd{display:none}
+.rc .stamp{z-index:3}
+.rc.photo{box-shadow:0 2px 8px #0007}
+.zoomcard{width:min(360px,80vw)}
+/* ===== photo board ===== */
+.sr{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important}
+.center{container-type:size}
+.board.pb{display:block;position:relative;padding:0;gap:0;background:#f4f4f1;border:0;border-radius:1.2cqmin;overflow:hidden;
+ aspect-ratio:2/3;height:auto;width:min(100cqw,calc(100cqh * 2 / 3));max-width:none;margin:auto;box-shadow:0 10px 40px rgba(0,0,0,.45)}
+.board.pb>.bimg{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;user-select:none}
+.board.pb.v-PRC>.bimg{transform:rotate(180deg)}
+.board.pb .home.pb-home{position:absolute;display:block;padding:0;gap:0;background:none;border:0}
+.board.pb .zone.pz{position:absolute;background:none;border:0;border-radius:0;padding:.8%;min-height:0;display:flex;align-items:center;justify-content:center;overflow:visible}
+.board.pb .zone.pz .zin{display:flex;flex-wrap:wrap;gap:3px;align-items:center;align-content:center;justify-content:center;width:100%;height:100%}
+.board.pb .home.top .zone.pz{padding-top:3.4%}.board.pb .home.bot .zone.pz{padding-bottom:3.4%}
+.board.pb .home.top .zone.pz.z-cl{padding-top:6.2%}.board.pb .home.bot .zone.pz.z-cl{padding-bottom:6.2%}
+.board.pb .zone.pz.hl,.board.pb .zone.pz.tgt{outline-offset:-2px}
+.board.pb .pblk{position:absolute;display:block;pointer-events:none;border-radius:1px}
+.board.pb .pblk.hit{background:#1c1c1ce0 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M1.5 1.5L8.5 8.5M8.5 1.5L1.5 8.5' stroke='%23ff5e52' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center/86% no-repeat}
+.board.pb .pcube{position:absolute;display:block;pointer-events:none}
+.board.pb .pcube::after{content:"";position:absolute;left:50%;top:50%;height:58%;width:auto;aspect-ratio:1;transform:translate(-50%,-50%) rotate(-8deg);border-radius:12%;box-shadow:inset -2px -2px 0 #0004,inset 2px 2px 0 #fff5,0 1px 3px #000a}
+.board.pb .pcube.US::after{background:#2b5fd0}.board.pb .pcube.PRC::after{background:#d32f25}
+.board.pb .bands.pbands{position:absolute;display:block;background:none;border:0;overflow:visible}
+.board.pb .band.pband{position:absolute;display:block;border:0;background:none}
+.board.pb .band.pband .toks{position:absolute;inset:5% 9%;height:auto;padding:0;overflow:visible;gap:3px}
+.board.pb .band.pband.r-acq::before{inset:3px 6%}
+.board.pb.threat-on .band.pband[data-th]{background:linear-gradient(90deg,rgba(255,60,40,.28),rgba(255,60,40,.12))}
+.board.pb .band.pband .thr{right:9%}
+.board.pb .band.pband .ecb{left:9%}
+.mini-sq.photo{padding:0;border:0;background:#222;width:calc(var(--tk)*.714);height:var(--tk);border-radius:6%/4.3%;overflow:hidden;position:relative;box-shadow:0 1px 3px #0009}
+.mini-sq.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.mini-sq.photo .cnt{z-index:3;top:1px;right:1px;left:auto;background:#000c;color:#fff;border-radius:3px;padding:0 3px;font-size:9px;line-height:12px}
+.mini-sq.photo.sel{box-shadow:0 0 0 3px var(--amber),0 1px 3px #0009}
+.mini-sq.photo.tgt{box-shadow:0 0 0 3px var(--bad),0 1px 3px #0009}
+.board.pb .tok{border-width:max(2px,calc(var(--tk)*.06))}
+.board.pb .tok .tn{font-size:max(7px,calc(var(--tk)*.2))}
 </style>
 
 <div id="app"></div>
@@ -2467,7 +2509,7 @@ const RULES=[
  {id:'tokens',t:'Reading tokens',h:`<div class="legend"><div class="li">${ICO.acq}<span><b>Acquisition</b>: bands it can see. "x2" = two attempts; "Bonus" adds to the roll.</span></div><div class="li">${ICO.air}<span><b>Air capability</b>: shoot aircraft within range on the roll shown.</span></div><div class="li">${ICO.srf}<span><b>Surface capability</b>: shoot ships, ADA, Airbases and the CL.</span></div><div class="li">${d4svg(2)}<span><b>Required roll</b>: 2+ on 1d4 succeeds.</span></div><div class="li">${d4svg(2,{x:1})}<span><b>Exploding die</b>: on a hit, roll again for damage.</span></div><div class="li">${ICO.md}<span><b>Missile defense</b>: WEZ equals the air range.</span></div><div class="li"><span style="width:28px;text-align:center">${ICO.inf}</span><span><b>Infinity</b>: attack UAS keep ammo on a 3 or 4.</span></div><div class="li"><span class="sw" style="background:var(--us)"></span><span><b>Winchester cube</b>: out of weapons; returns to base next turn.</span></div></div><h3>Aircraft class colors</h3><div class="legend">${Object.entries(CLS).map(([k,c])=>`<div class="li"><span class="sw" style="background:${CLSHEX[k]}"></span><span>${c.n}</span></div>`).join('')}</div>`},
  {id:'cards',t:'Cards',h:`<h3>Mission cards</h3><p>Capture the campaign objective and how you score VPs. Chosen at the start and hidden until the end.</p><h3>Posture cards</h3><p>Chosen each ATO and placed face up. They set your enabler and squadron card limits and any restrictions or bonuses. You may pick the same or a new posture each ATO.</p><p class="small muted">Each side has 5 mission, 5 posture, 10 squadron and 34 enabler cards.</p><h3>Squadron cards</h3><p>Units deployed into or stationed in theater. The background color matches the aircraft class and the token silhouette.</p><h3>Enabler cards</h3><ul><li><b>Single use</b>: generally played once per campaign.</li><li><b>Multiple use</b>: generally played once per ATO cycle.</li><li><b>Response</b> (yellow lightning bolt): played in response to another action.</li><li><b>Enduring</b> (red pushpin): effects last through the entire ATO.</li></ul>`},
  {id:'notes',t:"Commander's notes",h:`<h3>Objectives</h3><ol><li>Get aircraft into the fight</li><li>Gain control of the air</li><li>Protect your forces</li><li>Destroy enemy capabilities</li><li>Work as a team</li></ol><h3>Grading priorities</h3><ol><li>Prioritize the right targets</li><li>Coordinate effectively with your team</li><li>Understand each aircraft's capabilities</li><li>Communicate the plan clearly</li><li>Adapt when required</li><li>Use resources efficiently</li></ol><div class="callout">Different aircraft can share the work. One token does not have to move, acquire and shoot. Use AEW to find targets, fighters to hold the air, and bombers from Standoff to hit bases.</div>`},
- {id:'sim',t:'How this simulator plays it',h:`<p>Every card and token is transcribed from the printed OCS set: per side 5 mission, 5 posture, 10 squadron and 34 enabler cards (54), with 34 US and 33 PRC tokens. Card pictures are drawings standing in for the photographs. Where a card’s wording leaves room, the simulator uses the reading below. Agree on these with your instructor before relying on them for the MCE.</p>
+ {id:'sim',t:'How this simulator plays it',h:`<p>Every card and token is transcribed from the printed OCS set: per side 5 mission, 5 posture, 10 squadron and 34 enabler cards (54), with 34 US and 33 PRC tokens. The cards and the board are photographs of the printed set; the tokens are drawn from it. Where a card’s wording leaves room, the simulator uses the reading below. Agree on these with your instructor before relying on them for the MCE.</p>
 <h3>Cards</h3><ul><li>One copy of each enabler card. <b>Single use</b> cards leave the game once played (Rapid Resupply and Constellation Reconstitution can bring one back). <b>Multiple use</b> cards return each ATO.</li><li><b>Posture rules are enforced</b>: PLAAF (PLAAF enablers only), Joint Operations (flying squadrons only), the free squadrons on ADA and both Standoff postures, the extra PLARF card on PRC Standoff, Surge (no Contingency Location for the rest of the campaign), ACE and Hedgehog (an ADA token on your Airbase).</li><li><b>Cancellation targets.</b> Space cards: Space Reconnaissance, Space-Based EW and Constellation Reconstitution. SOF cards: both PRC SOF Reconnaissance cards, SOF Cyber Infiltration, PLANMC Raid, Sea Dragons Strike. Cyber cards: the black “matrix” cards plus PRC SOF Cyber Infiltration. Mobility/Maintenance cards: Aerial Refueling, Flying Crew Chief, Quick-Turn Mobility, Rapid Resupply, Improved Munitions, Red Horse Squadron. Submarine cards: Submarine Strike and Diesel Submarine Strike. A card played only to cancel another cannot itself be cancelled.</li><li><b>Enabler cards representing a unit</b> (Economy of Force) are the ones that put a unit on the board: Tomahawk Strike, Maritime Missile Defense, EC-130 Compass Call, Land-Based Missile Defense, Infantry Battalion, Guided Missile Destroyer, Guided Missile Cruiser, Missile Boat Flotilla, Shandong J-15 Squadron.</li><li><b>Intact squadron</b> (Three Dominances) means an undamaged Squadron Card. Squadrons <b>not activated</b> (Economy of Force) count only cards still alive.</li><li><b>Infantry Battalion</b> sits on the base you choose with 2 damage boxes. Base attacks can hit it (worth a Squadron Card’s VP), and PLANMC Raid and Sea Dragons Strike cannot hit the squadrons it guards.</li></ul>
 <h3>Rolls</h3><ul><li>“Attack rolls” are hit rolls. Cards that only roll damage (PLANMC Raid, Sea Dragons Strike, Hypersonic Missile) treat that damage roll as the attack roll for EW, ACE and space effects.</li><li>Advantage and disadvantage from different sources cancel out into a normal roll. Missile defense puts both the hit and the damage roll at disadvantage; Badger Surge gives the H-6K advantage on all its rolls.</li><li><b>EC-130</b>: PRC attacks fired from its band, or at a token in its band, roll at disadvantage.</li><li><b>HIMARS, Tomahawk Strike, Ballistic Missile Strike and Land Attack Cruise Missile</b> launch from your home row (Tomahawk from the destroyer it generates) and face missile defense. “US base” lets the PRC pick the Airbase or a Contingency Location in use.</li><li><b>Forward Observers</b> works on an aircraft’s air-to-surface shot; the jet still spends its weapons.</li></ul>
 <h3>Board effects</h3><ul><li><b>Remove</b> (Offensive Cyber) takes tokens off the board for the rest of the ATO without destroying them (no VP). <b>Destroy</b> scores VP.</li><li>Card effects that acquire, remove or destroy can pick any eligible enemy token on the board; no acquisition or range is needed. A surface combatant is any ship token.</li><li>Personnel Recovery and Quick-Turn Mobility return the aircraft armed and unacquired in US band 1. Reserves puts a full set of tokens back on the squadron card, ready to activate again.</li><li>Munitions Upgrade gives one squadron’s tokens (or the Shandong J-15s) air-to-air range 4.</li><li>Airbase damage blocks score ${BLOCK_VP} VP each for every mission. Reaching Cyber Rate 4 ends the ATO and awards +${CYBER_WIN_VP} VP.</li></ul>
@@ -3030,13 +3072,20 @@ function enBody(E){const t=E.txt;const long=t.length>112;
   h=h.replace(/([.)]) (?=[A-Z(])/g,'$1<br>').replace(/ OR /g,' OR<br>');
  }
  return `<div class="rc-txt${long?' flat':''}">${h}</div>`}
+/* ---- photo card faces: each card photographed from the printed deck, straightened and cropped.
+   If a photo cannot load (offline, or the cards folder missing) the drawn card underneath shows instead. ---- */
+const CARD_DIR='cards/';
+const DMGBOX={"uinf":[[16.17,61.07,15.5,10.83],[38.17,61.19,15.33,10.83]],"us124":[[46.67,67.5,15.5,10.36],[68.67,67.26,15.33,10.12]],"us23":[[47.17,72.98,15.17,10.83],[68.83,72.98,15.17,10.83]],"us34":[[47.17,72.98,15.83,11.19],[69.67,73.33,15.67,11.19]],"us391":[[44.17,71.67,15.67,11.31],[66.0,71.67,15.67,11.43]],"us44":[[44.67,72.26,15.5,11.07],[66.5,72.38,15.5,11.07]],"us480":[[46.0,73.57,14.83,10.71],[67.0,73.81,15.0,10.6]],"us69":[[47.17,72.86,15.17,10.71],[68.83,72.86,15.0,10.83]],"us90":[[47.17,74.29,14.83,10.48],[68.0,74.29,14.67,10.48]],"us960":[[44.0,72.86,15.33,10.95],[65.67,72.98,15.67,10.95]],"us99":[[45.67,72.74,15.5,10.83],[67.67,72.86,15.67,10.95]],"pr124":[[44.5,70.48,15.0,10.48],[65.5,70.48,15.0,10.36]],"pr126":[[42.83,68.93,14.83,10.83],[63.67,69.4,15.17,10.95]],"pr26":[[45.0,72.62,15.17,10.71],[66.67,72.62,15.17,10.6]],"pr3ada":[[44.83,72.02,16.17,11.19],[67.33,72.14,16.17,11.19]],"pr5":[[44.17,68.33,15.33,11.19],[65.5,67.86,15.0,10.95]],"pr5ada":[[45.33,73.1,15.33,10.83],[67.17,73.21,15.33,10.83]],"pr8":[[47.5,73.93,14.67,10.6],[68.17,74.05,14.67,10.48]],"praew":[[47.0,72.74,15.67,10.95],[69.17,72.74,15.5,11.07]],"pruasb":[[47.17,69.88,15.5,10.95],[68.83,69.52,15.33,10.83]],"pruav":[[44.83,72.86,15.17,10.83],[66.5,72.98,15.33,10.83]]};
+function photoKey(kind,k,side,i){return kind==='mi'?`mi_${side}_${i}`:kind==='po'?`po_${side}_${i}`:k}
+function photoImg(key,big){return `<img class="ph" src="${CARD_DIR}t/${key}.webp" srcset="${CARD_DIR}t/${key}.webp 240w, ${CARD_DIR}${key}.webp 600w" sizes="${big?'(max-width:500px) 80vw, 360px':'(max-width:600px) 30vw, 210px'}" alt="" decoding="async" ${big?'':'loading="lazy"'} onerror="this.parentNode.classList.add('nophoto');this.remove()">`}
+function photoDmg(key,d){const B=DMGBOX[key];return B?B.map((b,j)=>`<span class="phd${d>j?' hit':''}" style="left:${b[0]}%;top:${b[1]}%;width:${b[2]}%;height:${b[3]}%"></span>`).join(''):''}
 function sqCardHTML(q,k,opts={}){
  k=k||q.k;const d=SQ[k],U=UNITS[d.u];const side=d.s;const dm=q?q.d:0;const dead=q&&q.dead;
  const name=side==='PRC'?`<div class="zh">${esc(d.zh||'')}</div><div class="tr">${esc(d.nm)}</div>`:esc(capName(d.nm));
  const patch=side==='PRC'?prcShield('空军'):usPatch(sqTop(d.nm),d.pt&&!/^\d/.test(d.pt)?d.pt:'U.S. AIR FORCE',U.sh,hash(k));
  let status='';if(q&&!opts.bare){const n=G.toks.filter(t=>t.q===q.id&&t.l==='card'&&!t.g).length;const air=G.toks.filter(t=>t.q===q.id&&onBoard(t)).length;
   status=`<div class="cfoot mono"><span>${dead?'DESTROYED':q.act?(air?`${air} AIRBORNE`:'ACTIVE'):'READY'}</span><span>${n} on card${q.b==='cl'?` · CL${q.lim!=null?(q.lim>=99?' max':' lim '+q.lim):''}`:''}</span>${opts.zoom!==false?`<span class="zoomi" data-a="zoom" data-kind="sq" data-k="${k}" data-id="${q.id}" role="button" tabindex="0" aria-label="Enlarge card">⤢</span>`:''}</div>`}
- return `<div class="cardwrap"><div class="rc sq${dead?' dead':''} ${side}" style="--cbg:${CARDBG[U.cls]}"><div class="rc-in"><div class="rc-name${side==='PRC'?' prc':titleCls(capName(d.nm))}">${name}</div><div class="rc-art">${cardArt('unit',d.u,side)}</div><div class="rc-mid"><div class="rc-eq"><span>Equipment Shown:</span>${d.eq.map(e=>`<span class="i">${esc(e)}</span>`).join('')}</div>${patch}</div><div class="rc-box sqbox"><div class="rc-dmg"><b>DAMAGE:</b><span class="sqs"><i class="${dm>=1?'hit':''}"></i><i class="${dm>=2?'hit':''}"></i></span></div><div class="rc-gen">Generate:<span class="i">${esc(genLine(k))}</span></div></div>${cardNo(k)}</div>${dead?'<div class="stamp">DESTROYED</div>':''}</div>${status}${opts.foot||''}</div>`;
+ return `<div class="cardwrap"><div class="rc sq photo${dead?' dead':''} ${side}" style="--cbg:${CARDBG[U.cls]}">${photoImg(k,opts.big)}${photoDmg(k,dm)}<div class="rc-in"><div class="rc-name${side==='PRC'?' prc':titleCls(capName(d.nm))}">${name}</div><div class="rc-art">${cardArt('unit',d.u,side)}</div><div class="rc-mid"><div class="rc-eq"><span>Equipment Shown:</span>${d.eq.map(e=>`<span class="i">${esc(e)}</span>`).join('')}</div>${patch}</div><div class="rc-box sqbox"><div class="rc-dmg"><b>DAMAGE:</b><span class="sqs"><i class="${dm>=1?'hit':''}"></i><i class="${dm>=2?'hit':''}"></i></span></div><div class="rc-gen">Generate:<span class="i">${esc(genLine(k))}</span></div></div>${cardNo(k)}</div>${dead?'<div class="stamp">DESTROYED</div>':''}</div>${status}${opts.foot||''}</div>`;
 }
 function enCardHTML(k,side,o={}){
  const E=EN[k];side=E.s;const use=USE_LBL[E.use].toUpperCase();
@@ -3047,21 +3096,22 @@ function enCardHTML(k,side,o={}){
  const mid=badgeOnly?`<div class="rc-badgewrap">${bigBadge(E)}</div>`:`<div class="rc-art">${cardArt('en',k,side)}</div><div class="rc-mid"><div class="rc-eq">${E.eq&&E.eq.length?`<span>${esc(E.eqLbl||'Equipment Shown:')}</span>${E.eq.map(e=>`<span class="i">${esc(e)}</span>`).join('')}`:''}</div>${enPatch(E)}</div>`;
  const dmg=E.dmg?`<div class="rc-dmg inl"><b>DAMAGE:</b><span class="sqs"><i class="${G&&G.inf&&G.inf.d>=1&&o.used?'hit':''}"></i><i class="${G&&G.inf&&G.inf.d>=2&&o.used?'hit':''}"></i></span></div>`:'';
  const icos=(E.xdie?d4Icon(1):'')+(E.icon?loHi(E.icon):'');
- return `<div class="cardwrap"><div class="rc en cat-${E.cat} ${side}${badgeOnly?' badge':''}${o.used?' used':''}${o.rev?' rev':''}" ${o.zoom!==false?`data-a="zoom" data-kind="en" data-k="${k}" data-side="${side}"${o.i!=null?` data-i="${o.i}"`:''} role="button" tabindex="0" aria-label="${esc(E.nm)}: enlarge"`:''}>${pin}${bolt}<div class="rc-in"><div class="rc-name en${side==='PRC'?' prc':titleCls(E.nm)}${E.bolt||E.pin?' hasb':''}">${name}</div>${mid}${dmg}<div class="rc-box"><div class="rc-use"><b>${use}:</b>${E.die?d4Icon(0):''}</div>${enBody(E)}${icos?`<div class="rc-icos">${icos}</div>`:''}</div>${cardNo(k)}</div>${o.used?`<div class="stamp">${o.disc?'DISCARDED':'USED'}</div>`:''}</div>${o.foot?`<div class="cfoot">${o.foot}</div>`:''}</div>`;
+ const infD=E.dmg&&G&&G.inf&&o.used?G.inf.d:0;
+ return `<div class="cardwrap"><div class="rc en photo cat-${E.cat} ${side}${badgeOnly?' badge':''}${o.used?' used':''}${o.rev?' rev':''}" ${o.zoom!==false?`data-a="zoom" data-kind="en" data-k="${k}" data-side="${side}"${o.i!=null?` data-i="${o.i}"`:''} role="button" tabindex="0" aria-label="${esc(E.nm)}: enlarge"`:''}>${photoImg(k,o.big)}${photoDmg(k,infD)}${pin}${bolt}<div class="rc-in"><div class="rc-name en${side==='PRC'?' prc':titleCls(E.nm)}${E.bolt||E.pin?' hasb':''}">${name}</div>${mid}${dmg}<div class="rc-box"><div class="rc-use"><b>${use}:</b>${E.die?d4Icon(0):''}</div>${enBody(E)}${icos?`<div class="rc-icos">${icos}</div>`:''}</div>${cardNo(k)}</div>${o.used?`<div class="stamp">${o.disc?'DISCARDED':'USED'}</div>`:''}</div>${o.foot?`<div class="cfoot">${o.foot}</div>`:''}</div>`;
 }
-function missionCardHTML(side,i){if(typeof side==='number'){i=side;side='US'}const M=MISSION[side][i];
- return `<div class="cardwrap"><div class="rc mi ${side}"><div class="rc-in"><div class="rc-name mi"><span class="sm">MISSION:</span><span class="t">${esc(M.nm.toUpperCase())}</span></div><div class="rc-art">${cardArt('mission',M.nm,side)}</div><div class="rc-box"><b>MISSION:</b><div class="rc-txt">${esc(M.txt)}</div><b>SCORING:</b><div class="rc-txt flat">${M.lines.map(esc).join('<br>')}</div></div>${cardNo('mi:'+side+':'+M.nm)}</div></div></div>`}
-function postureCardHTML(side,i){const P=POSTURE[side][i];
+function missionCardHTML(side,i,big){if(typeof side==='number'){i=side;side='US'}const M=MISSION[side][i];
+ return `<div class="cardwrap"><div class="rc mi photo ${side}" role="img" aria-label="Mission: ${esc(M.nm)}">${photoImg(photoKey('mi',null,side,i),big)}<div class="rc-in"><div class="rc-name mi"><span class="sm">MISSION:</span><span class="t">${esc(M.nm.toUpperCase())}</span></div><div class="rc-art">${cardArt('mission',M.nm,side)}</div><div class="rc-box"><b>MISSION:</b><div class="rc-txt">${esc(M.txt)}</div><b>SCORING:</b><div class="rc-txt flat">${M.lines.map(esc).join('<br>')}</div></div>${cardNo('mi:'+side+':'+M.nm)}</div></div></div>`}
+function postureCardHTML(side,i,big){const P=POSTURE[side][i];
  const recycle=P.recycle?`<svg viewBox="0 0 24 24" class="rc-recycle" aria-hidden="true"><g fill="none" stroke="#111" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><path d="M10 3.5 L7 8.5"/><path d="M14 3.5 L17 8.5"/><path d="M10 3.5 H14"/><path d="M19.5 13 L16.5 18.5 H12"/><path d="M4.5 13 L7.5 18.5 H10"/><path d="M5 8 L7 8.5 L7.6 6.4"/><path d="M16.4 6.4 L17 8.5 L19 8"/><path d="M12 16.6 V20.4 L13.8 18.5Z"/></g></svg>`:'';
- return `<div class="cardwrap"><div class="rc po ${side}"><div class="rc-in"><div class="rc-name po"><span class="sm">POSTURE:</span><span class="t">${esc(P.nm.toUpperCase())}</span></div><div class="rc-art">${cardArt('posture',String(i),side)}</div><div class="rc-box po-box"><div class="rc-lim"><span>ENABLER CARDS:</span><b>${P.en}</b><span>SQUADRON CARDS:</span><b>${P.sq}</b></div>${recycle}<div class="po-txt">${esc(P.txt)}</div></div>${cardNo('po:'+side+':'+P.nm)}</div></div></div>`}
+ return `<div class="cardwrap"><div class="rc po photo ${side}" role="img" aria-label="Posture: ${esc(P.nm)}">${photoImg(photoKey('po',null,side,i),big)}<div class="rc-in"><div class="rc-name po"><span class="sm">POSTURE:</span><span class="t">${esc(P.nm.toUpperCase())}</span></div><div class="rc-art">${cardArt('posture',String(i),side)}</div><div class="rc-box po-box"><div class="rc-lim"><span>ENABLER CARDS:</span><b>${P.en}</b><span>SQUADRON CARDS:</span><b>${P.sq}</b></div>${recycle}<div class="po-txt">${esc(P.txt)}</div></div>${cardNo('po:'+side+':'+P.nm)}</div></div></div>`}
 
 /* big view of a card, with its action */
 H.zoom=d=>{
  let html='',act='';const v=G?viewSide():'US';
- if(d.kind==='mi'||d.kind==='po'){const sd=d.side||v;html=d.kind==='mi'?missionCardHTML(sd,+d.i):postureCardHTML(sd,+d.i);modal(`<div class="zoomcard">${html}</div><div class="acts2"><button class="btn" data-a="mclose">Close</button></div>`,'zoomm');return}
- if(d.kind==='sq'){const q=d.id?sqById(+d.id):null;html=sqCardHTML(q,d.k,{zoom:false});
+ if(d.kind==='mi'||d.kind==='po'){const sd=d.side||v;html=d.kind==='mi'?missionCardHTML(sd,+d.i,true):postureCardHTML(sd,+d.i,true);modal(`<div class="zoomcard">${html}</div><div class="acts2"><button class="btn" data-a="mclose">Close</button></div>`,'zoomm');return}
+ if(d.kind==='sq'){const q=d.id?sqById(+d.id):null;html=sqCardHTML(q,d.k,{zoom:false,big:true});
   if(q&&G&&q.s===v&&G.phase==='play'){const can=myTurn()&&canActivate(q)&&!G.act.actv&&!G.act.mv&&!G.act.aq&&!G.act.sh;act=`<button class="btn ${can?'pri':''}" data-a="zact" data-id="${q.id}" ${can?'':'disabled'}>Activate (ends turn)</button>`}}
- else if(d.kind==='en'){const side=d.side||v;html=enCardHTML(d.k,side,{zoom:false});
+ else if(d.kind==='en'){const side=d.side||v;html=enCardHTML(d.k,side,{zoom:false,big:true});
   if(G&&d.i!=null&&G.phase==='play'&&side===v){const why=enAvail(v,+d.i);const can=myTurn()&&!why&&EN[d.k].resp!==1;act=(EN[d.k].resp===1?'<p class="small muted">Response cards trigger when the enemy does the thing they answer.</p>':`<button class="btn ${can?'pri':''}" data-a="zen" data-i="${d.i}" ${can?'':'disabled'}>Play card</button>${why&&myTurn()?`<p class="why">${esc(why)}</p>`:''}`)}}
  modal(`<div class="zoomcard">${html}</div><div class="acts2">${act}<button class="btn" data-a="mclose">Close</button></div>`,'zoomm');
 };
@@ -3134,6 +3184,69 @@ function boardHTML(){
  h+=`</div>`+homeHTML(v,'bot',T)+`</div>`;return h;
 }
 H.threat=()=>{UI.threat=!UI.threat;render()};
+
+/* ---- the board: a straightened photo of the printed board, with the play areas laid over it.
+   Coordinates are pixels on the 1200 x 1800 photo, US end at the bottom. The PRC player sees it
+   turned 180 degrees, the way the board faces them across the table. ---- */
+const BPH={W:1200,H:1800,
+ home:{PRC:[0,0,1200,365],US:[0,1427,1200,1800]},bands:[0,365,1200,1427],
+ zone:{PRC:{ab:[25,118,881,358],so:[890,120,1167,358]},US:{so:[25,1435,303,1676],ab:[307,1435,887,1676],cl:[892,1436,1172,1676]}},
+ lbl:{PRC:'top',US:'bot'},
+ blk:{PRC:[[366,166,394,194],[401,166,430,194],[437,166,466,194]],US:[[584,1606,614,1634],[619,1606,648,1634],[654,1606,683,1634]]},
+ cy:{PRC:[[648,29,712,87],[578,29,644,87],[507,29,574,87],[437,29,503,87],[366,29,433,87]],US:[[477,1706,544,1767],[547,1706,616,1767],[617,1706,686,1767],[687,1706,755,1767],[757,1706,822,1767]]},
+ intel:{PRC:{n:[216,26,344,86],a:[131,26,212,86]},US:{n:[847,1707,975,1767],a:[978,1707,1059,1767]}},
+ band:r=>[24,368+(5-r)*212,1166,368+(6-r)*212]};
+function bRot(R,v){return v==='PRC'?[BPH.W-R[2],BPH.H-R[3],BPH.W-R[0],BPH.H-R[1]]:R}
+function bPos(R,P,v){R=bRot(R,v);P=P?bRot(P,v):[0,0,BPH.W,BPH.H];const w=P[2]-P[0],h=P[3]-P[1];
+ return `left:${((R[0]-P[0])/w*100).toFixed(3)}%;top:${((R[1]-P[1])/h*100).toFixed(3)}%;width:${((R[2]-R[0])/w*100).toFixed(3)}%;height:${((R[3]-R[1])/h*100).toFixed(3)}%`}
+function homeHTMLPhoto(s,pos,T,v){
+ const HR=BPH.home[s];const ZR=BPH.zone[s];
+ const so=G.toks.filter(t=>t.s===s&&t.l==='sky'&&t.z==='so');
+ const ab=G.sqs.filter(q=>q.s===s&&q.b==='ab'),abT=G.toks.filter(t=>t.s===s&&t.l==='base'&&t.z==='ab');
+ const cl=G.sqs.filter(q=>q.s===s&&q.b==='cl'),clT=G.toks.filter(t=>t.s===s&&t.l==='base'&&t.z==='cl');
+ const tk=t=>tokenHTML(t,T.toks.has(t.id)?' tgt':'');
+ const soHl=T.so.has(s);const rng=UI.rng&&UI.rng[HOME[s]]||'';
+ const zo=z=>ZODDS[z+s]&&UI.showOdds?`<span class="zodds">${ZODDS[z+s]}</span>`:'';
+ const infCard=z=>G.inf&&G.inf.s===s&&G.inf.b===z?`<span class="mini-inf${G.inf.dead?' dead':''}" title="Infantry Battalion: squadrons here cannot be attacked by SOF"><b>INF BN</b><span class="pp"><i class="${G.inf.d>=1?'hit':''}"></i><i class="${G.inf.d>=2?'hit':''}"></i></span></span>`:'';
+ const NAME={so:'Stand off',ab:'Airbase',cl:'Contingency location'};
+ const zone=(z,inner,hl,tg)=>`<div class="zone pz ${s} z-${z}${hl?' hl':''}${tg?' tgt':''}${z==='so'?rng:''}" style="${bPos(ZR[z],HR,v)}" data-zone="${z}${s}" aria-label="${s} ${NAME[z]}" ${hl?`data-a="row" data-r="${HOME[s]}" data-z="so" role="button" tabindex="0"`:tg?`data-a="zone" data-z="${z}" data-s="${s}" role="button" tabindex="0"`:''}><span class="zl sr">${NAME[z]}</span><div class="zin">${inner}</div>${zo(z)}</div>`;
+ let h=zone('so',so.map(tk).join(''),soHl,false)+zone('ab',ab.map(miniSq).join('')+abT.map(tk).join('')+infCard('ab'),false,T.zones.has('ab'+s));
+ if(s==='US')h+=zone('cl',cl.map(miniSq).join('')+clT.map(tk).join('')+infCard('cl'),false,T.zones.has('cl'+s));
+ const blk=G.S[s].blk;
+ h+=BPH.blk[s].map((R,i)=>`<i class="pblk${i<blk?' hit':''}" style="${bPos(R,HR,v)}" title="Airbase damage block ${i+1}${i<blk?': destroyed':''}"></i>`).join('');
+ h+=`<i class="pcube ${s}" style="${bPos(BPH.cy[s][G.cyber[s]],HR,v)}" title="${s} Cyber Rate ${G.cyber[s]}"></i>`;
+ h+=`<i class="pcube ${s}" style="${bPos(G.intelAdv===s?BPH.intel[s].a:BPH.intel[s].n,HR,v)}" title="${s} intel: ${G.intelAdv===s?'advantage':'normal'}"></i>`;
+ return `<div class="home pb-home ${pos} ${s}" style="${bPos(HR,null,v)}" aria-label="${s} home area: Cyber Rate ${G.cyber[s]}, intel ${G.intelAdv===s?'advantage':'normal'}, ${blk} of 3 airbase blocks destroyed">${h}</div>`;
+}
+const boardHTMLDrawn=boardHTML;
+boardHTML=function(){
+ if(UI.drawnBoard)return boardHTMLDrawn();
+ computeOdds();
+ const v=viewSide();const top=OPP[v];const T=targetSets();
+ UI.rng={};const st=UI.sel!=null?tok(UI.sel):null;
+ if(st&&st.s===v&&onBoard(st)&&!UI.mode){const U=UNITS[st.u];const ar=U.acq?U.acq.r:-1;const wr=Math.max(U.air?airRange(st):-1,U.srf?Math.min(U.srf.r,6):-1);
+  for(let r=0;r<=6;r++){const d=dist(r,st.r);let c='';if(d<=ar)c+=' r-acq';if(d<=wr)c+=' r-wpn';UI.rng[r]=c}}
+ let h=`<div class="board pb v-${v}${UI.threat?' threat-on':''}" id="board"><img class="bimg" src="${CARD_DIR}board.webp" alt="" decoding="async" onerror="UI.drawnBoard=1;render()">`;
+ h+=homeHTMLPhoto(top,'top',T,v);
+ let bands='';
+ for(const r of [5,4,3,2,1]){const ts=G.toks.filter(t=>t.l==='sky'&&t.z==='b'&&t.r===r).sort((a,b)=>a.s.localeCompare(b.s));const hl=T.rows.has(r);
+  const th=UI.threat&&G.phase==='play'?threatView(v,r):0;
+  const ec=G.toks.some(e=>e.l==='sky'&&e.z==='b'&&e.r===r&&UNITS[e.u].ew&&tokFaceVisible(e));
+  bands+=`<div class="band pband${hl?' hl':''}${UI.rng[r]||''}${ec?' ec':''}" style="${bPos(BPH.band(r),BPH.bands,v)}" ${hl?`data-a="row" data-r="${r}" data-z="b" role="button" tabindex="0"`:''} aria-label="${v} band ${rowBand(v,r)}, ${top} band ${rowBand(top,r)}" data-row="${r}" ${th?`data-th="${th}"`:''}><span class="bn sr">${rowBand(v,r)}</span><div class="toks">${ts.map(t=>tokenHTML(t,T.toks.has(t.id)?' tgt':'')).join('')}</div>${th?`<span class="thr" title="Enemy fighters that could shoot here next turn">⚠ ${th}</span>`:''}${ec?'<span class="ecb" title="EC-130 jamming: PRC attacks in this band roll at disadvantage">EC-130 · PRC lo</span>':''}</div>`}
+ h+=`<div class="bands pbands" style="${bPos(BPH.bands,null,v)}">${bands}</div>`;
+ h+=homeHTMLPhoto(v,'bot',T,v)+`</div>`;return h;
+};
+/* small squadron card on the board: the card's own photo */
+const miniSqDrawn=miniSq;
+miniSq=function(q){
+ const v=viewSide();const d=SQ[q.k];const face=q.s===v||q.act||G.phase==='over';
+ if(!face||UI.drawnBoard)return miniSqDrawn(q);
+ const n=G.toks.filter(t=>t.q===q.id&&t.l==='card'&&!t.g).length;
+ let cls='mini-sq photo';if(q.dead)cls+=' dead';if(UI.selSq===q.id)cls+=' sel';
+ if(UI.mode==='en-sof'&&q.s!==G.turn&&!q.dead)cls+=' tgt';
+ if((UI.mode==='en-radr'&&q.s===G.turn&&!q.dead&&q.d>0)||(UI.mode==='en-disp'&&q.s===G.turn&&q.b==='ab'&&!q.dead&&q.d===0))cls+=' tgt';
+ return `<button class="${cls}" data-a="sq" data-id="${q.id}" data-sqk="${q.k}" aria-label="${esc(d.nm)}: ${n} aircraft on the card, ${q.d} damage"><img src="${CARD_DIR}t/${q.k}.webp" alt="" decoding="async" onerror="this.remove()"><span class="cnt">${n}</span>${photoDmg(q.k,q.d)}</button>`;
+};
 
 /* =====================================================================
    P5 · COACHING, DRILLS, QUIZ, PLAYBOOK, READINESS
@@ -3584,6 +3697,17 @@ document.addEventListener('scroll',e=>{const r=e.target;if(r&&r.classList&&r.cla
 H.sheet=d=>{UI.sheet=d.t||null;if(UI.sheet)UI.hand=null;render()};
 H.info=()=>{UI.sheet='r';UI.hand=null;render()};
 
+/* token size for the photo board: the largest size at which every band and box holds its pieces */
+const fitBoardDrawn=fitBoard;
+fitBoard=function(){
+ const b=document.getElementById('board');if(!b)return;if(!b.classList.contains('pb'))return fitBoardDrawn();
+ const gap=3;const boxes=[...b.querySelectorAll('.band .toks,.zone .zin')].map(c=>({w:c.clientWidth,h:c.clientHeight,items:[...c.children].map(x=>x.classList.contains('ship')?1.8:x.classList.contains('mini-sq')?(x.classList.contains('photo')?.714:.9):x.classList.contains('mini-inf')?1.3:1)}));
+ const fits=tk=>boxes.every(B=>{if(!B.items.length)return true;let rows=1,x=0;for(const u of B.items){const w=u*tk;if(w>B.w+0.5)return false;if(x&&x+gap+w>B.w){rows++;x=w}else x+=(x?gap:0)+w}return rows*tk+(rows-1)*gap<=B.h+1});
+ const band=b.querySelector('.band .toks');const top=Math.max(18,Math.min(48,band?band.clientHeight:40));
+ let tk=top;while(tk>14&&!fits(tk))tk--;
+ b.style.setProperty('--tk',tk+'px');
+};
+
 /* =====================================================================
    P5 · SCREENS, TURN CODES, OFFLINE COPY, MOTION, BOOT
    ===================================================================== */
@@ -3654,7 +3778,7 @@ function renderUnits(){
  <h3 class="grp">${side} squadron cards (${SQKEYS.filter(k=>SQ[k].s===side).length})</h3><div class="cardgrid">${SQKEYS.filter(k=>SQ[k].s===side).map(k=>`<div>${sqCardHTML(null,k)}</div>`).join('')}</div>
  <h3 class="grp">${side} enabler cards (${Object.keys(DECK[side]).length})</h3>${SVC_ORDER[side].map(sv=>{const ks=Object.keys(DECK[side]).filter(k=>EN[k].svc===sv);return ks.length?`<h4 class="svch">${esc(SVC_NAME[sv]||sv)} <span class="muted small">${ks.length}</span></h4><div class="cardgrid">${ks.map(k=>`<div>${enCardHTML(k,side)}</div>`).join('')}</div>`:''}).join('')}
  <h3 class="grp">${side} tokens (${tokenCount(side)})</h3><div class="unitgrid">${sideUnits(side).map(u=>`<div>${bigTokHTML(null,u,side)}<p class="small muted" style="margin:4px 0 0">${tokQty(side,u)} · ${unitPlain(UNITS[u])}</p></div>`).join('')}</div>`;
- app.innerHTML=`<div class="screen"><div class="wrap"><div class="row" style="justify-content:space-between;margin-bottom:8px"><button class="btn" data-a="back">← Back</button><h2 style="font-size:28px">Units and cards</h2><span></span></div><p class="small muted">Every card and token in the box, transcribed from the printed cards: per side 5 missions, 5 postures, 10 squadrons and 34 enablers (54 cards), with 34 US and 33 PRC tokens. Card pictures are drawings standing in for the printed photographs.</p>${blk('US')}${blk('PRC')}</div></div>`;
+ app.innerHTML=`<div class="screen"><div class="wrap"><div class="row" style="justify-content:space-between;margin-bottom:8px"><button class="btn" data-a="back">← Back</button><h2 style="font-size:28px">Units and cards</h2><span></span></div><p class="small muted">Every card and token in the box, transcribed from the printed cards: per side 5 missions, 5 postures, 10 squadrons and 34 enablers (54 cards), with 34 US and 33 PRC tokens. The cards and the board are photographs of the printed set; the tokens are drawn from it.</p>${blk('US')}${blk('PRC')}</div></div>`;
 }
 function tokQty(side,u){let n=0;const src=[];for(const k of SQKEYS)if(SQ[k].s===side&&SQ[k].u===u){n+=SQ[k].n;src.push(SQ[k].nm)}for(const k of Object.keys(DECK[side]))if(EN[k].u===u){n+=EN[k].n||1;src.push(EN[k].nm+' card')}if(u==='pat'){n+=1;src.push('Hedgehog posture')}return `${n} in the box (${src.join(', ')})`}
 function statsHTML(){
