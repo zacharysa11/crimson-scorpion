@@ -887,7 +887,7 @@ const EN={
  ummd:{s:'US',nm:'Maritime Missile Defense',use:'single',fx:'gen',u:'ddg81',n:1,cat:'navy',svc:'Navy',pt:'DDG 81',eq:['Arleigh Burke Class','Destroyer'],unit:1,txt:'Generate: DDG 81 Guided Missile Destroyer in any range band.'},
  umlr:{s:'US',nm:'Marine Littoral Regiment',use:'single',fx:'shipkill',cat:'navy',svc:'USMC',pt:'3d MLR',eq:['CH-53E','Super Stallion'],txt:'Attack 1x PRC Surface Combatant. Automatically hits.'},
  uhimars:{s:'US',nm:'High Mobility Artillery Rocket System (HIMARS)',use:'single',fx:'strike',zone:'ab',cat:'light',svc:'Army',pt:'ARMY',eq:['HIMARS'],xdie:1,txt:'Roll 2+ on 1d4. If successful roll 1d4 for damage inflicted to PRC airbase.'},
- ulbmd:{s:'US',nm:'Land-Based Missile Defense',use:'single',fx:'genada',u:'nasams',cat:'light',svc:'Army',pt:'ARMY',eq:['NASAMS'],unit:1,txt:'Generate: 1x ADA token on the US Airbase or Contingency Location.'},
+ ulbmd:{s:'US',nm:'Land-Based Missile Defense',use:'single',fx:'genada',u:'nasams',cat:'light',svc:'Army',pt:'',eq:['NASAMS'],unit:1,txt:'Generate: 1x ADA token on the US Airbase or Contingency Location.'},
  uinf:{s:'US',nm:'Infantry Battalion',use:'single',fx:'inf',cat:'light',svc:'Army',pt:'HONOR',dmg:1,unit:1,txt:'Place on any base or contingency location. Squadrons on that base may not be attacked by SOF. This card may be target of a base attack.'},
  /* ===== PRC ===== */
  pmu:{s:'PRC',nm:'Munitions Upgrade',zh:'弹药升级',use:'single',pin:1,fx:'mu',cat:'af',svc:'PLAAF',eq:['Hypersonic','missile bodies'],txt:'One fighter squadron may shoot air-to-air at a range of 4 for this ATO cycle.'},
@@ -900,14 +900,14 @@ const EN={
  pres:{s:'PRC',nm:'Reserves',zh:'预备役空军',use:'single',bolt:1,resp:1,fx:'reserves',cat:'af',svc:'PLAAF',eq:['J-11','Flanker-L'],txt:'Play after a squadron has lost all its aircraft tokens. The squadron is fully regenerated and may be launched.'},
  pbadger:{s:'PRC',nm:'Badger Surge',zh:'涌的战神',use:'single',pin:1,fx:'badger',cat:'af',svc:'PLAAF',eq:['H-6K','Badger'],icon:'hi',txt:'H-6K rolls at advantage this ATO cycle.'},
  par:{s:'PRC',nm:'Aerial Refueling (AR)',zh:'空中加油',use:'single',fx:'ar',cat:'af',svc:'PLAAF',eq:['YY-20'],txt:'Place one Squadron card in addition to the Posture Card limit on the airbase ready to generate.'},
- pddg:{s:'PRC',nm:'Guided Missile Destroyer',zh:'型导弹驱逐舰',use:'single',fx:'gen',u:'d052',n:1,cat:'navy',svc:'PLAN',eq:['Type 052D','Luyang III'],unit:1,txt:'Generate: 1x Guided Missile Destroyer (DDG) in any range band.'},
+ pddg:{s:'PRC',nm:'Guided Missile Destroyer',zh:'型导弹驱逐舰',use:'single',fx:'gen',u:'d052',n:1,cat:'navy',svc:'PLAN',eq:['Type 052D','Luyang III DDG'],unit:1,txt:'Generate: 1x Guided Missile Destroyer (DDG) in any range band.'},
  pcg:{s:'PRC',nm:'Guided Missile Cruiser',zh:'型导弹巡洋舰',use:'single',fx:'gen',u:'cg055',n:1,cat:'navy',svc:'PLAN',eq:['Type 055','Renhai CG'],unit:1,txt:'Generate: 1x Guided Missile Cruiser (CG) in any range band.'},
  pmbf:{s:'PRC',nm:'Missile Boat Flotilla',zh:'导弹艇舰队',use:'single',fx:'gen',u:'mbf',n:1,cat:'navy',svc:'PLAN',eq:['Type 022','Houbei'],unit:1,txt:'Generate: 1x Missile Boat Flotilla in any range band.'},
  pj15:{s:'PRC',nm:'Shandong J-15 Squadron',zh:'山东舰飞行中队',use:'single',fx:'gen',u:'j15',n:4,cat:'sq4',svc:'PLAN',eq:['J-15','Flanker-X2'],unit:1,txt:'Generate: 4x J-15 Tokens in any range band'},
  pdss:{s:'PRC',nm:'Diesel Submarine Strike',zh:'柴油潜艇攻击',use:'single',bolt:1,resp:'both',fx:'sub',cancels:'sub',sub:1,cat:'navy',svc:'PLAN',eq:['Ming Type Sub'],txt:'Play anytime. Attack 1x US Surface Combatant (automatically hits) or Cancel 1x US Submarine card.'},
  pplanmc:{s:'PRC',nm:'PLANMC Raid',zh:'海军陆战队突袭',use:'single',fx:'raid',sof:1,cat:'camo',svc:'PLAN',pz:'海军',eqLbl:'Equipment:',eq:['PLA Navy','Marine SOF Team'],die:1,txt:'Roll 1d4. Inflict damage to US airbase equal to roll.'},
  psead:{s:'PRC',nm:'Sea Dragons Strike',zh:'蛟龙突击队攻击',use:'single',fx:'raid',sof:1,cat:'camo',svc:'PLAN',pz:'海军',eqLbl:'Equipment:',eq:['PLA Navy Elite','SOF Team'],die:1,txt:'Roll 1d4. Inflict damage to US airbase equal to roll.'},
- pbms:{s:'PRC',nm:'Ballistic Missile Strike',zh:'弹道导弹打击',use:'single',fx:'strike',zone:'base',cat:'plarf',svc:'PLARF',eq:['DF-26'],xdie:1,txt:'Roll 2 or higher on 1d4. If successful, roll 1d4 again to determine the damage inflicted to the US base.'},
+ pbms:{s:'PRC',nm:'Ballistic Missile Strike',zh:'弹道导弹打击',use:'single',fx:'strike',zone:'base',cat:'plarf',svc:'PLARF',eq:['DF-26','CH-SS-18'],xdie:1,txt:'Roll 2 or higher on 1d4. If successful, roll 1d4, again to determine the damage inflicted to the US base.'},
  placm:{s:'PRC',nm:'Land Attack Cruise Missile',zh:'陆地攻击巡航导弹',use:'single',fx:'strike',zone:'base',cat:'plarf',svc:'PLARF',eq:['YJ-18','CH-CC-NX-13'],xdie:1,txt:'Roll 2 or higher on 1d4. If successful, roll 1d4, again to determine the damage inflicted to the US base.'},
  pmscm:{s:'PRC',nm:'Maritime Strike Cruise Missile',zh:'海上打击巡航导弹',use:'single',fx:'shipkill',unbl:1,cat:'plarf',svc:'PLARF',eq:['YJ-83J','Saccade CSS-N-8'],txt:'Unblockable. Immediately destroy one US Surface combatant.'},
  phyp:{s:'PRC',nm:'Hypersonic Missile',zh:'高超音速导弹',use:'single',fx:'dstrike',zone:'base',unbl:1,cat:'plarf',svc:'PLARF',eq:['DF-17','CH-SS-22'],die:1,txt:'Unblockable. Roll 1d4. US base takes damage equal to the roll.'},
@@ -2982,9 +2982,10 @@ function sqTop(nm){return capName(nm.replace(/Expeditionary Reconnaissance Squad
 function enPatch(E){
  if(E.s==='PRC')return prcShield(E.pz||PZ[E.svc]||'');
  const p=E.pt||'';
+ if(!p)return '';
  if(['AMC','AFMC','AFSOC','PACAF'].includes(p))return shieldPatch(p,'#1d3f8f','#e9c75a','wings');
  if(p==='ARMY')return shieldPatch('U.S. ARMY','#b3201c','#f2c230','arty');
- if(p==='HONOR')return shieldPatch('HONOR','#1d3f8f','#f4f1e8','bend');
+ if(p==='HONOR')return shieldPatch('HONOR AND COUNTRY','#1d3f8f','#f4f1e8','bend');
  const top={Navy:'U.S. NAVY',USMC:'U.S. MARINE CORPS',USAF:'U.S. AIR FORCE',Army:'U.S. ARMY'}[E.svc]||'';
  const sh=E.u&&UNITS[E.u]?UNITS[E.u].sh:E.svc==='Navy'?'ship':null;
  return usPatch(top,p,sh,hash(p))}
@@ -3007,6 +3008,16 @@ function loHi(which){const ring=c=>`fill="${c}" stroke="#d9a441" stroke-width="2
 const BOLT_SVG=`<svg viewBox="0 0 40 66" aria-hidden="true"><path d="M27 1 L5 37 H19 L11 65 L37 24 H23 L33 1Z" fill="#f7c21b" stroke="#9a6a00" stroke-width="1.4" stroke-linejoin="round"/><path d="M27 4 L9 35 H14Z" fill="#fff" opacity=".35"/></svg>`;
 const PIN_SVG=`<svg viewBox="0 0 34 34" aria-hidden="true"><path d="M12 21 L3 32" stroke="#9aa1a6" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="14" cy="20" rx="6" ry="3.4" transform="rotate(-40 14 20)" fill="#a50f12"/><circle cx="20" cy="13" r="10" fill="#d8141b" stroke="#7a080b" stroke-width="1.2"/><ellipse cx="16.5" cy="9.5" rx="3.6" ry="2.4" transform="rotate(-35 16.5 9.5)" fill="#fff" opacity=".6"/></svg>`;
 /* title size: the printed cards keep titles on one line where they can */
+/* the number printed in each card's bottom corner, read from photos of the real deck (001-108) */
+const CARDNO={us124:1,us69:2,us99:3,us960:4,us90:5,us44:6,us23:7,us34:8,us391:9,us480:10,
+ uac130:11,upr:12,ufo:13,usofr:14,usofci:15,uar:16,uqtm:17,urr:18,uimp:19,ufcc:20,ucyr:21,ucyi:22,udcy:23,uocy:24,ucuas:25,uspoof:26,udew:27,uoew:28,uald:29,uec130:30,uspr:31,ucs:32,ujdcy:33,ujocy:34,usbew:35,ulbmd:36,ummd:37,uredh:38,ures:39,uinf:40,uhimars:41,utlam:42,usub:43,umlr:44,
+ 'po:US:ACE':45,'po:US:Surge':46,'po:US:Hedgehog':47,'po:US:Standoff':48,'po:US:Standard':49,
+ 'mi:US:Economy of Force':50,'mi:US:Attrition':51,'mi:US:Interdiction':52,'mi:US:N-K Dominance':53,'mi:US:Enforce Rule of Law':54,
+ pruav:55,praew:56,pruasb:57,pr3ada:58,pr5ada:59,pr124:60,pr8:61,pr5:62,pr26:63,pr126:64,
+ pa2ad:65,par:66,pres:67,puasp:68,pelite:69,pgbr:70,pbadger:71,psma:72,psofaf:73,pmu:74,pbms:75,placm:76,pmscm:77,phyp:78,pdw:79,pcyi:80,pocy:81,pdcy:82,pcyr:83,pcuas:84,pj15:85,pcg:86,pddg:87,pmbf:88,pdss:89,psbew:90,pcrec:91,pcs:92,pasat:93,pspr:94,psead:95,pplanmc:96,psofci:97,psofgf:98,
+ 'po:PRC:PLAAF':99,'po:PRC:Joint Operations':100,'po:PRC:ADA':101,'po:PRC:Standoff':102,'po:PRC:Standard':103,
+ 'mi:PRC:Economy of Force':104,'mi:PRC:Attrition':105,'mi:PRC:Interdiction':106,'mi:PRC:Three Dominances':107,'mi:PRC:Counter-Intervention':108};
+function cardNo(key){const n=CARDNO[key];return n?`<span class="rc-id">${String(n).padStart(3,'0')}</span>`:''}
 function titleCls(s){const n=String(s).length;return n<=19?'':n<=23?' long':n<=32?' xl':' xxl'}
 /* enabler text laid out the way the printed cards set it */
 function enBody(E){const t=E.txt;const long=t.length>112;
@@ -3025,7 +3036,7 @@ function sqCardHTML(q,k,opts={}){
  const patch=side==='PRC'?prcShield('空军'):usPatch(sqTop(d.nm),d.pt&&!/^\d/.test(d.pt)?d.pt:'U.S. AIR FORCE',U.sh,hash(k));
  let status='';if(q&&!opts.bare){const n=G.toks.filter(t=>t.q===q.id&&t.l==='card'&&!t.g).length;const air=G.toks.filter(t=>t.q===q.id&&onBoard(t)).length;
   status=`<div class="cfoot mono"><span>${dead?'DESTROYED':q.act?(air?`${air} AIRBORNE`:'ACTIVE'):'READY'}</span><span>${n} on card${q.b==='cl'?` · CL${q.lim!=null?(q.lim>=99?' max':' lim '+q.lim):''}`:''}</span>${opts.zoom!==false?`<span class="zoomi" data-a="zoom" data-kind="sq" data-k="${k}" data-id="${q.id}" role="button" tabindex="0" aria-label="Enlarge card">⤢</span>`:''}</div>`}
- return `<div class="cardwrap"><div class="rc sq${dead?' dead':''} ${side}" style="--cbg:${CARDBG[U.cls]}"><div class="rc-in"><div class="rc-name${side==='PRC'?' prc':titleCls(capName(d.nm))}">${name}</div><div class="rc-art">${cardArt('unit',d.u,side)}</div><div class="rc-mid"><div class="rc-eq"><span>Equipment Shown:</span>${d.eq.map(e=>`<span class="i">${esc(e)}</span>`).join('')}</div>${patch}</div><div class="rc-box sqbox"><div class="rc-dmg"><b>DAMAGE:</b><span class="sqs"><i class="${dm>=1?'hit':''}"></i><i class="${dm>=2?'hit':''}"></i></span></div><div class="rc-gen">Generate:<span class="i">${esc(genLine(k))}</span></div></div><span class="rc-id">${String(SQKEYS.indexOf(k)+1).padStart(3,'0')}</span></div>${dead?'<div class="stamp">DESTROYED</div>':''}</div>${status}${opts.foot||''}</div>`;
+ return `<div class="cardwrap"><div class="rc sq${dead?' dead':''} ${side}" style="--cbg:${CARDBG[U.cls]}"><div class="rc-in"><div class="rc-name${side==='PRC'?' prc':titleCls(capName(d.nm))}">${name}</div><div class="rc-art">${cardArt('unit',d.u,side)}</div><div class="rc-mid"><div class="rc-eq"><span>Equipment Shown:</span>${d.eq.map(e=>`<span class="i">${esc(e)}</span>`).join('')}</div>${patch}</div><div class="rc-box sqbox"><div class="rc-dmg"><b>DAMAGE:</b><span class="sqs"><i class="${dm>=1?'hit':''}"></i><i class="${dm>=2?'hit':''}"></i></span></div><div class="rc-gen">Generate:<span class="i">${esc(genLine(k))}</span></div></div>${cardNo(k)}</div>${dead?'<div class="stamp">DESTROYED</div>':''}</div>${status}${opts.foot||''}</div>`;
 }
 function enCardHTML(k,side,o={}){
  const E=EN[k];side=E.s;const use=USE_LBL[E.use].toUpperCase();
@@ -3036,13 +3047,13 @@ function enCardHTML(k,side,o={}){
  const mid=badgeOnly?`<div class="rc-badgewrap">${bigBadge(E)}</div>`:`<div class="rc-art">${cardArt('en',k,side)}</div><div class="rc-mid"><div class="rc-eq">${E.eq&&E.eq.length?`<span>${esc(E.eqLbl||'Equipment Shown:')}</span>${E.eq.map(e=>`<span class="i">${esc(e)}</span>`).join('')}`:''}</div>${enPatch(E)}</div>`;
  const dmg=E.dmg?`<div class="rc-dmg inl"><b>DAMAGE:</b><span class="sqs"><i class="${G&&G.inf&&G.inf.d>=1&&o.used?'hit':''}"></i><i class="${G&&G.inf&&G.inf.d>=2&&o.used?'hit':''}"></i></span></div>`:'';
  const icos=(E.xdie?d4Icon(1):'')+(E.icon?loHi(E.icon):'');
- return `<div class="cardwrap"><div class="rc en cat-${E.cat} ${side}${badgeOnly?' badge':''}${o.used?' used':''}${o.rev?' rev':''}" ${o.zoom!==false?`data-a="zoom" data-kind="en" data-k="${k}" data-side="${side}"${o.i!=null?` data-i="${o.i}"`:''} role="button" tabindex="0" aria-label="${esc(E.nm)}: enlarge"`:''}>${pin}${bolt}<div class="rc-in"><div class="rc-name en${side==='PRC'?' prc':titleCls(E.nm)}${E.bolt||E.pin?' hasb':''}">${name}</div>${mid}${dmg}<div class="rc-box"><div class="rc-use"><b>${use}:</b>${E.die?d4Icon(0):''}</div>${enBody(E)}${icos?`<div class="rc-icos">${icos}</div>`:''}</div><span class="rc-id">${String(ENKEYS.indexOf(k)+1).padStart(3,'0')}</span></div>${o.used?`<div class="stamp">${o.disc?'DISCARDED':'USED'}</div>`:''}</div>${o.foot?`<div class="cfoot">${o.foot}</div>`:''}</div>`;
+ return `<div class="cardwrap"><div class="rc en cat-${E.cat} ${side}${badgeOnly?' badge':''}${o.used?' used':''}${o.rev?' rev':''}" ${o.zoom!==false?`data-a="zoom" data-kind="en" data-k="${k}" data-side="${side}"${o.i!=null?` data-i="${o.i}"`:''} role="button" tabindex="0" aria-label="${esc(E.nm)}: enlarge"`:''}>${pin}${bolt}<div class="rc-in"><div class="rc-name en${side==='PRC'?' prc':titleCls(E.nm)}${E.bolt||E.pin?' hasb':''}">${name}</div>${mid}${dmg}<div class="rc-box"><div class="rc-use"><b>${use}:</b>${E.die?d4Icon(0):''}</div>${enBody(E)}${icos?`<div class="rc-icos">${icos}</div>`:''}</div>${cardNo(k)}</div>${o.used?`<div class="stamp">${o.disc?'DISCARDED':'USED'}</div>`:''}</div>${o.foot?`<div class="cfoot">${o.foot}</div>`:''}</div>`;
 }
 function missionCardHTML(side,i){if(typeof side==='number'){i=side;side='US'}const M=MISSION[side][i];
- return `<div class="cardwrap"><div class="rc mi ${side}"><div class="rc-in"><div class="rc-name mi"><span class="sm">MISSION:</span><span class="t">${esc(M.nm.toUpperCase())}</span></div><div class="rc-art">${cardArt('mission',M.nm,side)}</div><div class="rc-box"><b>MISSION:</b><div class="rc-txt">${esc(M.txt)}</div><b>SCORING:</b><div class="rc-txt flat">${M.lines.map(esc).join('<br>')}</div></div><span class="rc-id">${String(50+i).padStart(3,'0')}</span></div></div></div>`}
+ return `<div class="cardwrap"><div class="rc mi ${side}"><div class="rc-in"><div class="rc-name mi"><span class="sm">MISSION:</span><span class="t">${esc(M.nm.toUpperCase())}</span></div><div class="rc-art">${cardArt('mission',M.nm,side)}</div><div class="rc-box"><b>MISSION:</b><div class="rc-txt">${esc(M.txt)}</div><b>SCORING:</b><div class="rc-txt flat">${M.lines.map(esc).join('<br>')}</div></div>${cardNo('mi:'+side+':'+M.nm)}</div></div></div>`}
 function postureCardHTML(side,i){const P=POSTURE[side][i];
  const recycle=P.recycle?`<svg viewBox="0 0 24 24" class="rc-recycle" aria-hidden="true"><g fill="none" stroke="#111" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><path d="M10 3.5 L7 8.5"/><path d="M14 3.5 L17 8.5"/><path d="M10 3.5 H14"/><path d="M19.5 13 L16.5 18.5 H12"/><path d="M4.5 13 L7.5 18.5 H10"/><path d="M5 8 L7 8.5 L7.6 6.4"/><path d="M16.4 6.4 L17 8.5 L19 8"/><path d="M12 16.6 V20.4 L13.8 18.5Z"/></g></svg>`:'';
- return `<div class="cardwrap"><div class="rc po ${side}"><div class="rc-in"><div class="rc-name po"><span class="sm">POSTURE:</span><span class="t">${esc(P.nm.toUpperCase())}</span></div><div class="rc-art">${cardArt('posture',String(i),side)}</div><div class="rc-box po-box"><div class="rc-lim"><span>ENABLER CARDS:</span><b>${P.en}</b><span>SQUADRON CARDS:</span><b>${P.sq}</b></div>${recycle}<div class="po-txt">${esc(P.txt)}</div></div><span class="rc-id">${String(45+i).padStart(3,'0')}</span></div></div></div>`}
+ return `<div class="cardwrap"><div class="rc po ${side}"><div class="rc-in"><div class="rc-name po"><span class="sm">POSTURE:</span><span class="t">${esc(P.nm.toUpperCase())}</span></div><div class="rc-art">${cardArt('posture',String(i),side)}</div><div class="rc-box po-box"><div class="rc-lim"><span>ENABLER CARDS:</span><b>${P.en}</b><span>SQUADRON CARDS:</span><b>${P.sq}</b></div>${recycle}<div class="po-txt">${esc(P.txt)}</div></div>${cardNo('po:'+side+':'+P.nm)}</div></div></div>`}
 
 /* big view of a card, with its action */
 H.zoom=d=>{
