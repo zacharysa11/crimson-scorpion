@@ -2310,6 +2310,23 @@ autoSetup=function(side,smart=true){
  return o;
 };
 
+/* ---- the computer passes when only repositioning is left ----
+   The ATO ends when both sides pass in a row. Repositioning counts as acting, so a computer that
+   always shuffles a token never lets the ATO end. Now: after you pass, it keeps playing only if it
+   has a real action (a shot, an acquisition, a card, a squadron to launch); otherwise it passes.
+   It also never repositions instead of launching a squadron, and never shuffles more than twice running. */
+const aiDecideActionPassBase=aiDecideAction;
+function aiProductive(side){const s=bestShot(side),a=bestAcquire(side),m=G.act.mv?null:bestMoveShot(side);return !!((s&&s.ev>0.1)||(a&&a.ev>0.2)||(m&&m.ev>0.1))}
+aiDecideAction=function(side){
+ const d=aiDecideActionPassBase(side);G.aiIdle=G.aiIdle||{US:0,PRC:0};
+ if(d.type!=='mas'||aiProductive(side)){G.aiIdle[side]=0;return d}
+ // only repositioning is on offer: see what it would do without that option
+ const bp=bestPositional;let alt;try{bestPositional=()=>null;alt=aiDecideActionPassBase(side)}finally{bestPositional=bp}
+ if(alt.type==='activate'){G.aiIdle[side]=0;return alt}
+ if(G.passes>=1||G.aiIdle[side]>=2){G.aiIdle[side]=0;return{type:'pass'}}
+ G.aiIdle[side]++;return d;
+};
+
 /* ================= GRAPHICS ================= */
 function starPath(cx,cy,R,r){let d='';for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5;const rr=i%2?r:R;d+=(i?'L':'M')+(cx+rr*Math.cos(a)).toFixed(2)+' '+(cy+rr*Math.sin(a)).toFixed(2)}return d+'Z'}
 const SIL={
