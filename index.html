@@ -827,6 +827,28 @@ body:has(#modal) .tutbox{display:none}
 .sticky-confirm{z-index:40;background:var(--bg);border-top:1px solid var(--line);box-shadow:0 -10px 24px #000c;margin-inline:-16px;padding-inline:16px;align-items:center}
 .sticky-confirm .btn.pri{min-height:48px;font-size:17px}
 .sticky-confirm>.small{font-size:14px}
+/* live VP pill */
+.hud .vp-pill{gap:6px;border-color:var(--amber);color:var(--fg);position:relative;font-family:var(--f-mono)}
+.hud .vp-pill .vpl{font-size:10px;letter-spacing:.08em;color:var(--amber)}
+.hud .vp-pill b{font-size:15px;color:#fff;min-width:1.2em;text-align:center}
+.hud .vp-pill.bump{animation:vpb 1.2s ease-out}
+.hud .vp-pill .vpup{position:absolute;right:-2px;top:-5px;font-style:normal;font-size:11px;font-weight:700;color:#1b1404;background:var(--ok);border-radius:8px;padding:0 5px;animation:vpu 1.6s ease-out forwards;pointer-events:none}
+@keyframes vpb{0%{box-shadow:0 0 0 0 #5ccf7faa}30%{box-shadow:0 0 0 6px #5ccf7f55;transform:scale(1.08)}100%{box-shadow:0 0 0 0 #0000;transform:none}}
+@keyframes vpu{0%{opacity:0;transform:translateY(4px)}15%{opacity:1;transform:none}75%{opacity:1}100%{opacity:0;transform:translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){.hud .vp-pill.bump,.hud .vp-pill .vpup{animation:none}}
+@media (max-width:480px){.hud .vp-pill .vpl{display:none}.hud .vp-pill::before{content:"VP";font-size:10px;color:var(--amber);letter-spacing:.06em}}
+@media (max-width:480px){.hud .mas span{padding-inline:5px}.hud .mas{gap:2px}}
+/* never let anything widen the page sideways (on iPhones that shifts the whole game off-screen) */
+html,body{overflow-x:hidden;max-width:100%}
+/* bottom bar: buttons shrink before anything is pushed off-screen */
+@media (max-width:980px){
+ .bottombar{min-width:0;gap:6px}
+ .bottombar .tabs{flex:1 1 auto;min-width:0;gap:4px}
+ .bottombar .tabs .btn{flex:0 1 auto;min-width:0;overflow:hidden;white-space:nowrap}
+ .bottombar>.btn,.bottombar>button{flex:0 0 auto}
+ .hand-hd{min-width:0}.hand-hd .btn{flex:0 0 auto}
+}
+@media (max-width:400px){.tabs .btn{padding:6px 7px}.tabs .cnt{margin-left:4px;padding:0 5px}}
 </style>
 
 <div id="app"></div>
@@ -2098,7 +2120,7 @@ function renderGame(){
  const v=viewSide();const S=G.S[v];const mine=myTurn();
  const turnSide=G.phase==='play'?G.turn:actorSide();
  const masDone=k=>G.act[k]?'done':'';
- const hud=`<header class="hud"><button class="btn sm ghost" data-a="menu" aria-label="Menu">☰ Menu</button><span class="ttl">CRIMSON SCORPION</span><span class="pill atop">ATO ${G.ato}/${G.maxAto}</span>${turnSide?`<span class="pill ${turnSide}">${G.phase==='play'?'<span class="atop">TURN: </span>':''}${sideLabel(turnSide)}</span>`:''}<span class="mas" aria-label="Move Acquire Shoot steps used"><span class="${masDone('mv')}">MOVE</span><span class="${masDone('aq')}">ACQ</span><span class="${masDone('sh')}">SHOOT</span></span><span class="sp"></span><button class="btn sm" data-a="dice" aria-label="Open dice roller"><svg viewBox="0 0 20 18" width="16" height="14" aria-hidden="true"><path d="M10 1 19 17H1Z" fill="var(--amber)"/><text x="10" y="15" text-anchor="middle" font-size="8" font-weight="700" font-family="monospace" fill="#1b1404">4</text></svg>Dice</button><button class="btn sm ${UI.threat?'on':''}" data-a="threat" aria-pressed="${UI.threat?'true':'false'}">Threats</button><button class="btn sm hd-opt" data-a="hint">Hint</button><button class="btn sm hd-opt" data-a="rules">Rules</button></header>`;
+ const hud=`<header class="hud"><button class="btn sm ghost" data-a="menu" aria-label="Menu">☰ Menu</button><span class="ttl">CRIMSON SCORPION</span><span class="pill atop">ATO ${G.ato}/${G.maxAto}</span>${turnSide?`<span class="pill ${turnSide}">${G.phase==='play'?'<span class="atop">TURN: </span>':''}${sideLabel(turnSide)}</span>`:''}${typeof vpPillHTML==='function'?vpPillHTML(v):''}<span class="mas" aria-label="Move Acquire Shoot steps used"><span class="${masDone('mv')}">MOVE</span><span class="${masDone('aq')}">ACQ</span><span class="${masDone('sh')}">SHOOT</span></span><span class="sp"></span><button class="btn sm" data-a="dice" aria-label="Open dice roller"><svg viewBox="0 0 20 18" width="16" height="14" aria-hidden="true"><path d="M10 1 19 17H1Z" fill="var(--amber)"/><text x="10" y="15" text-anchor="middle" font-size="8" font-weight="700" font-family="monospace" fill="#1b1404">4</text></svg>Dice</button><button class="btn sm ${UI.threat?'on':''}" data-a="threat" aria-pressed="${UI.threat?'true':'false'}">Threats</button><button class="btn sm hd-opt" data-a="hint">Hint</button><button class="btn sm hd-opt" data-a="rules">Rules</button></header>`;
  // left: forces
  const P=S.posture!=null?POSTURE[v][S.posture]:null;
  const sqs=G.sqs.filter(q=>q.s===v);
@@ -2116,7 +2138,7 @@ function renderGame(){
  }else if(G.phase==='choose')msg=`${G.initWinner} won initiative and is choosing who goes first…`;
  const tab=UI.sheet;
  const nSq=G.sqs.filter(q=>q.s===v&&!q.dead).length,nEn=S.ens.filter(e=>!e.used).length;
- const bar=`<div class="bottombar"><div class="tabs"><button class="btn ${UI.hand==='sq'?'on':''}" data-a="hand" data-t="sq" aria-pressed="${UI.hand==='sq'}"><span class="tlab">Squadrons</span><span class="tsh">Sqns</span><i class="cnt">${nSq}</i></button><button class="btn ${UI.hand==='en'?'on':''}" data-a="hand" data-t="en" aria-pressed="${UI.hand==='en'}"><span class="tlab">Enablers</span><span class="tsh">Cards</span><i class="cnt">${nEn}</i></button><button class="btn ${tab==='r'?'on':''}" data-a="sheet" data-t="r">Log</button><button class="btn hint-b" data-a="hint">Hint</button></div><span class="msg">${msg}</span>${!mine&&msg?`<span class="small muted" style="max-width:40vw;text-align:right">${msg}</span>`:''}${btn}</div>`;
+ const bar=`<div class="bottombar"><div class="tabs"><button class="btn ${UI.hand==='sq'?'on':''}" data-a="hand" data-t="sq" aria-pressed="${UI.hand==='sq'}"><span class="tlab">Squadrons</span><span class="tsh">Sqdns</span><i class="cnt">${nSq}</i></button><button class="btn ${UI.hand==='en'?'on':''}" data-a="hand" data-t="en" aria-pressed="${UI.hand==='en'}"><span class="tlab">Enablers</span><span class="tsh">Enablers</span><i class="cnt">${nEn}</i></button><button class="btn ${tab==='r'?'on':''}" data-a="sheet" data-t="r">Log</button><button class="btn hint-b" data-a="hint">Hint</button></div><span class="msg">${msg}</span>${!mine&&msg?`<span class="small muted" style="max-width:40vw;text-align:right">${msg}</span>`:''}${btn}</div>`;
  const leftS=left.replace('<aside class="side-l">',`<aside class="side-l${tab==='l'?' show':''}">`),rightS=right.replace('<aside class="side-r">',`<aside class="side-r${tab==='r'?' show':''}">`);
  app.innerHTML=`<div id="game">${hud}<div class="sheet${tab?' open':''}"><div class="sheet-close"><span class="lbl">${tab==='l'?'Your forces':'Intel and log'}</span><button class="btn sm ghost" data-a="sheet" data-t="">Close ✕</button></div>${leftS}${rightS}</div><section class="center">${boardHTML()}</section>${trayHTML()}${bar}</div>`;
  fitBoard();placePop();
@@ -3742,6 +3764,31 @@ tokenHTML=function(t,cls=''){
  return drawn.replace(/^<button class="tok /,'<button class="tok ptok'+(wide?' wide':'')+' ').replace(/(<button[^>]*>)([\s\S]*)(<\/button>)$/,(m,a,inner,c)=>{
   const keep=(inner.match(/<span class="acq">[\s\S]*?<\/span>|<span class="win"[^>]*><\/span>|<span class="grnd"><\/span>|<span class="odds">[\s\S]*?<\/span>/g)||[]).join('');
   return `${a}<img class="timg" src="${src}" alt="" decoding="async" draggable="false" onerror="UI.drawnTok=1;render()">${marks}${keep}${c}`});
+};
+
+/* ================= LIVE "MY VP" =================
+   Your own victory points so far, scored against your own hidden mission card.
+   The enemy's score stays hidden, as at the table. */
+UI.vpSeen=UI.vpSeen||{};
+function myVP(v){if(!G||!G.S||!G.S[v]||G.S[v].mission==null||typeof scoreSide!=='function')return null;try{return scoreSide(v)}catch(e){return null}}
+function vpPillHTML(v){
+ if(TUT&&TUT.on)return '';const sc=myVP(v);if(!sc)return '';
+ const prev=UI.vpSeen[v];UI.vpBump=UI.vpBump||{};
+ if(prev!=null&&sc.total>prev)UI.vpBump[v]={t:Date.now(),d:sc.total-prev};
+ UI.vpSeen[v]=sc.total;const bp=UI.vpBump[v];const up=bp&&Date.now()-bp.t<1600;
+ return `<button class="btn sm vp-pill ${v}${up?' bump':''}" data-a="myvp" aria-label="Your victory points so far: ${sc.total}. Tap for the breakdown."><span class="vpl">MY VP</span><b>${sc.total}</b>${up?`<i class="vpup">+${bp.d}</i>`:''}</button>`;
+}
+H.myvp=()=>{
+ const v=viewSide();const sc=myVP(v);if(!sc)return;const M=sc.mission;
+ const rows=Object.entries(sc.rows);
+ const eoa=Object.keys(M.eoa||{}).length;
+ modal(`<h2>Your VP so far · ${v}</h2>
+ <p class="small"><span class="pill ${v.toLowerCase()}">Mission: ${esc(M.nm)}</span></p>
+ <ul class="small muted" style="margin:6px 0 10px;padding-left:18px">${M.lines.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>
+ ${rows.length?`<table class="tb"><thead><tr><th>Scored for</th><th>#</th><th>VP</th></tr></thead><tbody>${rows.map(([k,o])=>`<tr><td>${esc(k)}</td><td class="mono">${o.n}</td><td class="mono">${o.v}</td></tr>`).join('')}<tr><td><b>Total</b></td><td></td><td class="mono"><b>${sc.total}</b></td></tr></tbody></table>`:'<p>Nothing scored yet. Do what your mission pays for.</p>'}
+ ${eoa?'<p class="small muted">Points this mission scores at the end of an ATO are added when the ATO ends.</p>':''}
+ <p class="small muted">The enemy’s mission and score stay hidden until the end, as at the table.</p>
+ <div class="acts2"><button class="btn" data-a="mclose">Close</button></div>`);
 };
 
 /* =====================================================================
