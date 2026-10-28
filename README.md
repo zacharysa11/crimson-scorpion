@@ -20,7 +20,7 @@ Works on phones and laptops, no sign-in needed:
 - Full rules reference and every card and token from the real box: per side 5 missions, 5 postures, 10 squadrons and 34 enablers, with 34 US and 33 PRC tokens
 - The real board layout, and every card effect played out, including response cards (Counter Space, Resilient Bases, Air Launched Decoy, Reserves and the rest)
 
-Adapted for training from the OCS User Guide (17 FEB 26) and the Activation and Move-Acquire-Shoot tutorial. Card and token values are transcribed from the printed set; every card, token and the board is a photograph of the printed set, straightened and cleaned up (glare removed, colours evened). Where a card's wording leaves room, the simulator's reading is listed in Rules → How this simulator plays it.
+Adapted for training from the OCS User Guide (17 FEB 26) and the Activation and Move-Acquire-Shoot tutorial. Card and token values are transcribed from the printed set; the tokens and the board are photographs of the printed set, straightened and cleaned up; the 108 cards are digital rebuilds of the printed cards, with crisp lettering and icons and the artwork and unit emblems restored from the photographs. Where a card's wording leaves room, the simulator's reading is listed in Rules → How this simulator plays it.
 
 Online play in the class lobby uses Firebase (anonymous sign-in, no accounts). A class belongs to the browser that created it.
 
