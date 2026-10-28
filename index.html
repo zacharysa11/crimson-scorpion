@@ -849,6 +849,12 @@ html,body{overflow-x:hidden;max-width:100%}
  .hand-hd{min-width:0}.hand-hd .btn{flex:0 0 auto}
 }
 @media (max-width:400px){.tabs .btn{padding:6px 7px}.tabs .cnt{margin-left:4px;padding:0 5px}}
+/* compact action bar: always fits the screen width */
+.pop.compact{box-sizing:border-box;max-width:calc(100vw - 12px);overflow:hidden}
+.pop.compact .btn{flex:1 1 0;min-width:0;padding:4px 3px;overflow:hidden;white-space:nowrap}
+.pop.compact .btn small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.pop.compact .x{flex:0 0 auto}
+@media (max-width:420px){.pop.compact .btn{font-size:11.5px}.pop.compact .btn small{font-size:8.5px}}
 </style>
 
 <div id="app"></div>
@@ -3789,6 +3795,13 @@ H.myvp=()=>{
  ${eoa?'<p class="small muted">Points this mission scores at the end of an ATO are added when the ATO ends.</p>':''}
  <p class="small muted">The enemy’s mission and score stay hidden until the end, as at the table.</p>
  <div class="acts2"><button class="btn" data-a="mclose">Close</button></div>`);
+};
+
+/* phones: while the Info / Log sheet is open, hide the token action bar so it doesn't cover the card */
+const placePopBase=placePop;
+placePop=function(){
+ if(innerWidth<=980&&UI.sheet){const old=document.getElementById('pop');if(old)old.remove();return}
+ placePopBase();
 };
 
 /* =====================================================================
