@@ -823,6 +823,10 @@ body:has(#modal) .tutbox{display:none}
 .tok.ptok .grnd{z-index:2;border-radius:inherit}
 .tok.ptok.sel{box-shadow:0 0 0 3px var(--amber),0 6px 14px rgba(0,0,0,.45)}
 .tok.ptok.tgt{box-shadow:0 0 0 3px var(--bad)}
+/* setup: the confirm bar stays on top of the card photos while scrolling */
+.sticky-confirm{z-index:40;background:var(--bg);border-top:1px solid var(--line);box-shadow:0 -10px 24px #000c;margin-inline:-16px;padding-inline:16px;align-items:center}
+.sticky-confirm .btn.pri{min-height:48px;font-size:17px}
+.sticky-confirm>.small{font-size:14px}
 </style>
 
 <div id="app"></div>
