@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Crimson Scorpion Simulator</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Crimson Scorpion Simulator</title><title>Crimson Scorpion Simulator</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Orbitron:wght@500;700&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
@@ -839,7 +839,8 @@ body:has(#modal) .tutbox{display:none}
 @media (max-width:480px){.hud .vp-pill .vpl{display:none}.hud .vp-pill::before{content:"VP";font-size:10px;color:var(--amber);letter-spacing:.06em}}
 @media (max-width:480px){.hud .mas span{padding-inline:5px}.hud .mas{gap:2px}}
 /* never let anything widen the page sideways (on iPhones that shifts the whole game off-screen) */
-html,body{overflow-x:hidden;max-width:100%}
+html,body{max-width:100%}
+body{overflow-x:clip}
 /* bottom bar: buttons shrink before anything is pushed off-screen */
 @media (max-width:980px){
  .bottombar{min-width:0;gap:6px}
@@ -855,6 +856,96 @@ html,body{overflow-x:hidden;max-width:100%}
 .pop.compact .btn small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .pop.compact .x{flex:0 0 auto}
 @media (max-width:420px){.pop.compact .btn{font-size:11.5px}.pop.compact .btn small{font-size:8.5px}}
+/* ===== battle effects overlay ===== */
+#fxl{position:fixed;inset:0;pointer-events:none;z-index:88;overflow:hidden}
+#fxl>*{position:absolute;pointer-events:none}
+.fx-msl{left:0;top:0;width:40px;height:14px;transform-origin:20px 7px;filter:drop-shadow(0 0 4px #ffb43a99);will-change:transform}
+.fx-msl.icpt{filter:drop-shadow(0 0 5px #8fd8ff)}
+.fx-msl.icpt path:last-child{fill:#2f8ad8}
+.fx-trail{left:0;top:0;width:100%;height:100%;overflow:visible}
+.fx-trail polyline{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;filter:blur(.6px)}
+.fx-puff{width:12px;height:12px;border-radius:50%;background:radial-gradient(circle,#e8edf0cc,#c8ced200 70%)}
+.fx-flash{border-radius:50%;background:radial-gradient(circle,#fff 0,#fff6d0 30%,#fff0 70%);mix-blend-mode:screen}
+.fx-fire{border-radius:50%;background:radial-gradient(circle,#fffbe0 0,#ffd75c 22%,#ff8a2a 45%,#d93a16 62%,#5a120600 72%)}
+.fx-ring{border-radius:50%;border:3px solid #ffe2a8;box-shadow:0 0 12px #ffb43a}
+.fx-debris{width:4px;height:4px;border-radius:1px}
+.fx-smoke{border-radius:50%;background:radial-gradient(circle,#55595ccc,#3a3d4000 70%);filter:blur(2px)}
+.fx-iflash{width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,#fff 0,#c8f0ff 35%,#7fd0ff00 70%);mix-blend-mode:screen}
+.fx-iring{width:34px;height:34px;border-radius:50%;border:2px solid #9fe0ff;box-shadow:0 0 14px #5ec8ff}
+.fx-spark svg line{stroke:#e8faff;stroke-width:2.2;stroke-linecap:round}
+.fx-spark{width:60px;height:60px}
+.fx-lbl{font-family:var(--f-mono);font-weight:700;font-size:12px;letter-spacing:.1em;color:#bff0ff;background:#06202cdd;border:1px solid #5ec8ff;border-radius:4px;padding:2px 6px;white-space:nowrap}
+.fx-fizzle{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle,#9aa0a4aa,#9aa0a400 70%)}
+.fx-ping{width:40px;height:40px;border-radius:50%;border:2px solid #7fe7ff;box-shadow:0 0 10px #3cc8ff}
+.fx-beam{left:0;top:0;width:100%;height:100%;overflow:visible}
+.fx-beam line{stroke:#7fe7ff;stroke-width:2;stroke-dasharray:6 5;filter:drop-shadow(0 0 3px #3cc8ff)}
+.fx-beam.bad line{stroke:#9aa7ad}
+.fx-lock{border:0;background:
+ linear-gradient(var(--amber),var(--amber)) top left/30% 3px no-repeat,linear-gradient(var(--amber),var(--amber)) top left/3px 30% no-repeat,
+ linear-gradient(var(--amber),var(--amber)) top right/30% 3px no-repeat,linear-gradient(var(--amber),var(--amber)) top right/3px 30% no-repeat,
+ linear-gradient(var(--amber),var(--amber)) bottom left/30% 3px no-repeat,linear-gradient(var(--amber),var(--amber)) bottom left/3px 30% no-repeat,
+ linear-gradient(var(--amber),var(--amber)) bottom right/30% 3px no-repeat,linear-gradient(var(--amber),var(--amber)) bottom right/3px 30% no-repeat;filter:drop-shadow(0 0 3px #f3b23a)}
+/* ===== after-action review ===== */
+.aar .aar-top{margin-bottom:10px}
+.aar .aar-top .sp{flex:1}
+.aar-h{font-size:clamp(28px,5vw,44px);margin:4px 0 14px}
+.aar-h .muted{font-size:.5em;font-family:var(--f-body)}
+.aar .panel{margin-top:14px}
+.aar .panel h3{font-size:19px;margin:0 0 6px}
+.aar-legend{display:flex;gap:12px;font-size:13px;color:var(--mute)}
+.aar-legend i,.aar-tip i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+.aar-chartw{position:relative}
+.aar-chart{width:100%;height:auto;display:block;touch-action:pan-y}
+.aar-chart .gl{stroke:#ffffff14;stroke-width:1}
+.aar-chart .ax{fill:var(--mute);font-size:11px;font-family:var(--f-mono)}
+.aar-chart .dl{fill:var(--fg);font-size:12px;font-weight:600;font-family:var(--f-body)}
+.aar-chart .atol{stroke:#ffffff40;stroke-dasharray:4 4}
+.aar-chart .xh{stroke:#ffffff70;stroke-width:1}
+.aar-chart .cur{stroke:var(--amber);stroke-width:1.5;stroke-dasharray:3 3}
+.aar-chart .hit{cursor:pointer}
+.aar-tip{position:absolute;display:none;pointer-events:none;background:#0b1316f2;border:1px solid var(--line2);border-radius:6px;padding:7px 9px;font-size:12.5px;max-width:260px;box-shadow:0 6px 18px #000a;z-index:2}
+.aar-tip .tt-h{font-weight:700;margin-bottom:3px}
+.aar-tip .tt-l{color:var(--mute);margin-top:4px}
+.aar-tip .tt-k{color:var(--amber);font-size:11px;margin-top:4px}
+.aar-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;align-items:start}
+.aar-stage{height:min(76vh,720px);padding:0;display:flex;justify-content:center;align-items:flex-start;container-type:size;min-width:0;overflow:hidden}
+.aar-stage .board{pointer-events:none}
+.aar-step{display:flex;flex-direction:column;gap:2px;margin-bottom:6px}
+.aar-step b{font-size:16px}
+.aar-vp{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.aar-log{max-height:260px;overflow:auto;font-size:13px;line-height:1.4;border:1px solid var(--line);border-radius:6px;padding:8px 10px;background:#0b1316}
+.aar-log>div{padding:2px 0;border-bottom:1px solid #ffffff0a}
+.aar-log .US{color:#a9c4ff}.aar-log .PRC{color:#ffb2aa}
+.aar-ctrl{display:flex;gap:6px;justify-content:center;margin:10px 0 6px}
+.aar-ctrl .btn{min-width:44px;min-height:40px}
+#aarSlider{width:100%;accent-color:var(--amber)}
+.aar-sidesw{gap:4px;align-items:center}
+.aar-sidesw .btn.on{background:var(--amber);color:#1b1404;border-color:var(--amber)}
+.aar-two{margin-top:0}
+.aar-mom ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.aar-mom li .btn{width:100%;display:grid;grid-template-columns:auto 1fr;grid-template-areas:"p t" "x x";gap:3px 8px;text-align:left;justify-content:stretch;padding:8px 10px;min-height:0;white-space:normal}
+.aar-mom li .btn .pill{grid-area:p}.aar-mom .mt{grid-area:t;align-self:center;color:var(--mute);font-size:12px}.aar-mom .mx{grid-area:x;font-size:13px;line-height:1.35}
+.aar-mom li .btn.on{border-color:var(--amber);background:#2a2008}
+.aar-less ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.45}
+.aar-cta{gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 4px}
+@media (max-width:820px){.aar-grid{grid-template-columns:1fr}.aar-stage{height:min(72vh,calc((100vw - 56px)*1.5))}.aar-log{max-height:200px}}
+@media print{
+ body{background:#fff!important;color:#000!important}
+ .aar,.aar *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .hud,.bottombar,.aar-top,.aar-replay,.aar-ctrl,.aar-tip,.toast,#fxl,.tutbox{display:none!important}
+ .aar .panel{background:#fff!important;border:1px solid #bbb!important;color:#000;break-inside:avoid}
+ .aar .muted,.aar .lbl,.aar-chart .ax{color:#444!important;fill:#444!important}
+ .aar-chart .gl{stroke:#ddd}.aar-chart .dl{fill:#000}.aar-chart .atol{stroke:#999}.aar-chart .cur,.aar-chart .xh{display:none}
+ .aar-mom li .btn{border:0!important;background:none!important;color:#000!important;padding:2px 0}
+ .aar details{display:none}
+ .aar .tb th,.aar .tb td{color:#000!important;border-color:#ccc!important}
+ .pill{border:1px solid #888!important;color:#000!important;background:#fff!important}
+}
+/* class lobby (Firebase) */
+.fb-code{font-family:var(--f-mono);font-size:34px;letter-spacing:.22em;color:var(--amber);line-height:1.1}
+.fb-games td{vertical-align:middle}
+.fb-games .pill{margin:1px 0;white-space:nowrap;display:inline-block}
+.fb-games td:first-child{min-width:7.5em}
 </style>
 
 <div id="app"></div>
@@ -1373,7 +1464,7 @@ function doShoot(sid,w,target){
  const nm=tname(target,t.s);const mt=fo?'':modeTxt(m);
  const mdTxt=md?` ${md.type==='naval'?md.nm+' declares missile defense (salvo spent)':md.nm+' missile defense'}.`:'';
  log(`${t.s} ${U.nm} fires ${w==='air'?'air-to-air':'air-to-surface'} at ${nm}.${mdTxt}${fo?' Forward Observers: automatic hit.':` ${mt?'('+mt+') ':''}Rolled ${hr.dice.join('/')}${mode!=='n'?' → '+hr.v:''} vs ${W.k}+: ${hit?'HIT':'MISS'}.`}${ammo?' '+U.nm+' '+ammo+'.':''}`,t.s);
- fxPush({k:fo?'msg':'roll',t:`${U.nm} ${w==='air'?'air':'surface'} shot - need ${W.k}+`,dice:hr.dice,m:mode,res:hit?'HIT':'MISS',ok:hit,from:t.id,to:target.kind==='tok'?target.id:null,zone:base?target.z+OPP[t.s]:null,md:!!md,s:t.s});
+ fxPush({k:fo?'msg':'roll',t:`${U.nm} ${w==='air'?'air':'surface'} shot - need ${W.k}+`,dice:hr.dice,m:mode,res:hit?'HIT':'MISS',ok:hit,from:t.id,to:target.kind==='tok'?target.id:null,zone:base?target.z+OPP[t.s]:null,md:!!md,mf:md?md.id:null,w,s:t.s});
  const res={hit,md:!!md,mode,shooter:t.s,target};
  if(hit&&t.s==='PRC'&&!fo&&aldHit({target}))return Object.assign(res,{hit:false,cancelled:1});
  if(!hit)return res;
@@ -1387,7 +1478,7 @@ function aldHit(ctx){const i=respIdx('US','ald');if(i<0||!wantResp('US','aldhit'
 function rollDamage(nd){
  const dr=rollM(nd.mode);let dmg=dr.v;stat(nd.att,dr.dice);
  log(`Damage roll: ${nd.att} rolls ${dr.dice.join('/')}${nd.mode==='dis'?' (lower)':nd.mode==='adv'?' (higher)':''} for ${dmg} damage.`,nd.att);
- fxPush({k:'roll',t:'Exploding die - damage',dice:dr.dice,m:nd.mode,res:`${dmg} DAMAGE`,ok:1,x:1,s:nd.att});
+ fxPush({k:'roll',t:'Exploding die - damage',dice:dr.dice,m:nd.mode,res:`${dmg} DAMAGE`,ok:1,x:1,zone:nd.z&&nd.def?nd.z+nd.def:null,s:nd.att});
  return{att:nd.att,z:nd.z,def:nd.def,dmg,x:true,sof:nd.sof};
 }
 function killTok(t,by,o={}){
@@ -1851,6 +1942,189 @@ function suggest(side){
   return tips.slice(0,3).join('<br>');
  }finally{const keep=G.mode;G=JSON.parse(saved);G.mode=keep}
 }
+
+/* =====================================================================
+   COMPUTER OPPONENT v2
+   - values targets by what its own (hidden) mission card pays for, not just by threat
+   - follows its mission's plan: Economy of Force holds back, Enforce Rule of Law
+     activates every turn, N-K Dominance plays every cyber/EW card, Three Dominances
+     gets ships on the board, Counter-Intervention hunts aircraft on the ground
+   - reads the enemy's likely mission from what the enemy has done and protects the
+     units the enemy is most likely being paid to kill
+   The base functions above stay as fallbacks; these replace them by name.
+   ===================================================================== */
+function mKey(U,onGround){return U.cls}
+function mVP(M,e){const U=UNITS[e.u];if(e.l==='base'&&isAirU(U)&&M.sc.gair!=null)return M.sc.gair;return M.sc[U.cls]??M.sc.other??0}
+function mSqVP(M){return M.sc.sq??0}
+/* how many VP the side would have under mission M (evidence for guessing the hidden mission) */
+function scoreUnder(s,M){
+ const S=G.S[s];let t=0;
+ for(const c of S.kills){const ki=killInfo(c);t+=ki.key==='block'?BLOCK_VP:(ki.ground&&ki.air&&M.sc.gair!=null?M.sc.gair:(M.sc[ki.key]??M.sc.other??0))}
+ for(const [k,m] of Object.entries(M.eoa||{}))t+=(S.e[k]||0)*m;
+ for(const [k,m] of Object.entries(M.cnt||{}))t+=(S.n[k]||0)*m;
+ // what this ATO is shaping up to score at its end
+ const live={eoSq:G.sqs.filter(q=>q.s===s&&!q.dead&&!q.act).length,eoEn:S.ens.filter(e=>!e.used&&EN[e.k].unit).length,cyEnd:G.cyber[s],navEnd:G.toks.filter(t=>t.s===s&&t.l==='sky'&&UNITS[t.u].cls==='naval').length,intEnd:G.sqs.filter(q=>q.s===s&&!q.dead).length};
+ const w=Math.min(1,(G.turnNo||0)/12)*0.6;
+ for(const [k,m] of Object.entries(M.eoa||{}))t+=(live[k]||0)*m*w;
+ return t;
+}
+let BELIEF={key:'',p:null};
+function oppBelief(side){
+ const o=OPP[side];const key=side+G.ato+':'+G.turnNo+':'+G.S[o].kills.length;
+ if(BELIEF.key===key)return BELIEF.p;
+ const Ms=MISSION[o];const sc=Ms.map(M=>scoreUnder(o,M));const mx=Math.max(...sc);
+ const tau=3.5;let p=sc.map(v=>Math.exp((v-mx)/tau));const z=p.reduce((a,b)=>a+b,0);p=p.map(v=>v/z);
+ const ev=Math.min(1,(G.turnNo+G.S[o].kills.length*2)/18);   // little evidence early: stay close to even odds
+ const trust=G.diff==='hard'?1:G.diff==='easy'?0:0.6;
+ p=p.map(v=>(1-ev*trust)/Ms.length+ev*trust*v);
+ BELIEF={key,p};return p;
+}
+/* value of one of MY units: its fighting value plus what the enemy probably scores for killing it */
+function myVal(side,t){const o=OPP[side];const p=oppBelief(side);let v=0;MISSION[o].forEach((M,i)=>{v+=p[i]*mVP(M,t)});return tval(t)*0.6+v*0.7}
+/* value of an ENEMY unit to me: mission VP for the kill plus the threat it poses */
+function tvalFor(side,e){
+ const M=missionOf(side);const U=UNITS[e.u];
+ const threat=(U.air||U.srf)?0.5:0;const eyes=(U.cls==='aew'||(U.acq&&U.acq.b>=2))?0.4:0;
+ return tval(e)*0.45+mVP(M,e)*0.75+threat+eyes;
+}
+function zoneEV(att,z,x,dis){
+ const T=zoneTargets(OPP[att],z);if(!T.length)return 0.2;const M=missionOf(att);
+ const exp=(x?(dis?1.9:2.5):1)*(AI_TUNE[att]?AI_TUNE[att].zoneMul:1);let best=0;
+ for(const t of T){let v;
+  if(t.kind==='sq')v=sqVal(t.id)/2*0.5+mSqVP(M)*0.6+(sqById(t.id).d===1?0.8:0);
+  else if(t.kind==='tok'){const e=tok(t.id);v=1.5+(e?mVP(M,e)*0.8:0)}
+  else if(t.kind==='blk')v=BLOCK_VP*0.7+0.5;else v=1.2;
+  best=Math.max(best,v)}
+ return exp*best;
+}
+function bestShot(side,fromTok,atRow){
+ let best=null;
+ for(const t of G.toks){if(t.s!==side||!onBoard(t))continue;if(fromTok&&t.id!==fromTok)continue;
+  for(const w of['air','srf']){if(!weaponOK(t,w))continue;const U=UNITS[t.u],W=U[w];
+   const saveR=t.r;if(atRow!=null)t.r=atRow;const tg=shotTargets(t,w);
+   for(const x of tg){let ev;
+    if(x.kind==='tok'){const e=tok(x.id);const md=w==='srf'&&wouldMD(side,t.r,e.r);const p=probNeed(W.k,0,hitMode(side,{t,w,base:false,trow:e.r},md));ev=p*tvalFor(side,e)}
+    else{const md=wouldMD(side,t.r,HOME[OPP[side]]);const p=probNeed(W.k,0,hitMode(side,{t,w,base:true,trow:HOME[OPP[side]]},md));ev=p*zoneEV(side,x.z,W.x,md)}
+    const winchCost=(U.cls==='ada'||U.cls==='naval'?0:0.25*(U.inf?0.5:1));ev-=winchCost*0.4;
+    if(!best||ev>best.ev)best={t:t.id,w,target:x,ev};}
+   t.r=saveR;}
+ }
+ return best;
+}
+function bestAcquire(side){
+ let best=null;
+ for(const t of G.toks){if(t.s!==side||!canAcquireWith(t))continue;const U=UNITS[t.u];const tg=acqTargets(t);if(!tg.length)continue;
+  const scored=tg.map(e=>{const p=probNeed(UNITS[e.u].need,U.acq.b,acqMode(t));return{e,s:p*tvalFor(side,e)*(shooterCanReach(side,e)?1:0.35)}}).sort((a,b)=>b.s-a.s);
+  const n=G.act.aq?G.act.aqLeft:U.acq.n;const pick=[];for(let i=0;i<n;i++){if(scored[i])pick.push(scored[i].e.id);else if(scored[0])pick.push(scored[0].e.id)}
+  const ev=scored.slice(0,n).reduce((a,b)=>a+b.s,0);
+  if(!best||ev>best.ev)best={t:t.id,targets:pick,ev};}
+ return best;
+}
+function bestMoveShot(side){
+ let best=null;
+ for(const t of G.toks){if(t.s!==side||t.l!=='sky'||!(weaponOK(t,'air')||weaponOK(t,'srf')))continue;
+  for(const o of moveOptions(t)){const b=bestShot(side,t.id,o.r);if(b){const risk=threatAt(side,o.r)*0.15*myVal(side,t)/3;const ev=b.ev-risk;if(!best||ev>best.ev)best={mv:{id:t.id,dest:o},shot:b,ev}}}}
+ return best;
+}
+const desiredRowBase=desiredRow;
+function desiredRowV2(t){
+ const s=t.s,U=UNITS[t.u];const band=k=>bandRow(s,k);
+ // ships: Three Dominances scores them for being on the board, so keep them out of reach
+ if(U.cls==='naval'){const M=missionOf(s);const thr=threatAt(s,t.r);if(M.eoa&&M.eoa.navEnd)return{r:band(thr?1:1),z:'b'};if(thr>1)return{r:band(1),z:'b'}}
+ // a unit the enemy is probably hunting pulls back when threatened
+ if(t.l==='sky'&&U.so&&threatAt(s,t.r)>0&&myVal(s,t)>=4)return{r:HOME[s],z:'so'};
+ return desiredRowBase(t);
+}
+desiredRow=desiredRowV2;
+function bestPositional(side){
+ let best=null;
+ for(const t of G.toks){if(t.s!==side||t.l!=='sky')continue;const opts=moveOptions(t);if(!opts.length)continue;const want=desiredRow(t);
+  const cur=dist(t.r,want.r)+(t.z!==want.z?0.5:0);if(cur<0.5)continue;const mv=myVal(side,t)/3;
+  for(const o of opts){const nd=dist(o.r,want.r)+(o.z!==want.z?0.5:0);const gain=(cur-nd)*mv-threatAt(side,o.r)*0.2*mv+threatAt(side,t.r)*0.2*mv;
+   if(gain>0.15&&(!best||gain>best.gain))best={id:t.id,dest:o,gain}}}
+ return best;
+}
+function aiBestShip(side){return pickPool(side,'ship').sort((a,b)=>tvalFor(side,b)-tvalFor(side,a))[0]||null}
+function aiPick(side,pk){const pool=pickPool(side,pk.kind);
+ const score=t=>tvalFor(side,t)*(pk.kind==='acq'?(shooterCanReach(side,t)?1:0.45):1)+(pk.kind==='remove'&&t.l==='base'?0.5:0);
+ return pool.sort((a,b)=>score(b)-score(a)).slice(0,pk.n).map(t=>t.id)}
+/* enablers: mission priorities first, then the general rules */
+const aiChooseEnablerBase=aiChooseEnabler;
+function aiChooseEnablerV2(side){
+ const S=G.S[side];const d=G.diff;const M=missionOf(side);const o=OPP[side];
+ if(d==='easy')return aiChooseEnablerBase(side);
+ const ok=i=>i>=0&&!enAvail(side,i)&&!(M.nm==='Economy of Force'&&EN[S.ens[i].k].unit);
+ const find=pred=>S.ens.findIndex((e,j)=>!e.used&&pred(EN[e.k],e.k)&&ok(j));
+ let i;
+ // N-K Dominance: every EW, cyber or non-kinetic card is +1 VP; cyber rate x3 at each ATO end
+ if(M.cnt&&M.cnt.nkN){
+  if(ok(i=find((E,k)=>fxOf(k)==='cyber')))return{i};
+  const base=aiChooseEnablerBase(side);if(base&&EN[S.ens[base.i].k].nk)return base;
+  if(ok(i=find((E,k)=>E.nk&&['spoof','dew','oew','sbew'].includes(fxOf(k)))))return{i};
+  if(ok(i=find((E,k)=>E.nk&&fxOf(k)==='gen')))return{i,p:{band:aiGenBand(side,E_u(S.ens[i].k)),auto:1}};
+  return base;
+ }
+ // Three Dominances: naval cards (+1 each) and ships on the board at each ATO end (+3 each)
+ if(M.cnt&&M.cnt.navN){
+  if(ok(i=find((E,k)=>E.svc==='PLAN'&&(fxOf(k)==='gen'||fxOf(k)==='genstrike'))))return{i,p:{band:1,auto:1}};
+  if(ok(i=find((E,k)=>fxOf(k)==='cyber')))return{i};
+ }
+ // Counter-Intervention: every PLARF card is +1; strikes on aircraft sitting on the ground pay 3 each
+ if(M.cnt&&M.cnt.plarfN){
+  if(ok(i=find((E,k)=>E.svc==='PLARF'&&['strike','dstrike','raid','genstrike'].includes(fxOf(k)))))return{i,p:{z:aiZone(side),band:2,auto:1}};
+  if(ok(i=find((E,k)=>E.svc==='PLARF'&&fxOf(k)==='shipkill'))){const t=aiBestShip(side);if(t)return{i,p:{id:t.id,auto:1}}}
+ }
+ // Enforce Rule of Law: every token an enabler generates is +1 this turn
+ if(M.cnt&&M.cnt.enTok){
+  if(ok(i=find((E,k)=>fxOf(k)==='gen')))return{i,p:{band:aiGenBand(side,E_u(S.ens[i].k)),auto:1}};
+  if(ok(i=find((E,k)=>fxOf(k)==='genada')))return{i,p:{z:'ab'}};
+ }
+ return aiChooseEnablerBase(side);
+}
+function E_u(k){return EN[k].u}
+aiChooseEnabler=aiChooseEnablerV2;
+function aiDecideActionV2(side){
+ const M=missionOf(side);const rnd=G.diff==='easy'?3:G.diff==='hard'?0.3:1.2;
+ if(G.diff==='easy')return aiDecideActionBase(side);
+ const shot=bestShot(side),acq=bestAcquire(side),ms=bestMoveShot(side);
+ const best=Math.max(shot?shot.ev:0,acq?acq.ev*0.55:0,ms?ms.ev*0.9:0);
+ let act=G.act.hot?null:bestActivation(side,rnd);
+ // Economy of Force: every squadron left unactivated is +2 at each ATO end. Only fly when the base is being hit hard.
+ if(M.eoa&&M.eoa.eoSq){
+  const myOn=G.toks.filter(t=>t.s===side&&onBoard(t)).length;
+  const underFire=G.S[side].blk>=2||G.sqs.some(q=>q.s===side&&!q.dead&&q.d>=1);
+  if(act&&!(underFire&&myOn===0&&UNITS[SQ[sqById(act.qid).k].u].cls==='ada'))act=null;
+  if(best>0.05||bestPositional(side))return{type:'mas'};
+  return act?{type:'activate',...act}:{type:'pass'};
+ }
+ // Enforce Rule of Law: each activation is +2 VP the moment it happens
+ if(M.cnt&&M.cnt.actN&&act)return{type:'activate',...act};
+ const T=AI_TUNE[side];
+ if(act&&aiHoldBack(side)&&!sqById(act.qid).act)act=null;
+ const onB=G.toks.filter(t=>t.s===side&&onBoard(t)&&!t.w).length;const enemyOn=G.toks.filter(t=>t.s!==side&&onBoard(t)).length;
+ if(act&&(onB<T.minOn||best<T.actBest||(onB<enemyOn&&Math.random()<T.catchUp)))return{type:'activate',...act};
+ if(best>0.05||bestPositional(side))return{type:'mas'};
+ if(act)return{type:'activate',...act};
+ return{type:'pass'};
+}
+var AI_TUNE={US:{minOn:2,actBest:0.45,catchUp:0.35,zoneMul:1},PRC:{minOn:2,actBest:0.45,catchUp:0.35,zoneMul:1}};
+const aiDecideActionBase=aiDecideAction;
+aiDecideAction=aiDecideActionV2;
+/* mission and posture choice: the computer picks cards that suit how it plays (measured over
+   thousands of simulated games), with enough randomness that its mission can't be read off */
+const AI_MW={US:[0.96,0.07,0.78,0.62,0.85],PRC:[0.32,0.35,0.08,0.67,0.21]};
+const AI_PW={US:[0.66,0.68,0.66,0.64,0.69],PRC:[0.30,0.33,0.31,0.34,0.50]};
+function aiSoftPick(w,tau){const mx=Math.max(...w);const p=w.map(v=>Math.exp((v-mx)/tau));const z=p.reduce((a,b)=>a+b,0);let r=Math.random()*z;for(let i=0;i<p.length;i++){r-=p[i];if(r<=0)return i}return p.length-1}
+const autoSetupBase=autoSetup;
+autoSetup=function(side,smart=true){
+ const comp=G&&G.mode==='ai'&&side!==G.human;
+ if(!comp||G.diff==='easy')return autoSetupBase(side,smart);
+ const tau=G.diff==='hard'?0.07:0.14;
+ let o=null;const want=aiSoftPick(AI_PW[side],tau*0.5);
+ for(let k=0;k<12;k++){o=autoSetupBase(side,smart);if(o.posture===want)break}
+ o.mission=aiSoftPick(AI_MW[side],tau);
+ return o;
+};
 
 /* ================= GRAPHICS ================= */
 function starPath(cx,cy,R,r){let d='';for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5;const rr=i%2?r:R;d+=(i?'L':'M')+(cx+rr*Math.cos(a)).toFixed(2)+' '+(cy+rr*Math.sin(a)).toFixed(2)}return d+'Z'}
@@ -2655,7 +2929,7 @@ function pack(g){
   a:[a.mv,a.aq,a.aqTok||0,a.aqLeft,a.sh,a.en,a.actv,a.hot,a.ea,a.mdNo?1:0],s:sides,t,q,i:g.inf?[g.inf.b==='cl'?1:0,g.inf.d,g.inf.dead]:0,c:g.cyberWins.map(si),code:g.netCode,nm:[String(g.names.US||'').slice(0,30),String(g.names.PRC||'').slice(0,30)],
   l:[],f:[],gv:GV};
  if(g.atoSummary)o.z=[g.atoSummary.ato,String(g.atoSummary.reason).slice(0,160),si(g.atoSummary.cyber)];
- const fx=g.fx.slice(-2).map(f=>({n:f.n,t:String(f.t).slice(0,70),d:f.dice||[],m:f.m||'n',r:String(f.res||'').slice(0,30),ok:f.ok?1:0,x:f.x?1:0,md:f.md?1:0,s:si(f.s),c:f.cols?1:0}));
+ const fx=g.fx.slice(-2).map(f=>{const o={n:f.n,t:String(f.t).slice(0,70),d:f.dice||[],m:f.m||'n',r:String(f.res||'').slice(0,30),ok:f.ok?1:0,x:f.x?1:0,md:f.md?1:0,s:si(f.s),c:f.cols?1:0};if(f.from!=null)o.fr=f.from;if(f.to!=null)o.to=f.to;if(f.zone)o.z=f.zone;if(f.mf!=null)o.mf=f.mf;if(f.w)o.w=f.w;return o});
  const lg=g.log.slice(-4).map(l=>[l.i||0,String(l.t).slice(0,220),l.s==='US'?0:l.s==='PRC'?1:2]);
  o.f=fx;o.l=lg;
  while(JSON.stringify(o).length>3900&&o.l.length){o.l.shift()}
@@ -2673,7 +2947,7 @@ function unpack(o){
  g.toks=[];for(let i=0;i<o.t.length;i+=10){const t=o.t;g.toks.push({id:t[i],u:UKEYS[t[i+1]],s:is(t[i+2]),q:t[i+3],l:LOC[t[i+4]],r:t[i+5],z:ZN[t[i+6]],a:t[i+7]&1,w:(t[i+7]>>1)&1,g:(t[i+7]>>2)&1,sa:t[i+8],ss:t[i+9]})}
  g.sqs=[];for(let i=0;i<o.q.length;i+=9){const q=o.q;g.sqs.push({id:q[i],k:SQKEYS[q[i+1]],s:is(q[i+2]),b:q[i+3]?'cl':'ab',act:q[i+4],d:q[i+5],dead:q[i+6],lim:q[i+7]<0?null:q[i+7],fcc:q[i+8]||0})}
  g.cyberWins=o.c.map(is);g.netCode=o.code;g.names={US:o.nm[0],PRC:o.nm[1]};
- g.fx=(o.f||[]).map(f=>({n:f.n,t:f.t,dice:f.d,m:f.m,res:f.r,ok:f.ok,x:f.x,md:f.md,s:is(f.s),cols:f.c?['US','PRC']:null,labels:f.c?['US','PRC']:null}));
+ g.fx=(o.f||[]).map(f=>({n:f.n,t:f.t,dice:f.d,m:f.m,res:f.r,ok:f.ok,x:f.x,md:f.md,s:is(f.s),cols:f.c?['US','PRC']:null,labels:f.c?['US','PRC']:null,from:f.fr,to:f.to,zone:f.z,mf:f.mf,w:f.w}));
  g.log=(o.l||[]).map(l=>({i:l[0],t:l[1],s:l[2]===0?'US':l[2]===1?'PRC':'sys'}));
  if(o.z)g.atoSummary={ato:o.z[0],reason:o.z[1],cyber:is(o.z[2])};
  return g;
@@ -3803,6 +4077,668 @@ placePop=function(){
  if(innerWidth<=980&&UI.sheet){const old=document.getElementById('pop');if(old)old.remove();return}
  placePopBase();
 };
+
+/* =====================================================================
+   P7 · SOUND AND BATTLE EFFECTS
+   Every sound is synthesised in the browser (no audio files). Effects run on a
+   fixed overlay above the board and the dice tray; they scale with the
+   animation-speed setting and collapse to a quick flash for reduced motion.
+   ===================================================================== */
+UI.vol=(()=>{try{const v=parseFloat(localStorage.getItem('ocs-vol'));return isFinite(v)?Math.max(0,Math.min(1,v)):0.8}catch(e){return 0.8}})();
+let AMASTER=null;
+function audio(){
+ if(!UI.sound)return null;
+ try{
+  if(!ACTX)ACTX=new (window.AudioContext||window.webkitAudioContext)();
+  if(ACTX.state==='suspended')ACTX.resume();
+  if(!AMASTER){const comp=ACTX.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=4;comp.connect(ACTX.destination);AMASTER=ACTX.createGain();AMASTER.connect(comp)}
+  AMASTER.gain.value=UI.vol;return ACTX;
+ }catch(e){return null}
+}
+/* iPhones only allow sound after a tap: unlock on the first one */
+document.addEventListener('pointerdown',function unlockAudio(){const c=audio();if(c){const b=c.createBuffer(1,1,22050);const s=c.createBufferSource();s.buffer=b;s.connect(AMASTER);s.start(0)}document.removeEventListener('pointerdown',unlockAudio,true)},true);
+function noiseSrc(c,len){const b=c.createBuffer(1,Math.max(1,Math.floor(c.sampleRate*len)),c.sampleRate);const d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;const s=c.createBufferSource();s.buffer=b;return s}
+function env(c,g,t,a,peak,dec,end=0.0008){g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+a);g.gain.exponentialRampToValueAtTime(end,t+a+dec)}
+function tone(c,type,f0,f1,t,dur,peak,out){const o=c.createOscillator();o.type=type;o.frequency.setValueAtTime(f0,t);if(f1&&f1!==f0)o.frequency.exponentialRampToValueAtTime(f1,t+dur);const g=c.createGain();env(c,g,t,Math.min(.01,dur/4),peak,dur);o.connect(g).connect(out||AMASTER);o.start(t);o.stop(t+dur+.05);return o}
+function nburst(c,t,dur,peak,ftype,f0,f1,q,out){const s=noiseSrc(c,dur+.05);const f=c.createBiquadFilter();f.type=ftype;f.frequency.setValueAtTime(f0,t);if(f1)f.frequency.exponentialRampToValueAtTime(f1,t+dur);f.Q.value=q||1;const g=c.createGain();env(c,g,t,Math.min(.02,dur/5),peak,dur);s.connect(f).connect(g).connect(out||AMASTER);s.start(t);s.stop(t+dur+.05)}
+const SND={
+ clack(c,t){nburst(c,t,.045,.25,'bandpass',2200+Math.random()*1500,0,4)},
+ tick(c,t){tone(c,'triangle',1250,900,t,.05,.07)},
+ card(c,t){nburst(c,t,.16,.22,'bandpass',900,4200,.9);tone(c,'sine',140,70,t+.02,.12,.18)},
+ radar(c,t){for(const [d,v] of [[0,.16],[.22,.06],[.42,.025]]){tone(c,'sine',1480,1380,t+d,.5,v)}},
+ static(c,t){nburst(c,t,.22,.13,'bandpass',3000,1800,2.5);nburst(c,t+.08,.12,.08,'highpass',5000,0,1)},
+ launch(c,t,k=1){nburst(c,t,.9*k,.32,'bandpass',260,2600,1.1);nburst(c,t,.5,.25,'lowpass',380,120,.8);tone(c,'sawtooth',90,55,t,.45,.05)},
+ interceptor(c,t){nburst(c,t,.45,.22,'bandpass',900,5200,1.4)},
+ incoming(c,t){tone(c,'sine',1900,700,t,1.0,.07)},
+ alarm(c,t){for(let i=0;i<3;i++){tone(c,'square',880,880,t+i*.22,.1,.05);tone(c,'square',660,660,t+i*.22+.11,.1,.05)}},
+ explode(c,t,big){const k=big?1.25:1;nburst(c,t,1.1*k,.75,'lowpass',1600,70,.7);tone(c,'sine',110,32,t,.7*k,.55);nburst(c,t+.05,.5,.18,'highpass',2500,900,.8);for(let i=0;i<7;i++)nburst(c,t+.18+Math.random()*.6*k,.05,.08+Math.random()*.08,'bandpass',600+Math.random()*2400,0,3)},
+ pop(c,t){nburst(c,t,.35,.4,'lowpass',2200,180,.8);tone(c,'sine',160,60,t,.22,.25)},
+ intercept(c,t){nburst(c,t,.12,.55,'highpass',1800,0,.7);tone(c,'triangle',2400,1200,t,.35,.1);nburst(c,t+.03,.5,.25,'lowpass',1400,200,.8)},
+ miss(c,t){nburst(c,t,.6,.12,'bandpass',1400,250,1.5)},
+ cyber(c,t){const notes=[0,7,12,5,10];notes.forEach((n,i)=>tone(c,'square',520*Math.pow(2,n/12),0,t+i*.055,.05,.045))},
+ chime(c,t){tone(c,'sine',660,0,t,.45,.12);tone(c,'sine',990,0,t+.16,.6,.1)},
+ vp(c,t){[0,4,7,12].forEach((n,i)=>tone(c,'triangle',784*Math.pow(2,n/12),0,t+i*.07,.22,.09))},
+ fanfare(c,t){[[0,0],[4,.18],[7,.36],[12,.54],[7,.9],[12,1.08]].forEach(([n,d])=>{tone(c,'sawtooth',392*Math.pow(2,n/12),0,t+d,.32,.06);tone(c,'triangle',392*Math.pow(2,n/12),0,t+d,.4,.08)})},
+ defeat(c,t){[[0,0],[-2,.3],[-5,.6],[-9,.95]].forEach(([n,d])=>tone(c,'triangle',330*Math.pow(2,n/12),0,t+d,.5,.09))},
+};
+function play(kind,...a){const c=audio();if(!c||!SND[kind])return;try{SND[kind](c,c.currentTime+.01,...a)}catch(e){}}
+/* the older code calls sfx() and rattle(); route them through the new engine */
+sfx=function(kind){({clack:()=>play('clack'),whoosh:()=>play('launch'),boom:()=>play('explode'),blip:()=>play('tick')}[kind]||(()=>play(kind)))()};
+rattle=function(n=1){for(let i=0;i<3+n*2;i++)setTimeout(()=>play('clack'),i*55+Math.random()*30)};
+
+/* ---------------- visual effects ---------------- */
+function fxLayer(){let l=document.getElementById('fxl');if(!l){l=document.createElement('div');l.id='fxl';l.setAttribute('aria-hidden','true');document.body.appendChild(l)}return l}
+function fxQuick(){return RM||UI.speed<0.3}
+function tokRect(id){return elRect(`.board .tok[data-id="${id}"]`)||elRect(`.tok[data-id="${id}"]`)}
+function zoneRect(z){return elRect(`[data-zone="${z}"]`)}
+function tkSize(){const b=document.getElementById('board');const v=b?parseFloat(getComputedStyle(b).getPropertyValue('--tk')):40;return isFinite(v)?v:40}
+function anim(el,frames,opt){try{return el.animate(frames,opt).finished.catch(()=>{})}catch(e){return Promise.resolve()}}
+function spawn(cls,x,y,css=''){const d=document.createElement('div');d.className=cls;d.style.cssText=`left:${x}px;top:${y}px;${css}`;fxLayer().appendChild(d);return d}
+const MISSILE_SVG=`<svg viewBox="0 0 40 14" width="40" height="14"><defs><radialGradient id="mflame" cx="1" cy=".5" r="1"><stop offset="0" stop-color="#fff7c2"/><stop offset=".35" stop-color="#ffb43a"/><stop offset="1" stop-color="#ff5a1f" stop-opacity="0"/></radialGradient></defs><ellipse cx="7" cy="7" rx="7" ry="3.6" fill="url(#mflame)"/><path d="M12 5.2H33L38 7 33 8.8H12Z" fill="#e9edf0" stroke="#5c666d" stroke-width=".6"/><path d="M14 5.2 11 1.5H15.5L18 5.2ZM14 8.8 11 12.5H15.5L18 8.8Z" fill="#9aa3a9"/><path d="M33 5.2 38 7 33 8.8Z" fill="#c43c2c"/></svg>`;
+/* a missile flying a curved path; resolves at the end (or at `stopAt` of the way) */
+function missile(a,b,o={}){
+ const L=fxLayer();const dx=b.x-a.x,dy=b.y-a.y,dist=Math.hypot(dx,dy)||1;
+ let nx=-dy/dist,ny=dx/dist;if(ny>0){nx=-nx;ny=-ny}            // bend towards the top of the screen
+ const arc=(o.arc??.18)*dist*(o.flip?-1:1);
+ const c={x:(a.x+b.x)/2+nx*arc,y:(a.y+b.y)/2+ny*arc};
+ const P=t=>({x:(1-t)*(1-t)*a.x+2*(1-t)*t*c.x+t*t*b.x,y:(1-t)*(1-t)*a.y+2*(1-t)*t*c.y+t*t*b.y});
+ const D=t=>({x:2*(1-t)*(c.x-a.x)+2*t*(b.x-c.x),y:2*(1-t)*(c.y-a.y)+2*t*(b.y-c.y)});
+ const m=document.createElement('div');m.className='fx-msl'+(o.cls?' '+o.cls:'');m.innerHTML=MISSILE_SVG;const sc=o.scale||Math.max(.7,Math.min(1.3,tkSize()/40));
+ L.appendChild(m);
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('class','fx-trail');const pl=document.createElementNS('http://www.w3.org/2000/svg','polyline');pl.setAttribute('stroke',o.trail||'rgba(235,240,245,.75)');svg.appendChild(pl);L.appendChild(svg);
+ const dur=spd(o.dur||700),stop=o.stopAt??1,t0=performance.now();const pts=[];let lastPuff=0;
+ return new Promise(res=>{
+  const step=now=>{const k=Math.min(1,(now-t0)/dur);const t=(k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2)*stop;const p=P(t),d=D(t);const ang=Math.atan2(d.y,d.x)*180/Math.PI;
+   m.style.transform=`translate(${p.x-20}px,${p.y-7}px) rotate(${ang}deg) scale(${sc})`;
+   pts.push(`${p.x.toFixed(1)},${p.y.toFixed(1)}`);if(pts.length>34)pts.shift();pl.setAttribute('points',pts.join(' '));
+   if(now-lastPuff>45){lastPuff=now;const s=spawn('fx-puff',p.x,p.y);anim(s,[{transform:'translate(-50%,-50%) scale(.4)',opacity:.55},{transform:'translate(-50%,-50%) scale(1.8)',opacity:0}],{duration:spd(900),easing:'ease-out'}).then(()=>s.remove())}
+   if(k<1)requestAnimationFrame(step);else{m.remove();anim(svg,[{opacity:1},{opacity:0}],{duration:spd(400)}).then(()=>svg.remove());res(p)}};
+  requestAnimationFrame(step)});
+}
+function explosion(p,size=1,o={}){
+ const s=Math.max(.6,size)*Math.max(.8,tkSize()/40);
+ const flash=spawn('fx-flash',p.x,p.y,`width:${70*s}px;height:${70*s}px`);
+ const fire=spawn('fx-fire',p.x,p.y,`width:${64*s}px;height:${64*s}px`);
+ const ring=spawn('fx-ring',p.x,p.y,`width:${40*s}px;height:${40*s}px`);
+ const jobs=[anim(flash,[{transform:'translate(-50%,-50%) scale(.2)',opacity:1},{transform:'translate(-50%,-50%) scale(2.2)',opacity:0}],{duration:spd(260),easing:'ease-out'}),
+  anim(fire,[{transform:'translate(-50%,-50%) scale(.25)',opacity:1},{transform:'translate(-50%,-50%) scale(1.1)',opacity:1,offset:.35},{transform:'translate(-50%,-50%) scale(1.5)',opacity:0}],{duration:spd(720),easing:'ease-out'}),
+  anim(ring,[{transform:'translate(-50%,-50%) scale(.2)',opacity:.9},{transform:'translate(-50%,-50%) scale(3.4)',opacity:0}],{duration:spd(600),easing:'cubic-bezier(.2,.7,.3,1)'})];
+ if(!fxQuick()){
+  for(let i=0;i<Math.round(9*size);i++){const ang=Math.random()*Math.PI*2,r=(28+Math.random()*48)*s;const d=spawn('fx-debris',p.x,p.y,`background:${['#ffcf5a','#ff8a2a','#6b6b6b','#3b3b3b'][i%4]}`);
+   jobs.push(anim(d,[{transform:'translate(-50%,-50%)',opacity:1},{transform:`translate(calc(-50% + ${Math.cos(ang)*r}px),calc(-50% + ${Math.sin(ang)*r+12*s}px)) rotate(${Math.random()*540}deg)`,opacity:0}],{duration:spd(650+Math.random()*350),easing:'cubic-bezier(.15,.6,.4,1)'}).then(()=>d.remove()))}
+  for(let i=0;i<3;i++){const k=spawn('fx-smoke',p.x+(i-1)*10*s,p.y,`width:${34*s}px;height:${34*s}px`);
+   jobs.push(anim(k,[{transform:'translate(-50%,-50%) scale(.3)',opacity:0},{transform:'translate(-50%,-60%) scale(1)',opacity:.55,offset:.25},{transform:`translate(-50%,${-90-30*i}%) scale(1.8)`,opacity:0}],{duration:spd(1300+i*150),easing:'ease-out',delay:spd(120)}).then(()=>k.remove()))}
+  if(o.shake)shake(o.shake);
+ }
+ Promise.all(jobs.slice(0,3)).then(()=>{flash.remove();fire.remove();ring.remove()});
+ return sleep(spd(380));
+}
+function intercept(p){
+ const f=spawn('fx-iflash',p.x,p.y);const r=spawn('fx-iring',p.x,p.y);
+ const sp=spawn('fx-spark',p.x,p.y);sp.innerHTML=`<svg viewBox="-30 -30 60 60" width="60" height="60">${Array.from({length:10},(_,i)=>{const a=i*36*Math.PI/180;return `<line x1="${Math.cos(a)*5}" y1="${Math.sin(a)*5}" x2="${Math.cos(a)*(i%2?16:27)}" y2="${Math.sin(a)*(i%2?16:27)}"/>`}).join('')}</svg>`;
+ anim(f,[{transform:'translate(-50%,-50%) scale(.2)',opacity:1},{transform:'translate(-50%,-50%) scale(2)',opacity:0}],{duration:spd(320),easing:'ease-out'}).then(()=>f.remove());
+ anim(r,[{transform:'translate(-50%,-50%) scale(.3)',opacity:1},{transform:'translate(-50%,-50%) scale(3)',opacity:0}],{duration:spd(520),easing:'ease-out'}).then(()=>r.remove());
+ anim(sp,[{transform:'translate(-50%,-50%) scale(.4) rotate(0deg)',opacity:1},{transform:'translate(-50%,-50%) scale(1.5) rotate(25deg)',opacity:0}],{duration:spd(480),easing:'ease-out'}).then(()=>sp.remove());
+ const lbl=spawn('fx-lbl',p.x,p.y-26,'');lbl.textContent='INTERCEPTED';
+ anim(lbl,[{transform:'translate(-50%,-50%) scale(.8)',opacity:0},{transform:'translate(-50%,-50%) scale(1)',opacity:1,offset:.2},{transform:'translate(-50%,-90%)',opacity:0}],{duration:spd(1300)}).then(()=>lbl.remove());
+ play('intercept');return sleep(spd(260));
+}
+function fizzle(p){const s=spawn('fx-fizzle',p.x,p.y);anim(s,[{transform:'translate(-50%,-50%) scale(.4)',opacity:.8},{transform:'translate(-50%,-50%) scale(1.6)',opacity:0}],{duration:spd(700),easing:'ease-out'}).then(()=>s.remove());play('miss')}
+function shake(px=4){const b=document.getElementById('board');if(!b||fxQuick())return;anim(b,[0,1,2,3,4,5,6].map(i=>({transform:i===6?'none':`translate(${(Math.random()-.5)*px*2}px,${(Math.random()-.5)*px*2}px)`})),{duration:spd(380)})}
+async function radar(a,b,ok){
+ for(let i=0;i<2;i++){const r=spawn('fx-ping',a.x,a.y);anim(r,[{transform:'translate(-50%,-50%) scale(.2)',opacity:.9},{transform:'translate(-50%,-50%) scale(2.6)',opacity:0}],{duration:spd(700),delay:spd(i*170),easing:'ease-out'}).then(()=>r.remove())}
+ play('radar');await sleep(spd(240));
+ const L=fxLayer();const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('class','fx-beam'+(ok?'':' bad'));svg.innerHTML=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"/>`;L.appendChild(svg);
+ await anim(svg,[{opacity:0},{opacity:1,offset:.3},{opacity:ok?1:.2,offset:.7},{opacity:0}],{duration:spd(650)});svg.remove();
+ if(ok){const s=Math.max(30,tkSize()*1.25);const br=spawn('fx-lock',b.x,b.y,`width:${s}px;height:${s}px`);anim(br,[{transform:'translate(-50%,-50%) scale(1.8)',opacity:0},{transform:'translate(-50%,-50%) scale(1)',opacity:1,offset:.45},{transform:'translate(-50%,-50%) scale(1)',opacity:1,offset:.8},{transform:'translate(-50%,-50%) scale(1)',opacity:0}],{duration:spd(1100),easing:'ease-out'}).then(()=>br.remove())}
+ else play('static');
+}
+function glitch(el){if(!el||fxQuick())return;anim(el,[{filter:'none'},{filter:'hue-rotate(90deg) saturate(3)',transform:'translateX(2px)'},{filter:'none',transform:'translateX(-2px)'},{filter:'hue-rotate(-60deg)',transform:'none'},{filter:'none'}],{duration:spd(500)})}
+/* where an attack comes from when no token fired it (enabler strikes): the attacker's Stand Off box */
+function attackerOrigin(side){return zoneRect('so'+side)||zoneRect('ab'+side)}
+
+/* engine result (fx) shown in the open tray, or in a fresh auto-thrown tray, with the battle animation */
+showFx=async function(f){
+ const dice=f.dice||[];
+ const isShot=f.w==='air'||f.w==='srf'||/ shot /.test(f.t||'');
+ const w=f.w||(/surface shot/.test(f.t||'')?'srf':/air shot/.test(f.t||'')?'air':null);
+ const isAcq=/ (acquire|re-roll) - need/.test(f.t||'')&&f.from!=null&&f.to!=null;
+ const isEnStrike=!isShot&&f.zone&&/need \d\+/.test(f.t||'');
+ const isDmg=/damage/i.test(f.t||'')&&f.x;
+ if(!dice.length){ // message banner
+  const el=document.createElement('div');el.className='tray msg';el.innerHTML=`<div class="dt">${esc(f.t)}</div>${f.sub?`<div class="calc mono small">${esc(f.sub)}</div>`:''}<div class="res ${f.ok?'ok':'bad'}">${esc(f.res)}</div>`;layer.appendChild(el);
+  const res=f.res||'';
+  if(/DESTROYED/.test(res)&&f.to!=null){const b=tokRect(f.to);if(b){const a=attackerOrigin(f.s);if(a&&!fxQuick()){play('launch',.7);await missile(a,b,{arc:.25,dur:650})}play('explode');await explosion(b,1.1,{shake:3})}}
+  else if(/CYBER/.test((f.t||'')+res)){play('cyber');glitch(document.querySelector(`.pcube.${OPP[f.s]||f.s}`))}
+  else if(/AUTOMATIC HIT|Forward Observers/i.test((f.t||'')+res))play('card');
+  else if(typeof EN!=='undefined'&&Object.values(EN).some(E=>E.nm===f.t))play('card');
+  else play('tick');
+  await sleep(spd(1300));el.remove();return}
+ let T=UI.tray;
+ if(!T||!T.vals||T.vals.length!==dice.length||T.vals.some((v,i)=>v!==dice[i])){
+  T=openTray(f.s,{t:f.t,n:dice.length,mode:f.m,need:needOf(f),md:f.md});
+  await sleep(spd(250));await throwDice(T,dice);T.vals=dice;
+ }
+ const li=loseIndex(dice,f.m);if(li>=0){T.dice[li].innerHTML=d4TopSVG(dice[li],T.side,true);T.dice[li].classList.add('lose')}
+ const kept=li>=0?dice[li?0:1]:dice[0];const sp=T.spec||{};
+ const calc=T.el.querySelector('.calc');
+ if(sp.need&&!sp.each)calc.textContent=`${dice.length===2?`kept ${kept}`:`rolled ${kept}`}${sp.mod?` ${sp.mod>0?'+':'−'} ${Math.abs(sp.mod)}`:''} = ${kept+(sp.mod||0)} vs ${sp.need}+`;
+ else if(sp.each)calc.textContent=`rolled ${dice.join(' and ')}`;
+ const resEl=T.el.querySelector('.res');
+ const reveal=()=>{resEl.className='res '+(f.ok?'ok':f.x?'neu':'bad');resEl.textContent=f.res};
+ const a=f.from!=null?tokRect(f.from):(isEnStrike||isDmg)?attackerOrigin(f.s):null;
+ const b=f.to!=null?tokRect(f.to):f.zone?zoneRect(f.zone):null;
+ const dimTray=on=>{T.el.style.transition='opacity .2s,transform .25s';T.el.style.opacity=on?'.1':'';T.el.style.transform=on?'translate(-50%,-12px)':''};
+ if(isAcq&&a&&b){dimTray(true);await radar(a,b,!!f.ok);await sleep(spd(f.ok?700:250));dimTray(false);reveal()}
+ else if((isShot||isEnStrike)&&a&&b&&!fxQuick()){
+  dimTray(true);
+  const toBase=!!f.zone;const srf=w==='srf'||isEnStrike;
+  const mySide=typeof viewSide==='function'?viewSide():null;
+  if(toBase&&f.s!==mySide)play('alarm');
+  play('launch',srf?1:.7);
+  const mdFrom=f.md?(f.mf!=null?tokRect(f.mf):zoneRect('ab'+OPP[f.s])):null;
+  if(mdFrom){
+   const meetT=.62;const flight=missile(a,b,{arc:srf?.32:.14,dur:900,stopAt:f.ok?1:meetT});
+   await sleep(spd(260));play('interceptor');
+   const mx=a.x+(b.x-a.x)*meetT,my=a.y+(b.y-a.y)*meetT-(srf?.18:.08)*Math.hypot(b.x-a.x,b.y-a.y);
+   const off=f.ok?{x:mx+(Math.random()<.5?-1:1)*38,y:my-30}:{x:mx,y:my};
+   const ipath=missile(mdFrom,off,{arc:.1,dur:560,cls:'icpt',trail:'rgba(150,220,255,.8)',scale:.75});
+   await ipath;
+   if(!f.ok){await flight;await intercept({x:mx,y:my});await sleep(spd(500))}
+   else{fizzle(off);await flight;play('explode',toBase);await explosion(b,toBase?1.5:1.1,{shake:toBase?6:3});await sleep(spd(350))}
+  }else{
+   if(f.ok){await missile(a,b,{arc:srf?.32:.12,dur:srf?850:600});play(toBase||srf?'explode':'pop',toBase);await explosion(b,toBase?1.5:1,{shake:toBase?6:2});await sleep(spd(350))}
+   else{const over={x:b.x+(b.x-a.x)*.25+(Math.random()-.5)*30,y:b.y+(b.y-a.y)*.25-24};await missile(a,over,{arc:srf?.3:.12,dur:srf?900:650});fizzle(over);await sleep(spd(300))}
+  }
+  dimTray(false);reveal();
+ }
+ else if(isDmg&&b){reveal();if(!fxQuick()){play('explode',true);await explosion(b,1.4,{shake:5})}}
+ else{reveal();if(f.ok&&b&&/HIT|DAMAGE/.test(f.res||'')){play('explode');await explosion(b,1.1)}else if(!f.ok)play('tick');else if(/CYBER/.test(f.res||'')){play('cyber');glitch(document.querySelector(`.pcube.${f.s}`))}else play('tick')}
+ T.el.querySelector('.ctrl').innerHTML='';
+ await sleep(spd(f.s&&isLocal(f.s)&&!isAI(f.s)?1150:900));
+ if(UI.tray===T)closeTray();
+};
+
+/* your turn starts: a short chime (only for a person at this screen) */
+const afterChangeBase=afterChange;
+afterChange=function(local){
+ afterChangeBase(local);
+ try{if(G&&G.phase==='play'&&isLocal(G.turn)&&!isAI(G.turn)&&UI.chimeAt!==G.turnNo&&G.mode!=='tut'){UI.chimeAt=G.turnNo;play('chime')}}catch(e){}
+};
+/* end of the game */
+const renderResultsBase=renderResults;
+renderResults=function(){
+ renderResultsBase();
+ try{const key=(G&&(G.id||'')+':'+G.fxn);if(G&&G.winner&&UI.endSnd!==key){UI.endSnd=key;const v=viewSide();if(G.winner==='TIE')play('chime');else if(G.mode==='hot')play('fanfare');else play(G.winner===v?'fanfare':'defeat')}}catch(e){}
+};
+/* VP gained: a little rising tone */
+const vpPillBase=vpPillHTML;
+vpPillHTML=function(v){const before=UI.vpBump&&UI.vpBump[v]&&UI.vpBump[v].t;const h=vpPillBase(v);const after=UI.vpBump&&UI.vpBump[v]&&UI.vpBump[v].t;if(after&&after!==before)setTimeout(()=>play('vp'),80);return h};
+
+/* menu: volume next to the sound switch */
+const menuBase=H.menu;
+H.menu=function(){
+ menuBase();
+ const s=document.getElementById('sndT');if(!s)return;const row=s.closest('label');if(!row)return;
+ const vr=document.createElement('label');vr.className='row';vr.style.justifyContent='space-between';
+ vr.innerHTML=`<span>Volume</span><input type="range" id="volR" min="0" max="1" step="0.05" value="${UI.vol}" style="width:150px" aria-label="Sound volume">`;
+ row.after(vr);
+ const r=vr.querySelector('#volR');r.oninput=e=>{UI.vol=parseFloat(e.target.value);if(AMASTER)AMASTER.gain.value=UI.vol};r.onchange=()=>{saveOpt('ocs-vol',UI.vol);play('tick')};
+ s.addEventListener('change',()=>{if(s.checked)setTimeout(()=>play('chime'),30)});
+};
+
+/* =====================================================================
+   P8 · AFTER-ACTION REVIEW
+   The game is recorded as it is played (one snapshot each time the board
+   changes). After the campaign the review replays it step by step, charts
+   both sides' VP over time, lists the key moments and prints a summary.
+   ===================================================================== */
+const REC={snaps:[],key:'',tail:[],meta:null};
+const AAR={i:0,timer:null,side:'US'};
+function recReset(){REC.snaps=[];REC.key='';REC.tail=[];REC.meta=null}
+function aarVP(s){try{if(!G.S[s]||G.S[s].mission==null)return 0;return scoreSide(s).total}catch(e){return 0}}
+/* G.log keeps the last 80 lines: work out which lines are new since the last snapshot */
+function newTail(prev,cur){
+ for(let k=Math.min(prev.length,cur.length);k>0;k--){let ok=true;for(let i=0;i<k;i++)if(prev[prev.length-k+i]!==cur[i]){ok=false;break}if(ok)return k}
+ return 0;
+}
+function recordSnap(){
+ if(!G||(typeof TUT!=='undefined'&&TUT.on)||G.mode==='tut'||G.mode==='drill')return;
+ if(G.phase==='setup'){if(G.ato===1&&REC.snaps.length)recReset();return}
+ if(!['play','atoEnd','over','intel','choose','init'].includes(G.phase))return;
+ const last=REC.snaps[REC.snaps.length-1];
+ if(last&&(G.ato<last.ato||(G.ato===last.ato&&G.turnNo<last.turnNo)))recReset();
+ const lt=G.log[G.log.length-1];
+ const key=[G.ato,G.turnNo,G.phase,G.turn,G.fxn,G.log.length,lt?lt.t:'',G.cyber.US,G.cyber.PRC].join('|');
+ if(key===REC.key)return;REC.key=key;
+ const cur=G.log.map(l=>l.t);const from=newTail(REC.tail,cur);REC.tail=cur;
+ const lines=G.log.slice(from).map(l=>({t:l.t,s:l.s}));
+ let st=null;try{st=pack(G)}catch(e){}
+ REC.snaps.push({ato:G.ato,turnNo:G.turnNo,turn:G.turn,phase:G.phase,vp:{US:aarVP('US'),PRC:aarVP('PRC')},cy:{US:G.cyber.US,PRC:G.cyber.PRC},lines,st});
+ if(REC.snaps.length>700)REC.snaps.splice(1,1);
+ if(G.phase==='over'&&!REC.saved){REC.saved=REC.snaps.length;saveRec()}
+ if(G.phase!=='over')REC.saved=0;
+}
+function aarSideOf(){if(!G)return 'US';if(G.mode==='ai')return G.human||'US';if(G.mode==='net')return (typeof NET!=='undefined'&&NET.side)||'US';if(G.mode==='code')return UI.codeSide||'US';return 'US'}
+function saveRec(){
+ try{
+  const sc=finalScore();
+  REC.meta={when:Date.now(),mode:G.mode,side:aarSideOf(),winner:G.winner,names:G.names||{},atos:G.maxAto,
+   score:{US:sc.US.total,PRC:sc.PRC.total},rows:{US:sc.US.rows,PRC:sc.PRC.rows},mission:{US:sc.US.mission.nm,PRC:sc.PRC.mission.nm},
+   stats:G.stats?JSON.parse(JSON.stringify(G.stats)):null,
+   unused:{US:G.S.US.ens.filter(e=>!e.used).map(e=>enName(e.k)),PRC:G.S.PRC.ens.filter(e=>!e.used).map(e=>enName(e.k))},
+   idle:{US:G.sqs.filter(q=>q.s==='US'&&!q.act&&!q.dead).length,PRC:G.sqs.filter(q=>q.s==='PRC'&&!q.act&&!q.dead).length}};
+  let snaps=REC.snaps;
+  for(let tries=0;tries<4;tries++){
+   try{localStorage.setItem('ocs-aar',JSON.stringify({meta:REC.meta,snaps}));return}
+   catch(e){snaps=snaps.filter((s,i)=>i%2===0||i===snaps.length-1)}   // too big: keep every other step
+  }
+ }catch(e){}
+}
+function loadRec(){try{const o=JSON.parse(localStorage.getItem('ocs-aar')||'null');if(o&&o.snaps&&o.snaps.length){REC.snaps=o.snaps;REC.meta=o.meta;return true}}catch(e){}return false}
+
+/* record whenever the screen redraws (covers your moves, the computer's and a remote player's) */
+const renderBaseAAR=render;
+render=function(){
+ try{recordSnap()}catch(e){}
+ if(SCREEN==='aar')return renderAAR();
+ return renderBaseAAR();
+};
+
+/* ---------- analysis ---------- */
+function aarLine(lines){
+ const pri=[/destroyed/i,/damage/i,/ HIT/,/Cyber Rate/i,/regenerated/i,/scores?/i,/activates/i];
+ for(const re of pri){const l=lines.find(x=>re.test(x.t));if(l)return l}
+ return lines[0]||null;
+}
+function aarWhy(i,s){
+ const sn=REC.snaps[i];const l=aarLine(sn.lines);
+ if(l&&!/ passes\.?$|^Both commanders passed/.test(l.t))return l.t;
+ if(sn.phase==='atoEnd'||sn.phase==='over'||sn.lines.some(x=>/ATO cycle ends|Campaign complete|passed in succession/.test(x.t)))return `${s} scores its mission at the end of the ATO.`;
+ return l?l.t:`${s} scores.`;
+}
+function aarMoments(){
+ const S=REC.snaps,out=[];
+ const HV=/(B-52|H-6K|AEW|E-3|KJ-2000|DDG|Destroyer|Cruiser|Nanning|Dalian|Missile Boat|Squadron Card|squadron card)/;
+ let lead=0;
+ for(let i=1;i<S.length;i++){
+  const a=S[i-1].vp,b=S[i].vp;
+  for(const s of SIDES){const d=b[s]-a[s];if(d>=3)out.push({i,s,d,kind:'vp',txt:aarWhy(i,s)})}
+  const diff=b.US-b.PRC;const ld=diff>0?1:diff<0?-1:0;
+  if(ld&&lead&&ld!==lead)out.push({i,s:ld>0?'US':'PRC',kind:'lead',txt:`${ld>0?'US':'PRC'} takes the lead, ${Math.max(b.US,b.PRC)} to ${Math.min(b.US,b.PRC)}`});
+  if(ld)lead=ld;
+  for(const l of S[i].lines){if(/destroyed/i.test(l.t)&&HV.test(l.t)&&!out.some(o=>o.i===i&&o.kind==='vp'))out.push({i,s:l.s,kind:'kill',txt:l.t})}
+  if(S[i].cy&&S[i-1].cy)for(const s of SIDES)if(S[i].cy[s]===4&&S[i-1].cy[s]!==4)out.push({i,s,kind:'cyber',txt:`${s} reaches Cyber Rate 4`})
+ }
+ // keep the biggest dozen, shown in order
+ const ranked=out.map(o=>Object.assign(o,{w:o.kind==='vp'?o.d:o.kind==='lead'?6:o.kind==='cyber'?5:4})).sort((x,y)=>y.w-x.w).slice(0,12);
+ return ranked.sort((x,y)=>x.i-y.i);
+}
+function aarLessons(){
+ const M=REC.meta||{};const v=M.side||'US',o=OPP[v];const out=[];
+ const S=REC.snaps;const st=M.stats||{};
+ const pct=(a,b)=>b?Math.round(a/b*100):null;
+ const mine=st[v]||{},theirs=st[o]||{};
+ const hp=pct(mine.hit,mine.sh),ho=pct(theirs.hit,theirs.sh);
+ if(hp!=null)out.push(`Your shots hit ${hp}% of the time (${mine.hit} of ${mine.sh})${ho!=null?`; the ${o} hit ${ho}%`:''}.`);
+ const ap=pct(mine.aqOk,mine.aq);if(ap!=null)out.push(`Your acquisition attempts succeeded ${ap}% of the time (${mine.aqOk} of ${mine.aq}). Nothing can be shot until it is acquired.`);
+ const passes=S.reduce((n,s)=>n+s.lines.filter(l=>new RegExp(`^${v} passes`).test(l.t)).length,0);
+ if(passes)out.push(`You passed ${passes} time${passes===1?'':'s'}. A pass gives the initiative back; it pays only when waiting helps your mission.`);
+ const un=(M.unused||{})[v]||[];if(un.length)out.push(`${un.length} of your enabler card${un.length===1?' was':'s were'} still unused at the end: ${un.join(', ')}.`);
+ const idle=(M.idle||{})[v];if(idle&&!/Economy/.test((M.mission||{})[v]||''))out.push(`${idle} of your squadron card${idle===1?' was':'s were'} never activated.`);
+ // biggest single swing for each side
+ let best={d:0},worst={d:0};
+ for(let i=1;i<S.length;i++){const dv=S[i].vp[v]-S[i-1].vp[v],dn=S[i].vp[o]-S[i-1].vp[o];if(dv>best.d)best={d:dv,i};if(dn>worst.d)worst={d:dn,i}}
+ if(best.d)out.push(`Your best moment: +${best.d} VP (ATO ${S[best.i].ato}, turn ${S[best.i].turnNo}). ${esc(aarWhy(best.i,v))}`);
+ if(worst.d)out.push(`The ${o}'s best moment: +${worst.d} VP (ATO ${S[worst.i].ato}, turn ${S[worst.i].turnNo}). ${esc(aarWhy(worst.i,o))}`);
+ out.push(`Your mission was <b>${esc((M.mission||{})[v]||'?')}</b>; the ${o} had <b>${esc((M.mission||{})[o]||'?')}</b>. Ask: did each side's attacks line up with what its mission paid for?`);
+ return out;
+}
+
+/* ---------- VP chart (two series, one axis, hover crosshair + tooltip, click to jump) ---------- */
+const AAR_COL={US:'#5a8cf0',PRC:'#e2584d'};
+function aarCW(){return innerWidth<700?Math.max(300,Math.min(640,innerWidth-48)):760}
+function aarChartSVG(){
+ const S=REC.snaps;const n=S.length;const W=aarCW(),H=innerWidth<700?200:230,L=34,R=54,T=14,B=30;
+ const maxV=Math.max(4,...S.map(s=>Math.max(s.vp.US,s.vp.PRC)));const step=maxV<=10?2:maxV<=24?4:maxV<=50?10:20;const top=Math.ceil(maxV/step)*step;
+ const x=i=>L+(n<=1?0:(W-L-R)*i/(n-1)),y=v=>T+(H-T-B)*(1-v/top);
+ let g='';
+ for(let v=0;v<=top;v+=step)g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" class="gl"/><text x="${L-6}" y="${y(v)+4}" class="ax" text-anchor="end">${v}</text>`;
+ // ATO boundaries and labels
+ const bounds=[0];for(let i=1;i<n;i++)if(S[i].ato!==S[i-1].ato)bounds.push(i);bounds.push(n-1);
+ for(let k=0;k<bounds.length-1;k++){const a=bounds[k],b=bounds[k+1];if(k>0)g+=`<line x1="${x(a)}" x2="${x(a)}" y1="${T}" y2="${H-B}" class="atol"/>`;g+=`<text x="${(x(a)+x(b))/2}" y="${H-B+18}" class="ax" text-anchor="middle">ATO ${S[a].ato}</text>`}
+ const path=s=>S.map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)} ${y(p.vp[s]).toFixed(1)}`).join(' ');
+ for(const s of ['PRC','US'])g+=`<path d="${path(s)}" fill="none" stroke="${AAR_COL[s]}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+ // end markers + direct labels (nudged apart when close)
+ const ly={US:y(S[n-1].vp.US),PRC:y(S[n-1].vp.PRC)};if(Math.abs(ly.US-ly.PRC)<14){const m=(ly.US+ly.PRC)/2;const up=S[n-1].vp.US>=S[n-1].vp.PRC?'US':'PRC';ly[up]=m-8;ly[OPP[up]]=m+8}
+ for(const s of SIDES){g+=`<circle cx="${x(n-1)}" cy="${y(S[n-1].vp[s])}" r="4.5" fill="${AAR_COL[s]}" stroke="var(--panel)" stroke-width="2"/><text x="${x(n-1)+9}" y="${ly[s]+4}" class="dl">${s} ${S[n-1].vp[s]}</text>`}
+ return `<svg viewBox="0 0 ${W} ${H}" class="aar-chart" role="img" aria-label="Victory points over the game for both sides">${g}<line class="xh" x1="0" x2="0" y1="${T}" y2="${H-B}" style="display:none"/><g class="xhd"></g><line class="cur" x1="${x(AAR.i)}" x2="${x(AAR.i)}" y1="${T}" y2="${H-B}"/><rect class="hit" x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="transparent"/></svg>`;
+}
+function aarChartGeom(){const n=REC.snaps.length;const W=aarCW(),L=34,R=54;return{x:i=>L+(n<=1?0:(W-L-R)*i/(n-1)),inv:px=>Math.round((px-L)/((W-L-R)/Math.max(1,n-1))),W,n}}
+function aarBindChart(){
+ const svg=document.querySelector('.aar-chart');if(!svg)return;const tip=document.getElementById('aarTip');const Gm=aarChartGeom();
+ const toIdx=e=>{const r=svg.getBoundingClientRect();const px=(e.clientX-r.left)/r.width*Gm.W;return Math.max(0,Math.min(Gm.n-1,Gm.inv(px)))};
+ const xh=svg.querySelector('.xh'),xhd=svg.querySelector('.xhd');
+ const move=e=>{const i=toIdx(e);const s=REC.snaps[i];const X=Gm.x(i);xh.style.display='';xh.setAttribute('x1',X);xh.setAttribute('x2',X);
+  const H=innerWidth<700?200:230,T=14,B=30;const maxV=Math.max(4,...REC.snaps.map(s=>Math.max(s.vp.US,s.vp.PRC)));const step=maxV<=10?2:maxV<=24?4:maxV<=50?10:20;const top=Math.ceil(maxV/step)*step;const y=v=>T+(H-T-B)*(1-v/top);
+  xhd.innerHTML=SIDES.map(sd=>`<circle cx="${X}" cy="${y(s.vp[sd])}" r="4" fill="${AAR_COL[sd]}" stroke="var(--panel)" stroke-width="2"/>`).join('');
+  const l=aarLine(s.lines);tip.innerHTML=`<div class="tt-h">ATO ${s.ato} · turn ${s.turnNo}</div><div><i style="background:${AAR_COL.US}"></i>US <b>${s.vp.US}</b> VP</div><div><i style="background:${AAR_COL.PRC}"></i>PRC <b>${s.vp.PRC}</b> VP</div>${l?`<div class="tt-l">${esc(l.t)}</div>`:''}<div class="tt-k">Tap to replay this moment</div>`;
+  tip.style.display='block';const r=svg.getBoundingClientRect();const tx=Math.min(r.width-tip.offsetWidth-4,Math.max(4,(X/Gm.W)*r.width+12));tip.style.left=tx+'px';tip.style.top='8px'};
+ const out=()=>{xh.style.display='none';xhd.innerHTML='';tip.style.display='none'};
+ const hit=svg.querySelector('.hit');hit.addEventListener('pointermove',move);hit.addEventListener('pointerleave',out);hit.addEventListener('click',e=>{aarGo(toIdx(e));document.getElementById('aarStage').scrollIntoView({behavior:'smooth',block:'center'})});
+}
+
+/* ---------- replay board ---------- */
+function aarBoardHTML(i){
+ const sn=REC.snaps[i];if(!sn||!sn.st)return '<p class="muted">No board for this step.</p>';
+ const g=unpack(sn.st);g.mode='ai';g.human=AAR.side;g.phase='over';g.fx=[];
+ const keep=G,ks={sel:UI.sel,selSq:UI.selSq,mode:UI.mode,threat:UI.threat,rng:UI.rng};
+ G=g;UI.sel=null;UI.selSq=null;UI.mode=null;UI.threat=false;
+ try{return boardHTML().replace(/ data-a="[^"]*"/g,'').replace(/ role="button"/g,'').replace(/ tabindex="0"/g,'')}
+ catch(e){return '<p class="muted">This step could not be drawn.</p>'}
+ finally{G=keep;Object.assign(UI,ks)}
+}
+function aarInfoHTML(i){
+ const s=REC.snaps[i];const n=REC.snaps.length;
+ const head=s.phase==='play'?`${s.turn==='US'?'US':'PRC'} turn`:s.phase==='atoEnd'?'End of ATO':s.phase==='over'?'Campaign complete':s.phase==='intel'?'Intel':s.phase==='choose'?'Initiative':'Setup';
+ return `<div class="aar-step"><span class="lbl">Step ${i+1} of ${n}</span><b>ATO ${s.ato} · turn ${s.turnNo} · ${head}</b></div>
+ <div class="aar-vp"><span class="pill US">US ${s.vp.US} VP</span><span class="pill PRC">PRC ${s.vp.PRC} VP</span><span class="small muted">Cyber ${s.cy?s.cy.US:'?'} / ${s.cy?s.cy.PRC:'?'}</span></div>
+ <div class="aar-log">${s.lines.length?s.lines.map(l=>`<div class="${l.s}">${esc(l.t)}</div>`).join(''):'<div class="muted">No new events.</div>'}</div>`;
+}
+function aarGo(i){
+ const n=REC.snaps.length;AAR.i=Math.max(0,Math.min(n-1,i));
+ const st=document.getElementById('aarBoard'),inf=document.getElementById('aarInfo'),sl=document.getElementById('aarSlider');
+ if(!st)return;st.innerHTML=aarBoardHTML(AAR.i);inf.innerHTML=aarInfoHTML(AAR.i);if(sl)sl.value=AAR.i;
+ const cur=document.querySelector('.aar-chart .cur');if(cur){const X=aarChartGeom().x(AAR.i);cur.setAttribute('x1',X);cur.setAttribute('x2',X)}
+ document.querySelectorAll('.aar-mom button').forEach(b=>b.classList.toggle('on',+b.dataset.i===AAR.i));
+ try{fitBoard()}catch(e){}
+}
+function aarStop(){if(AAR.timer){clearInterval(AAR.timer);AAR.timer=null}const b=document.getElementById('aarPlay');if(b)b.textContent='▶ Play'}
+H.aarplay=()=>{if(AAR.timer)return aarStop();if(AAR.i>=REC.snaps.length-1)aarGo(0);const b=document.getElementById('aarPlay');if(b)b.textContent='❚❚ Pause';AAR.timer=setInterval(()=>{if(AAR.i>=REC.snaps.length-1)return aarStop();aarGo(AAR.i+1)},Math.max(450,1100*UI.speed))};
+H.aarprev=()=>{aarStop();aarGo(AAR.i-1)};H.aarnext=()=>{aarStop();aarGo(AAR.i+1)};
+H.aarfirst=()=>{aarStop();aarGo(0)};H.aarlast=()=>{aarStop();aarGo(REC.snaps.length-1)};
+H.aarjump=d=>{aarStop();aarGo(+d.i);const st=document.getElementById('aarStage');if(st)st.scrollIntoView({behavior:'smooth',block:'center'})};
+H.aar=()=>{if(!REC.snaps.length&&!loadRec()){toast('No recorded game yet.');return}AAR.side=(REC.meta&&REC.meta.side)||aarSideOf();AAR.i=REC.snaps.length-1;SCREEN='aar';render();window.scrollTo(0,0)};
+H.aarback=()=>{aarStop();SCREEN=G&&G.phase==='over'?'results':'home';render();window.scrollTo(0,0)};
+H.aarprint=()=>{aarStop();window.print()};
+H.aarside=d=>{AAR.side=d.s;aarGo(AAR.i);document.querySelectorAll('[data-a="aarside"]').forEach(b=>b.classList.toggle('on',b.dataset.s===AAR.side))};
+
+function renderAAR(){
+ aarStop();
+ if(!REC.snaps.length&&!loadRec()){app.innerHTML=`<div class="screen"><div class="wrap"><p>No recorded game yet. Play a game and the review appears at the end.</p><button class="btn" data-a="aarback">Back</button></div></div>`;return}
+ if(!REC.meta&&G&&G.phase==='over')saveRec();
+ const S=REC.snaps,n=S.length,M=REC.meta||{},fin=S[n-1];
+ const w=M.winner||(fin.vp.US>fin.vp.PRC?'US':fin.vp.PRC>fin.vp.US?'PRC':'TIE');
+ const moms=aarMoments();
+ const st=M.stats;
+ const statRow=s=>{const x=st&&st[s];if(!x)return '';const p=(a,b)=>b?` (${Math.round(a/b*100)}%)`:'';return `<tr><td><span class="pill ${s}">${s}</span></td><td class="mono">${(M.score||fin.vp)[s]}</td><td>${esc((M.mission||{})[s]||'?')}</td><td class="mono">${x.hit}/${x.sh}${p(x.hit,x.sh)}</td><td class="mono">${x.aqOk}/${x.aq}${p(x.aqOk,x.aq)}</td><td class="mono">${x.dn?(x.ds/x.dn).toFixed(2):'—'}</td></tr>`};
+ const when=M.when?new Date(M.when).toLocaleString([], {dateStyle:'medium',timeStyle:'short'}):'';
+ app.innerHTML=`<div class="screen aar"><div class="wrap" style="max-width:1120px">
+ <div class="row aar-top"><button class="btn" data-a="aarback">← Back</button><span class="sp"></span><button class="btn" data-a="aarprint">Print or save PDF</button></div>
+ <div class="lbl">After-action review${when?' · '+esc(when):''}</div>
+ <h2 class="aar-h">${w==='TIE'?'Draw':`${w} wins`} <span class="muted">· US ${(M.score||fin.vp).US} VP · PRC ${(M.score||fin.vp).PRC} VP</span></h2>
+ <div class="panel aar-chartp"><div class="row" style="justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h3>Victory points over the game</h3><div class="aar-legend"><span><i style="background:${AAR_COL.US}"></i>US</span><span><i style="background:${AAR_COL.PRC}"></i>PRC</span></div></div>
+  <div class="aar-chartw">${aarChartSVG()}<div id="aarTip" class="aar-tip" role="status"></div></div>
+  <details class="small"><summary>Show as a table</summary><div class="tbwrap"><table class="tb"><thead><tr><th>Step</th><th>ATO</th><th>Turn</th><th>US VP</th><th>PRC VP</th></tr></thead><tbody>${S.map((s,i)=>i===0||i===n-1||s.vp.US!==S[i-1].vp.US||s.vp.PRC!==S[i-1].vp.PRC?`<tr><td>${i+1}</td><td>${s.ato}</td><td>${s.turnNo}</td><td class="mono">${s.vp.US}</td><td class="mono">${s.vp.PRC}</td></tr>`:'').join('')}</tbody></table></div></details>
+ </div>
+ <div class="panel aar-replay" id="aarStage"><div class="row" style="justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h3>Replay</h3><div class="row aar-sidesw" role="group" aria-label="View the board from"><span class="small muted">View from</span><button class="btn sm ${AAR.side==='US'?'on':''}" data-a="aarside" data-s="US">US</button><button class="btn sm ${AAR.side==='PRC'?'on':''}" data-a="aarside" data-s="PRC">PRC</button></div></div>
+  <div class="aar-grid"><div class="aar-stage" id="aarBoard"></div><div class="aar-side"><div id="aarInfo"></div>
+  <div class="aar-ctrl"><button class="btn sm" data-a="aarfirst" aria-label="First step">⏮</button><button class="btn sm" data-a="aarprev" aria-label="Previous step">◀</button><button class="btn sm pri" id="aarPlay" data-a="aarplay">▶ Play</button><button class="btn sm" data-a="aarnext" aria-label="Next step">▶</button><button class="btn sm" data-a="aarlast" aria-label="Last step">⏭</button></div>
+  <input type="range" id="aarSlider" min="0" max="${n-1}" value="${AAR.i}" aria-label="Replay position"></div></div>
+ </div>
+ <div class="res-grid aar-two">
+  <div class="panel aar-mom"><h3>Key moments</h3>${moms.length?`<ol>${moms.map(m=>`<li><button class="btn ghost" data-a="aarjump" data-i="${m.i}"><span class="pill ${m.s||''}">${m.kind==='vp'?`${m.s} +${m.d} VP`:m.kind==='lead'?'Lead change':m.kind==='cyber'?'Cyber 4':'Big loss'}</span><span class="mt">ATO ${S[m.i].ato}, turn ${S[m.i].turnNo}</span><span class="mx">${esc(m.txt)}</span></button></li>`).join('')}</ol>`:'<p class="muted">A quiet game: no single step swung the score by 3 or more.</p>'}</div>
+  <div class="panel aar-less"><h3>Debrief: ${esc(AAR.side)}</h3><ul>${aarLessons().map(l=>`<li>${l}</li>`).join('')}</ul></div>
+ </div>
+ ${st?`<div class="panel"><h3>Battle statistics</h3><div class="tbwrap"><table class="tb"><thead><tr><th>Side</th><th>VP</th><th>Mission</th><th>Shots hit</th><th>Acquisitions</th><th>Dice average</th></tr></thead><tbody>${statRow('US')}${statRow('PRC')}</tbody></table></div></div>`:''}
+ </div></div>`;
+ const sl=document.getElementById('aarSlider');sl.oninput=e=>{aarStop();aarGo(+e.target.value)};
+ aarGo(AAR.i);aarBindChart();
+}
+document.addEventListener('keydown',e=>{if(SCREEN!=='aar'||e.target.closest('input,select,textarea'))return;if(e.key==='ArrowLeft'){e.preventDefault();H.aarprev()}else if(e.key==='ArrowRight'){e.preventDefault();H.aarnext()}else if(e.key===' '){e.preventDefault();H.aarplay()}});
+
+/* entry points: the results screen and the home screen */
+const renderResultsBaseAAR=renderResults;
+renderResults=function(){
+ renderResultsBaseAAR();
+ try{const h=app.querySelector('.wrap h2');if(h&&!app.querySelector('[data-a="aar"]')){const d=document.createElement('div');d.className='row aar-cta';d.innerHTML=`<button class="btn pri" data-a="aar">After-action review</button><span class="small muted">Replay the game, see the VP swings and print a debrief.</span>`;(h.nextElementSibling||h).after(d)}}catch(e){}
+};
+const renderHomeBaseAAR=renderHome;
+renderHome=function(){
+ renderHomeBaseAAR();
+ try{if(localStorage.getItem('ocs-aar')){const ms=app.querySelectorAll('.modes');const m=ms[1]||ms[0];if(m&&!app.querySelector('[data-a="aar"]')){const b=document.createElement('button');b.className='mode';b.setAttribute('data-a','aar');b.innerHTML=`<span class="k">DEBRIEF</span><h3>Review last game</h3><p>After-action review: replay the board step by step, the VP chart, key moments and a printable debrief.</p>`;m.appendChild(b)}}}catch(e){}
+};
+
+/* =====================================================================
+   P9 · CLASS LOBBY ON FIREBASE
+   Used wherever the claude.ai room isn't available (the public GitHub page,
+   a downloaded copy). An instructor starts a class and gets a class code;
+   students join with the code and a name, host or join games, and play on
+   their own devices. Each move is written to the Realtime Database and the
+   opponent's screen updates at once. The instructor sees every game and can
+   watch any board.
+   Data:  classes/{CODE}/meta      {owner, name, created}
+          classes/{CODE}/members/{uid}  {name, flight, on, seen}
+          classes/{CODE}/games/{gid}    {us:{uid,name}, prc:{uid,name}, atos, host, created, st, ato, turn, turnNo, winner, score}
+          classes/{CODE}/states/{gid}   {seq, g, by, at}
+   ===================================================================== */
+const FB_CFG={apiKey:"AIzaSyBhS9Brg32WWsz44c23SNI9AP_p5qjM0II",authDomain:"crimson-scorpion.firebaseapp.com",databaseURL:"https://crimson-scorpion-default-rtdb.firebaseio.com",projectId:"crimson-scorpion",storageBucket:"crimson-scorpion.firebasestorage.app",messagingSenderId:"1031446638585",appId:"1:1031446638585:web:81bed6500f9c1506335728"};
+const FB_VERSIONS=['13.1.0','12.19.0','10.12.2'];
+const FBLS=()=>(window.OCS_FB_MOCK||/[?&]fbmock=1/.test(location.search))?sessionStorage:localStorage;   // test stand-in: each tab is its own person
+const FB={ready:false,err:null,uid:null,cls:null,meta:null,members:{},games:{},gid:null,watch:false,subs:[],gsub:null,ssub:null,pending:null,api:null};
+
+/* ---------- transport: the real Firebase SDK, or a stand-in for offline testing ---------- */
+function fbMock(){
+ // a tiny Realtime-Database look-alike shared between tabs of one browser (for automated tests only)
+ const KEY='ocs-fbmock';const bc=('BroadcastChannel' in window)?new BroadcastChannel('ocs-fbmock'):null;const subs=[];
+ const load=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}};
+ const save=d=>{localStorage.setItem(KEY,JSON.stringify(d));fire();if(bc)bc.postMessage(1)};
+ const at=(d,p)=>p.split('/').filter(Boolean).reduce((o,k)=>o==null?undefined:o[k],d);
+ const put=(d,p,v)=>{const ks=p.split('/').filter(Boolean);let o=d;for(let i=0;i<ks.length-1;i++){if(o[ks[i]]==null||typeof o[ks[i]]!=='object')o[ks[i]]={};o=o[ks[i]]}if(v===null||v===undefined)delete o[ks[ks.length-1]];else o[ks[ks.length-1]]=JSON.parse(JSON.stringify(v))};
+ const fire=()=>{const d=load();for(const s of subs){const v=at(d,s.p);const j=JSON.stringify(v??null);if(j!==s.last){s.last=j;try{s.cb(v??null)}catch(e){console.error(e)}}}};
+ if(bc)bc.onmessage=fire;window.addEventListener('storage',e=>{if(e.key===KEY)fire()});
+ let uid=sessionStorage.getItem('ocs-fbmock-uid');if(!uid){uid='u'+Math.random().toString(36).slice(2,10);sessionStorage.setItem('ocs-fbmock-uid',uid)}
+ return{uid,
+  get:async p=>at(load(),p)??null,
+  set:async(p,v)=>{const d=load();put(d,p,v);save(d)},
+  update:async(p,o)=>{const d=load();for(const [k,v] of Object.entries(o))put(d,p+'/'+k,v);save(d)},
+  remove:async p=>{const d=load();put(d,p,null);save(d)},
+  claim:async(p,v)=>{const d=load();if(at(d,p)!=null)throw new Error('PERMISSION_DENIED');put(d,p,v);save(d)},
+  on:(p,cb)=>{const s={p,cb,last:undefined};subs.push(s);setTimeout(fire,0);return()=>{const i=subs.indexOf(s);if(i>=0)subs.splice(i,1)}},
+  onDisconnect:()=>{},now:()=>Date.now()};
+}
+async function fbReal(){
+ let lastErr=null;
+ for(const v of FB_VERSIONS){
+  try{
+   const base=`https://www.gstatic.com/firebasejs/${v}/`;
+   const [A,Au,D]=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-auth.js'),import(base+'firebase-database.js')]);
+   const app=A.getApps().length?A.getApp():A.initializeApp(FB_CFG);const auth=Au.getAuth(app);
+   await Au.signInAnonymously(auth);
+   const uid=auth.currentUser.uid;const db=D.getDatabase(app);const r=p=>D.ref(db,p);
+   return{uid,
+    get:async p=>(await D.get(r(p))).val(),
+    set:(p,val)=>D.set(r(p),val),
+    update:(p,o)=>D.update(r(p),o),
+    remove:p=>D.remove(r(p)),
+    claim:async(p,val)=>{const t=await D.runTransaction(r(p),cur=>cur==null?val:undefined);if(!t.committed)throw new Error('PERMISSION_DENIED')}, // first one in gets the seat
+    on:(p,cb)=>D.onValue(r(p),s=>cb(s.val()),e=>{FB.err=e.code||e.message;if(SCREEN==='lobby')render()}),
+    onDisconnect:(p,val)=>{try{D.onDisconnect(r(p)).update(val)}catch(e){}},
+    now:()=>D.serverTimestamp()};
+  }catch(e){lastErr=e}
+ }
+ throw lastErr||new Error('Firebase could not load');
+}
+function fbInit(){
+ if(FB.pending)return FB.pending;
+ FB.pending=(async()=>{
+  try{const mock=window.OCS_FB_MOCK||/[?&]fbmock=1/.test(location.search);FB.api=mock?fbMock():await fbReal();FB.uid=FB.api.uid;FB.ready=true;FB.err=null}
+  catch(e){FB.ready=true;FB.err=String(e&&(e.code||e.message)||e);FB.api=null}
+  try{const s=JSON.parse(FBLS().getItem('ocs-fb')||'{}');if(s.cls&&!FB.cls&&FB.api)await fbEnterClass(s.cls,true)}catch(e){}
+  if(SCREEN==='lobby')render();return FB.api})();
+ return FB.pending;
+}
+function fbErrText(what,e){const c=String(e&&(e.code||e.message)||e);return /PERMISSION|permission/.test(c)?what+': the class server refused it. In the Firebase console, check Realtime Database → Rules allows signed-in users to read and write.':what+': '+esc(c)}
+function fbSave(o){try{const s=JSON.parse(FBLS().getItem('ocs-fb')||'{}');FBLS().setItem('ocs-fb',JSON.stringify(Object.assign(s,o)))}catch(e){}}
+function fbCode(n=5){const a='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<n;i++)s+=a[Math.floor(Math.random()*a.length)];return s}
+function fbPath(...a){return 'classes/'+FB.cls+(a.length?'/'+a.join('/'):'')}
+function fbUnsubAll(){for(const u of FB.subs)try{u()}catch(e){}FB.subs=[]}
+async function fbEnterClass(code,quiet){
+ code=String(code||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length<4){if(!quiet)toast('Enter the class code your instructor gave you.');return false}
+ const meta=await FB.api.get('classes/'+code+'/meta').catch(()=>null);
+ if(!meta){if(!quiet)toast(`No class with code ${esc(code)}. Check the code with your instructor.`);fbSave({cls:null});return false}
+ fbUnsubAll();FB.cls=code;FB.meta=meta;FB.members={};FB.games={};fbSave({cls:code});
+ FB.api.set(fbPath('members',FB.uid),{name:(NET.name||'Officer Trainee').slice(0,30),flight:String(NET.flight||'').slice(0,4),on:true,seen:FB.api.now()}).catch(()=>{});
+ FB.api.onDisconnect(fbPath('members',FB.uid),{on:false});
+ FB.subs.push(FB.api.on(fbPath('meta'),v=>{FB.meta=v;if(SCREEN==='lobby')render()}));
+ FB.subs.push(FB.api.on(fbPath('members'),v=>{FB.members=v||{};if(SCREEN==='lobby')render()}));
+ FB.subs.push(FB.api.on(fbPath('games'),v=>{FB.games=v||{};fbOnGames();if(SCREEN==='lobby')render()}));
+ return true;
+}
+function fbIsOwner(){return !!(FB.meta&&FB.meta.owner===FB.uid)}
+/* the host starts the game once the second seat fills */
+function fbOnGames(){
+ if(!FB.gid||FB.watch)return;const gm=FB.games[FB.gid];if(!gm){if(NET.fbGame){toast('This game was closed.');fbLeaveGame();if(SCREEN!=='home'){SCREEN='lobby';render()}}return}
+ const mine=gm.us&&gm.us.uid===FB.uid?'US':gm.prc&&gm.prc.uid===FB.uid?'PRC':null;
+ if(mine&&gm.host===FB.uid&&gm.us&&gm.prc&&!gm.started&&!(G&&G.mode==='net'&&G.netCode===FB.gid)){
+  FB.api.update(fbPath('games',FB.gid),{started:true}).catch(()=>{});
+  newGame('net',{atos:gm.atos||2,names:{US:gm.us.name||'US',PRC:gm.prc.name||'PRC'}});G.netCode=FB.gid;G.seq=0;UI.fxSeen=0;UI.sel=null;UI.selSq=null;UI.mode=null;
+  afterChange(true);
+ }
+}
+function fbOpenGame(gid,side,watch){
+ if(FB.ssub)try{FB.ssub()}catch(e){}
+ FB.gid=gid;FB.watch=!!watch;NET.fbGame=gid;NET.side=watch?null:side;NET.code=gid;NET.fb=true;NET.watch=!!watch;
+ if(!watch)fbSave({gid,side});
+ FB.ssub=FB.api.on(fbPath('states',gid),st=>{
+  if(!st||!st.g)return;
+  const mySeq=(G&&G.mode==='net'&&G.netCode===gid)?(G.seq||0):-1;
+  if(st.seq>mySeq){const pr={g:typeof st.g==='string'?JSON.parse(st.g):st.g,seq:st.seq};
+   if(!(G&&G.mode==='net'&&G.netCode===gid)){G=null}
+   adoptRemote(pr);if(G){G.netCode=gid;G.seq=st.seq}}
+ });
+ fbOnGames();render();
+}
+function fbLeaveGame(){if(FB.ssub)try{FB.ssub()}catch(e){}FB.ssub=null;FB.gid=null;FB.watch=false;NET.fbGame=null;NET.fb=false;NET.watch=false;fbSave({gid:null,side:null})}
+
+/* network hooks used by the rest of the game */
+const netPushBaseFB=netPush;
+netPush=function(){
+ if(!(NET.fb&&NET.fbGame&&G&&G.mode==='net'))return netPushBaseFB();
+ if(NET.watch)return;
+ G.seq=(G.seq||0)+1;const gid=NET.fbGame;
+ const g=pack(G);
+ FB.api.set(fbPath('states',gid),{seq:G.seq,g:JSON.stringify(g),by:FB.uid,at:FB.api.now()}).catch(e=>toast('Sync problem: '+esc(e.code||e.message)+'. Your last move may not have reached your opponent.'));
+ const sum={st:G.phase,ato:G.ato,turn:G.turn||null,turnNo:G.turnNo||0,upd:FB.api.now()};
+ if(G.phase==='over'){try{const sc=finalScore();sum.winner=G.winner;sum.score={US:sc.US.total,PRC:sc.PRC.total};sum.mission={US:sc.US.mission.nm,PRC:sc.PRC.mission.nm}}catch(e){}}
+ FB.api.update(fbPath('games',gid),sum).catch(()=>{});
+};
+const netLeaveBaseFB=netLeave;
+netLeave=function(){if(NET.fb){fbLeaveGame();return}netLeaveBaseFB()};
+/* an instructor watching sees every token face up */
+const tokFaceVisibleBaseFB=tokFaceVisible;
+tokFaceVisible=function(t){if(NET.watch&&G&&G.mode==='net')return true;return tokFaceVisibleBaseFB(t)};
+
+/* ---------- screens ---------- */
+const renderLobbyBaseFB=renderLobby;
+renderLobby=function(){
+ if(!NET.ready){netInit().then(()=>{if(SCREEN==='lobby')render()})}
+ if(NET.ready&&NET.room)return renderLobbyBaseFB();
+ if(!NET.ready){app.innerHTML=`<div class="screen"><div class="wrap"><p class="muted">Connecting…</p></div></div>`;return}
+ renderFBLobby();
+};
+function fbStatus(gm){
+ if(gm.winner)return `Finished · ${gm.winner==='TIE'?'draw':gm.winner+' wins'}${gm.score?` · US ${gm.score.US} – PRC ${gm.score.PRC}`:''}`;
+ if(!gm.started)return gm.us&&gm.prc?'Starting…':'Waiting for an opponent';
+ const ph={setup:'Setting up',init:'Bidding for initiative',choose:'Choosing who goes first',intel:'Intel',play:'In play',atoEnd:'End of ATO',over:'Finished'}[gm.st]||'In play';
+ return `${ph} · ATO ${gm.ato||1}${gm.st==='play'?` · turn ${gm.turnNo||0}, ${gm.turn}`:''}`;
+}
+function renderFBLobby(){
+ if(!FB.ready)fbInit();
+ const me=`<div class="opts" style="margin-top:0"><div class="opt"><label class="lbl" for="nName">Your name</label><input id="nName" value="${esc(NET.name)}" maxlength="30" placeholder="e.g. OT Stratton" autocomplete="nickname"></div><div class="opt"><label class="lbl" for="nFl">Flight</label><select id="nFl"><option value="">—</option>${[10,11,12,13,14,15,16,17,18,19,20,21].map(f=>`<option ${String(NET.flight)===String(f)?'selected':''}>${f}</option>`).join('')}</select></div></div>`;
+ const conn=!FB.ready?'<span class="pill">Connecting…</span>':FB.api?'<span class="pill" style="color:var(--ok);border-color:var(--ok)">Online</span>':'<span class="pill" style="color:var(--bad);border-color:var(--bad)">Offline</span>';
+ let body='';
+ const warn=FB.api&&FB.err?`<div class="panel" style="border-color:var(--bad);margin-bottom:10px"><p class="small" style="margin:0">${/PERMISSION|permission/.test(FB.err)?'The class server refused to share class data. In the Firebase console, check Realtime Database → Rules allows signed-in users to read and write.':'Connection problem: '+esc(FB.err)} <button class="btn sm" data-a="fbretry">Try again</button></p></div>`:'';
+ if(FB.ready&&!FB.api){
+  body=`<div class="panel" style="border-color:var(--bad)"><h3 style="font-size:18px">Can't reach the class server</h3><p class="small">${esc(FB.err||'')}</p>${/operation-not-allowed|admin-restricted/.test(FB.err||'')?'<p class="small"><b>Setup:</b> in the Firebase console, turn on Authentication → Sign-in method → Anonymous.</p>':''}<p class="small">Check the internet connection and reload. On a school network that blocks Google services, use <b>Pass and play</b> or turn codes instead.</p><div class="row"><button class="btn" data-a="fbretry">Try again</button><button class="btn" data-a="newhot">Pass and play</button></div></div>`;
+ }else if(!FB.cls){
+  let last={};try{last=JSON.parse(FBLS().getItem('ocs-fb')||'{}')}catch(e){}
+  body=`<div class="lob">
+   <div class="panel"><h3 style="font-size:20px;margin-bottom:8px">Join your class</h3>${me}
+    <div class="opt" style="margin-top:10px"><label class="lbl" for="clsIn">Class code</label><input id="clsIn" maxlength="8" placeholder="e.g. K7Q2M" autocapitalize="characters" autocomplete="off" value="${esc(last.lastCls||'')}" style="font-family:var(--f-mono);letter-spacing:.15em;text-transform:uppercase"></div>
+    <div class="row" style="margin-top:10px"><button class="btn pri" data-a="fbjoincls" ${FB.api?'':'disabled'}>Join class</button></div></div>
+   <div class="panel"><h3 style="font-size:20px;margin-bottom:8px">Instructor</h3><p class="small muted">Start a class to get a code for students. You'll see every game in the class and can watch any board.</p>
+    <div class="opt"><label class="lbl" for="clsName">Class name (optional)</label><input id="clsName" maxlength="40" placeholder="e.g. Mod 2 · Flight 14"></div>
+    <div class="row" style="margin-top:10px"><button class="btn" data-a="fbnewcls" ${FB.api?'':'disabled'}>Start a class</button></div></div></div>`;
+ }else{
+  const gs=Object.entries(FB.games||{}).map(([id,g])=>Object.assign({id},g)).sort((a,b)=>(b.created||0)-(a.created||0));
+  const mineG=gs.find(g=>(g.us&&g.us.uid===FB.uid)||(g.prc&&g.prc.uid===FB.uid));
+  const open=gs.filter(g=>!g.started&&!(g.us&&g.prc)&&g!==mineG);
+  const live=gs.filter(g=>g.started||(g.us&&g.prc));
+  const mem=Object.entries(FB.members||{}).map(([id,m])=>Object.assign({id},m));
+  const online=mem.filter(m=>m.on);
+  const owner=fbIsOwner();
+  const seat=g=>g.us&&g.us.uid===FB.uid?'US':g.prc&&g.prc.uid===FB.uid?'PRC':null;
+  const names=g=>`<span class="pill US">US ${esc(g.us?g.us.name:'open')}</span> <span class="pill PRC">PRC ${esc(g.prc?g.prc.name:'open')}</span>`;
+  const myCard=mineG?`<div class="gamecard"><div><div class="lbl">Your game</div><div class="small">${names(mineG)}</div><div class="small muted">${esc(fbStatus(mineG))}</div></div><div class="row" style="gap:6px">${mineG.started||(mineG.us&&mineG.prc)?`<button class="btn pri" data-a="fbplay" data-g="${mineG.id}">${mineG.winner?'Results':'Play'}</button>`:''}<button class="btn" data-a="fbcancel" data-g="${mineG.id}">${mineG.started?'Leave':'Cancel'}</button></div></div>`
+   :`<div class="opts" style="margin-top:0"><div class="opt"><label class="lbl" for="hSide">Your side</label><select id="hSide"><option value="US">US / Allied</option><option value="PRC">PRC</option></select></div><div class="opt"><label class="lbl" for="hAtoN">Campaign</label><select id="hAtoN"><option value="1">1 ATO</option><option value="2" selected>2 ATOs</option></select></div></div><div class="row" style="margin-top:10px"><button class="btn pri" data-a="fbhost">Host a game</button></div>`;
+  body=`<div class="panel fb-cls"><div class="row" style="justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><div class="lbl">${owner?'Your class':'Class'}${FB.meta&&FB.meta.name?' · '+esc(FB.meta.name):''}</div><div class="fb-code">${esc(FB.cls)}</div><div class="small muted">${owner?'Students join at this page with this code.':'Share this code with classmates.'} ${online.length} online.</div></div><div class="row" style="gap:6px"><button class="btn sm" data-a="fbcopy">Copy invite</button><button class="btn sm ghost" data-a="fbexit">Leave class</button></div></div></div>
+  <div class="lob" style="margin-top:12px">
+   <div class="panel"><h3 style="font-size:20px;margin-bottom:8px">${owner?'You':'Your callsign'}</h3>${me}
+    ${owner?'':`<h3 style="font-size:20px;margin:16px 0 8px">Your game</h3>${myCard}`}</div>
+   <div class="panel"><h3 style="font-size:20px;margin-bottom:8px">Open games</h3><div style="display:flex;flex-direction:column;gap:8px">${open.map(g=>{const s=g.us?'PRC':'US';return `<div class="gamecard"><div><div class="small">${esc((g.us||g.prc||{}).name||'Classmate')} is hosting</div><div class="small muted">${g.atos||2} ATO${(g.atos||2)>1?'s':''} · you play <b>${s}</b></div></div>${owner?`<button class="btn sm ghost" data-a="fbdel" data-g="${g.id}">Remove</button>`:`<button class="btn pri" data-a="fbjoin" data-g="${g.id}" data-s="${s}" ${mineG?'disabled':''}>Join as ${s}</button>`}</div>`}).join('')||'<p class="small muted">No open games. Host one, or wait for a classmate to.</p>'}</div>
+    <h3 style="font-size:18px;margin:16px 0 8px">Online now (${online.length})</h3><div class="peerlist">${online.map(m=>`<span class="pill">${esc(m.name||'Classmate')}${m.flight?' · '+esc(m.flight):''}${m.id===FB.uid?' (you)':''}</span>`).join('')||'<span class="small muted">Nobody else yet.</span>'}</div></div>
+  </div>
+  <div class="panel" style="margin-top:12px"><h3 style="font-size:20px;margin-bottom:8px">${owner?'All games in this class':'Games in progress'} (${live.length})</h3>
+   ${live.length?`<div class="tbwrap"><table class="tb fb-games"><thead><tr><th>Players</th><th>Status</th><th></th></tr></thead><tbody>${live.map(g=>`<tr><td>${names(g)}</td><td class="small">${esc(fbStatus(g))}</td><td style="text-align:right;white-space:nowrap">${seat(g)?`<button class="btn sm pri" data-a="fbplay" data-g="${g.id}">Play</button>`:`<button class="btn sm" data-a="fbwatch" data-g="${g.id}">Watch</button>`}${owner?` <button class="btn sm ghost" data-a="fbdel" data-g="${g.id}" aria-label="Remove this game">✕</button>`:''}</td></tr>`).join('')}</tbody></table></div>`:'<p class="small muted">No games running yet.</p>'}
+   ${owner?`<p class="small muted" style="margin-top:8px">Watching shows the whole board with every token face up. Final scores appear here as games finish.</p>`:''}
+  </div>`;
+ }
+ app.innerHTML=`<div class="screen"><div class="wrap"><div class="row" style="justify-content:space-between;margin-bottom:12px"><button class="btn" data-a="go" data-s="home">← Menu</button><h2 style="font-size:28px">Class lobby</h2>${conn}</div>${warn}${body}</div></div>`;
+ const nm=document.getElementById('nName'),fl=document.getElementById('nFl');
+ const save=()=>{NET.name=nm.value.trim();NET.flight=fl.value;try{localStorage.setItem('ocs-me',JSON.stringify({name:NET.name,flight:NET.flight}))}catch(e){}if(FB.cls&&FB.api)FB.api.update(fbPath('members',FB.uid),{name:(NET.name||'Officer Trainee').slice(0,30),flight:String(NET.flight||'')}).catch(()=>{})};
+ if(nm){nm.onchange=save;fl.onchange=save}
+}
+function fbNeedName(){const nm=document.getElementById('nName');const v=nm?nm.value.trim():NET.name;if(!v){toast('Enter your name first.');if(nm)nm.focus();return false}NET.name=v;try{localStorage.setItem('ocs-me',JSON.stringify({name:NET.name,flight:NET.flight}))}catch(e){}return true}
+H.fbretry=()=>{if(FB.api&&FB.cls){const c=FB.cls;FB.err=null;fbUnsubAll();FB.cls=null;fbEnterClass(c,true).then(()=>render());render();return}FB.pending=null;FB.ready=false;FB.err=null;render();fbInit()};
+H.fbjoincls=async()=>{if(!fbNeedName())return;const c=(document.getElementById('clsIn').value||'').trim().toUpperCase();fbSave({lastCls:c});if(await fbEnterClass(c))render()};
+H.fbnewcls=async()=>{
+ const nm=document.getElementById('nName');NET.name=(nm&&nm.value.trim())||NET.name||'Instructor';
+ let code=null;for(let i=0;i<6;i++){const c=fbCode();const ex=await FB.api.get('classes/'+c+'/meta').catch(()=>null);if(!ex){code=c;break}}
+ if(!code){toast('Could not create a class code. Try again.');return}
+ const name=(document.getElementById('clsName').value||'').trim().slice(0,40);
+ try{await FB.api.set('classes/'+code+'/meta',{owner:FB.uid,name,created:FB.api.now()})}catch(e){toast(fbErrText('Could not start the class',e),8000);return}
+ fbSave({lastCls:code,owner:code});await fbEnterClass(code);render();
+};
+H.fbexit=()=>{fbUnsubAll();if(FB.cls&&FB.api)FB.api.update(fbPath('members',FB.uid),{on:false}).catch(()=>{});FB.cls=null;FB.meta=null;FB.games={};FB.members={};fbSave({cls:null});render()};
+H.fbcopy=()=>{const url=location.href.split('?')[0].split('#')[0];const txt=`Join our Crimson Scorpion class: open ${url}, tap Class lobby, and enter code ${FB.cls}`;
+ try{if(navigator.share){navigator.share({title:'Crimson Scorpion class',text:txt}).catch(()=>{});return}}catch(e){}
+ try{navigator.clipboard.writeText(txt).then(()=>toast('Invite copied.'),()=>toast(esc(txt),6000))}catch(e){toast(esc(txt),6000)}};
+H.fbhost=async()=>{
+ if(!fbNeedName())return;const side=document.getElementById('hSide').value,atos=+document.getElementById('hAtoN').value;
+ const gid=fbCode(6);const seat={uid:FB.uid,name:NET.name.slice(0,30)};
+ const g={host:FB.uid,atos,created:FB.api.now(),started:false};g[side==='US'?'us':'prc']=seat;
+ try{await FB.api.set(fbPath('games',gid),g)}catch(e){toast(fbErrText('Could not host',e),8000);return}
+ fbOpenGame(gid,side,false);SCREEN='lobby';render();
+};
+H.fbjoin=async d=>{
+ if(!fbNeedName())return;const gid=d.g,side=d.s;
+ try{await FB.api.claim(fbPath('games',gid,side==='US'?'us':'prc'),{uid:FB.uid,name:NET.name.slice(0,30)})}
+ catch(e){toast('Someone else just took that seat.');return}
+ fbOpenGame(gid,side,false);toast('Joined. The game starts in a moment.');
+};
+H.fbplay=d=>{const g=FB.games[d.g];if(!g)return;const side=g.us&&g.us.uid===FB.uid?'US':'PRC';if(FB.gid!==d.g)fbOpenGame(d.g,side,false);else if(G&&G.mode==='net'&&G.netCode===d.g){afterChange(false)}else render()};
+H.fbwatch=d=>{G=null;fbOpenGame(d.g,null,true);toast('Watching. Every token is shown face up.')};
+H.fbcancel=async d=>{const g=FB.games[d.g];if(!g)return;
+ if(!g.started&&g.host===FB.uid){await FB.api.remove(fbPath('games',d.g)).catch(()=>{})}
+ fbLeaveGame();if(G&&G.mode==='net')G=null;render()};
+H.fbdel=async d=>{if(!fbIsOwner())return;await FB.api.remove(fbPath('games',d.g)).catch(e=>toast(esc(e.code||e.message)));FB.api.remove(fbPath('states',d.g)).catch(()=>{})};
+/* rejoin on load: if this browser was in a game, reopen it when the lobby connects */
+const fbEnterBase=fbEnterClass;
+fbEnterClass=async function(code,quiet){const ok=await fbEnterBase(code,quiet);if(ok){try{const s=JSON.parse(FBLS().getItem('ocs-fb')||'{}');if(s.gid&&!FB.gid)setTimeout(()=>{const g=FB.games[s.gid];if(g&&((g.us&&g.us.uid===FB.uid)||(g.prc&&g.prc.uid===FB.uid)))fbOpenGame(s.gid,s.side,false)},800)}catch(e){}}return ok};
+/* a watcher leaving the game screen goes back to the lobby */
+const quitBaseFB=H.quit;
+H.quit=function(){if(NET.watch){closeModal();fbLeaveGame();G=null;SCREEN='lobby';render();return}if(NET.fb){closeModal();SCREEN='lobby';G=null;fbLeaveGame();render();return}quitBaseFB()};
 
 /* =====================================================================
    P5 · SCREENS, TURN CODES, OFFLINE COPY, MOTION, BOOT
