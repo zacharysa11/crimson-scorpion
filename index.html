@@ -2639,7 +2639,7 @@ function inspectorHTML(){
    btn=`<button class="btn ${can?'pri':''}" data-a="activate" data-id="${q.id}" ${can?'':'disabled'}>Activate (ends turn)</button>${why?`<p class="why">${esc(why)}</p>`:`<p class="why">Generates ${genLine(q.k)}.${q.b==='cl'&&q.lim==null?(clMax(q)?' Contingency Location: maximum aircraft, no roll.':' Contingency Location: roll 1d4 to see how many tokens can fly this ATO.'):''}</p>`}`}
   return `<div class="sec insp"><h4><span class="lbl">Squadron card</span></h4>${face?sqCardHTML(q):'<div class="sqc"><div class="hd">Face-down squadron card</div><div class="bd">Unknown unit. Two hits destroy it, along with any tokens resting on it.</div></div>'}${btn}</div>`}}
  if(UI.sel!=null){const t=tok(UI.sel);if(t&&t.l!=='dead'){const U=UNITS[t.u];const v=viewSide();
-  if(!tokFaceVisible(t))return `<div class="sec insp"><h4><span class="lbl">Unidentified ${t.s} token</span></h4><div class="tokback-big ${t.s}">Roll to acquire${d4svg(U.need)}</div><p class="small muted">Acquire it with one of your tokens in range: roll ${U.need}+ on 1d4 (plus any bonus). Acquired tokens stay face up for the rest of the ATO.</p></div>`;
+  if(!tokFaceVisible(t))return `<div class="sec insp"><h4><span class="lbl">Unidentified ${t.s} token</span></h4><div class="tokback-big ${t.s}">Roll to acquire${d4svg(U.need)}</div><p class="small muted">Acquire it with one of your tokens in range: roll ${U.need}+ on 1d4 (plus any bonus). Acquired tokens stay face up for the rest of the ATO.</p>${typeof backNote==='function'&&backNote(t)?`<p class="small"><b>${esc(backNote(t))}</b></p>`:''}</div>`;
   let acts='';
   if(t.s===v&&mine){
    const mv=!G.act.mv&&moveOptions(t).length&&!(G.act.actv&&!G.act.hot);const aq=canAcquireWith(t)&&acqTargets(t).length&&!(G.act.actv&&!G.act.hot);
@@ -2842,7 +2842,7 @@ function popHTML(){
  }
  const v=viewSide();
  if(UI.sel!=null){const t=tok(UI.sel);if(!t||t.l==='dead')return '';const U=UNITS[t.u];
-  if(!tokFaceVisible(t))return `<div class="ph"><span>Unidentified ${t.s} token</span><button class="x" data-a="desel" aria-label="Close">✕</button></div><div class="pm">Acquire it first: needs ${U.need}+ on 1d4.</div>`;
+  if(!tokFaceVisible(t))return `<div class="ph"><span>Unidentified ${t.s} token</span><button class="x" data-a="desel" aria-label="Close">✕</button></div><div class="pm">${typeof backNote==='function'&&backNote(t)?esc(backNote(t))+' ':''}Acquire it first: needs ${U.need}+ on 1d4.</div>`;
   if(t.s!==v||!mine)return `<div class="ph"><span>${t.s} ${esc(U.nm)}</span><button class="x" data-a="desel" aria-label="Close">✕</button></div><div class="pm">${t.a?'Acquired':'Unacquired'}${t.w?' · Winchester':''}</div><button class="btn sm" data-a="info">Details</button>`;
   const lock=G.act.actv&&!G.act.hot;
   const mvN=moveOptions(t).length,aqN=acqTargets(t).length,airN=shotTargets(t,'air').length,srfN=shotTargets(t,'srf').length;
@@ -3696,7 +3696,7 @@ function boardHTML(){
  let h=`<div class="board v-${v}${UI.threat?' threat-on':''}" id="board">`+homeHTML(top,'top',T)+`<div class="bands">${ISLE}`;
  for(const r of rows){const ts=G.toks.filter(t=>t.l==='sky'&&t.z==='b'&&t.r===r).sort((a,b)=>a.s.localeCompare(b.s));const hl=T.rows.has(r);
   const th=UI.threat&&G.phase==='play'?threatView(v,r):0;
-  const ec=G.toks.some(e=>e.l==='sky'&&e.z==='b'&&e.r===r&&UNITS[e.u].ew&&tokFaceVisible(e));
+  const ec=G.toks.some(e=>e.l==='sky'&&e.z==='b'&&e.r===r&&UNITS[e.u].ew);
   h+=`<div class="band${hl?' hl':''}${UI.rng[r]||''}${ec?' ec':''}" ${hl?`data-a="row" data-r="${r}" data-z="b" role="button" tabindex="0" aria-label="Band ${rowBand(v,r)}"`:''} data-row="${r}" ${th?`style="--th:${Math.min(.55,.14*th)}"`:''}><span class="bn flip ${top}" title="${top} band">${rowBand(top,r)}</span><div class="toks">${ts.map(t=>tokenHTML(t,T.toks.has(t.id)?' tgt':'')).join('')}</div><span class="bn ${v}" title="${v} band">${rowBand(v,r)}</span>${th?`<span class="thr" title="Enemy fighters that could shoot here next turn">⚠ ${th}</span>`:''}${ec?'<span class="ecb" title="EC-130 jamming: PRC attacks in this band roll at disadvantage">EC-130 · PRC lo</span>':''}</div>`}
  h+=`</div>`+homeHTML(v,'bot',T)+`</div>`;return h;
 }
@@ -3748,7 +3748,7 @@ boardHTML=function(){
  let bands='';
  for(const r of [5,4,3,2,1]){const ts=G.toks.filter(t=>t.l==='sky'&&t.z==='b'&&t.r===r).sort((a,b)=>a.s.localeCompare(b.s));const hl=T.rows.has(r);
   const th=UI.threat&&G.phase==='play'?threatView(v,r):0;
-  const ec=G.toks.some(e=>e.l==='sky'&&e.z==='b'&&e.r===r&&UNITS[e.u].ew&&tokFaceVisible(e));
+  const ec=G.toks.some(e=>e.l==='sky'&&e.z==='b'&&e.r===r&&UNITS[e.u].ew);
   bands+=`<div class="band pband${hl?' hl':''}${UI.rng[r]||''}${ec?' ec':''}" style="${bPos(BPH.band(r),BPH.bands,v)}" ${hl?`data-a="row" data-r="${r}" data-z="b" role="button" tabindex="0"`:''} aria-label="${v} band ${rowBand(v,r)}, ${top} band ${rowBand(top,r)}" data-row="${r}" ${th?`data-th="${th}"`:''}><span class="bn sr">${rowBand(v,r)}</span><div class="toks">${ts.map(t=>tokenHTML(t,T.toks.has(t.id)?' tgt':'')).join('')}</div>${th?`<span class="thr" title="Enemy fighters that could shoot here next turn">⚠ ${th}</span>`:''}${ec?'<span class="ecb" title="EC-130 jamming: PRC attacks in this band roll at disadvantage">EC-130 · PRC lo</span>':''}</div>`}
  h+=`<div class="bands pbands" style="${bPos(BPH.bands,null,v)}">${bands}</div>`;
  h+=homeHTMLPhoto(v,'bot',T,v)+`</div>`;return h;
@@ -4237,16 +4237,21 @@ const TOKSALVO={ddg115:[[21.26,79.17,5.26,10.83],[81.68,62.92,5.26,11.25],[89.68
  d052:[[24.06,77.08,5.44,10.83],[84.31,60.42,5.23,11.25],[92.26,60.42,4.6,11.25],[84.31,76.67,5.23,11.25],[92.26,76.67,4.6,11.25]],
  cg055:[[19.49,78.33,5.78,11.25],[82.66,61.25,5.57,10.83],[91.01,61.25,5.35,10.83],[82.66,77.5,5.57,10.83],[90.79,77.5,5.57,10.83]],
  mbf:[[19.13,75.42,5.41,11.25]]};
+/* the EC-130 has its own back: its jamming is printed on it, so the PRC can see it before acquiring it */
+const TOKBACK={ec130:'back_US_ec130'};
+function tokBackSrc(t){const U=UNITS[t.u];return `${CARD_DIR}tok/${TOKBACK[t.u]||`back_${t.s}_${U.need}${U.cls==='naval'?'w':''}`}.webp`}
+function backNote(t){return t.u==='ec130'?'EC-130 Compass Call (its back shows it): PRC attacks in this band roll at disadvantage.':''}
 const tokenHTMLDrawn=tokenHTML;
 tokenHTML=function(t,cls=''){
  const drawn=tokenHTMLDrawn(t,cls);if(UI.drawnTok)return drawn;
  const U=UNITS[t.u];const face=tokFaceVisible(t);const wide=U.cls==='naval';
- const src=face?`${CARD_DIR}tok/${TOKIMG[t.u]||t.u}.webp`:`${CARD_DIR}tok/back_${t.s}_${U.need}${wide?'w':''}.webp`;
+ const src=face?`${CARD_DIR}tok/${TOKIMG[t.u]||t.u}.webp`:tokBackSrc(t);
  let marks='';
  if(face&&TOKSALVO[t.u]){const B=TOKSALVO[t.u];const used=[t.ss>=1,...[0,1,2,3].map(i=>i<t.sa)];marks=B.map((b,i)=>used[i]?`<i class="tsv" style="left:${b[0]}%;top:${b[1]}%;width:${b[2]}%;height:${b[3]}%"></i>`:'').join('')}
  /* reuse the drawn token's button, swap its inside for the photo */
  return drawn.replace(/^<button class="tok /,'<button class="tok ptok'+(wide?' wide':'')+' ').replace(/(<button[^>]*>)([\s\S]*)(<\/button>)$/,(m,a,inner,c)=>{
   const keep=(inner.match(/<span class="acq">[\s\S]*?<\/span>|<span class="win"[^>]*><\/span>|<span class="grnd"><\/span>|<span class="odds">[\s\S]*?<\/span>/g)||[]).join('');
+  if(!face&&backNote(t))a=a.replace(/aria-label="[^"]*"/,`aria-label="Face-down ${t.s} token. ${backNote(t)} Roll ${U.need}+ to acquire."`);
   return `${a}<img class="timg" src="${src}" alt="" decoding="async" draggable="false" onerror="UI.drawnTok=1;render()">${marks}${keep}${c}`});
 };
 
@@ -4803,6 +4808,7 @@ function fbIsOwner(){return !!(FB.meta&&FB.meta.owner===FB.uid)}
 /* the host starts the game once the second seat fills */
 function fbOnGames(){
  if(!FB.gid||FB.watch)return;const gm=FB.games[FB.gid];if(!gm){if(NET.fbGame){toast('This game was closed.');fbLeaveGame();if(SCREEN!=='home'){SCREEN='lobby';render()}}return}
+ if(gm.left){if(gm.left.uid!==FB.uid&&NET.fbGame){toast(`${esc(gm.left.name||gm.left.side)} left the game. You can join or host another one.`,5000);fbLeaveGame();if(G&&G.mode==='net')G=null;if(SCREEN!=='home'){SCREEN='lobby';render()}}return}
  const mine=gm.us&&gm.us.uid===FB.uid?'US':gm.prc&&gm.prc.uid===FB.uid?'PRC':null;
  if(mine&&gm.host===FB.uid&&gm.us&&gm.prc&&!gm.started&&!(G&&G.mode==='net'&&G.netCode===FB.gid)){
   FB.api.update(fbPath('games',FB.gid),{started:true}).catch(()=>{});
@@ -4852,6 +4858,7 @@ renderLobby=function(){
  renderFBLobby();
 };
 function fbStatus(gm){
+ if(gm.left)return `Ended · ${gm.left.name||gm.left.side} left the game`;
  if(gm.winner)return `Finished · ${gm.winner==='TIE'?'draw':gm.winner+' wins'}${gm.score?` · US ${gm.score.US} – PRC ${gm.score.PRC}`:''}`;
  if(!gm.started)return gm.us&&gm.prc?'Starting…':'Waiting for an opponent';
  const ph={setup:'Setting up',init:'Bidding for initiative',choose:'Choosing who goes first',intel:'Intel',play:'In play',atoEnd:'End of ATO',over:'Finished'}[gm.st]||'In play';
@@ -4876,9 +4883,9 @@ function renderFBLobby(){
     <div class="row" style="margin-top:10px"><button class="btn" data-a="fbnewcls" ${FB.api?'':'disabled'}>Start a class</button></div></div></div>`;
  }else{
   const gs=Object.entries(FB.games||{}).map(([id,g])=>Object.assign({id},g)).sort((a,b)=>(b.created||0)-(a.created||0));
-  const mineG=gs.find(g=>(g.us&&g.us.uid===FB.uid)||(g.prc&&g.prc.uid===FB.uid));
-  const open=gs.filter(g=>!g.started&&!(g.us&&g.prc)&&g!==mineG);
-  const live=gs.filter(g=>g.started||(g.us&&g.prc));
+  const mineG=gs.find(g=>((g.us&&g.us.uid===FB.uid)||(g.prc&&g.prc.uid===FB.uid))&&!g.winner&&!g.left);
+  const open=gs.filter(g=>!g.started&&!g.left&&!(g.us&&g.prc)&&g!==mineG);
+  const live=gs.filter(g=>g.started||g.left||(g.us&&g.prc));
   const mem=Object.entries(FB.members||{}).map(([id,m])=>Object.assign({id},m));
   const online=mem.filter(m=>m.on);
   const owner=fbIsOwner();
@@ -4894,7 +4901,7 @@ function renderFBLobby(){
     <h3 style="font-size:18px;margin:16px 0 8px">Online now (${online.length})</h3><div class="peerlist">${online.map(m=>`<span class="pill">${esc(m.name||'Classmate')}${m.flight?' · '+esc(m.flight):''}${m.id===FB.uid?' (you)':''}</span>`).join('')||'<span class="small muted">Nobody else yet.</span>'}</div></div>
   </div>
   <div class="panel" style="margin-top:12px"><h3 style="font-size:20px;margin-bottom:8px">${owner?'All games in this class':'Games in progress'} (${live.length})</h3>
-   ${live.length?`<div class="tbwrap"><table class="tb fb-games"><thead><tr><th>Players</th><th>Status</th><th></th></tr></thead><tbody>${live.map(g=>`<tr><td>${names(g)}</td><td class="small">${esc(fbStatus(g))}</td><td style="text-align:right;white-space:nowrap">${seat(g)?`<button class="btn sm pri" data-a="fbplay" data-g="${g.id}">Play</button>`:`<button class="btn sm" data-a="fbwatch" data-g="${g.id}">Watch</button>`}${owner?` <button class="btn sm ghost" data-a="fbdel" data-g="${g.id}" aria-label="Remove this game">✕</button>`:''}</td></tr>`).join('')}</tbody></table></div>`:'<p class="small muted">No games running yet.</p>'}
+   ${live.length?`<div class="tbwrap"><table class="tb fb-games"><thead><tr><th>Players</th><th>Status</th><th></th></tr></thead><tbody>${live.map(g=>`<tr><td>${names(g)}</td><td class="small">${esc(fbStatus(g))}</td><td style="text-align:right;white-space:nowrap">${g.left?'':seat(g)?`<button class="btn sm pri" data-a="fbplay" data-g="${g.id}">${g.winner?'Results':'Play'}</button>`:`<button class="btn sm" data-a="fbwatch" data-g="${g.id}">Watch</button>`}${owner?` <button class="btn sm ghost" data-a="fbdel" data-g="${g.id}" aria-label="Remove this game">✕</button>`:''}</td></tr>`).join('')}</tbody></table></div>`:'<p class="small muted">No games running yet.</p>'}
    ${owner?`<p class="small muted" style="margin-top:8px">Watching shows the whole board with every token face up. Final scores appear here as games finish.</p>`:''}
   </div>`;
  }
@@ -4934,12 +4941,20 @@ H.fbjoin=async d=>{
 H.fbplay=d=>{const g=FB.games[d.g];if(!g)return;const side=g.us&&g.us.uid===FB.uid?'US':'PRC';if(FB.gid!==d.g)fbOpenGame(d.g,side,false);else if(G&&G.mode==='net'&&G.netCode===d.g){afterChange(false)}else render()};
 H.fbwatch=d=>{G=null;fbOpenGame(d.g,null,true);toast('Watching. Every token is shown face up.')};
 H.fbcancel=async d=>{const g=FB.games[d.g];if(!g)return;
+ const side=g.us&&g.us.uid===FB.uid?'us':g.prc&&g.prc.uid===FB.uid?'prc':null;
  if(!g.started&&g.host===FB.uid){await FB.api.remove(fbPath('games',d.g)).catch(()=>{})}
- fbLeaveGame();if(G&&G.mode==='net')G=null;render()};
+ else if(!g.started&&side){await FB.api.remove(fbPath('games',d.g,side)).catch(()=>{})}
+ else if(g.started&&side&&!g.winner&&!g.left){
+  const other=side==='us'?g.prc:g.us;
+  const yes=await confirmBox('Leave this game?',`This ends the game for both of you${other&&other.name?` (${esc(other.name)} goes back to the lobby)`:''}. You can then join or host another game.<br><br>To step away and come back later instead, use <b>Menu</b> and tap <b>Play</b> in the lobby when you return.`,'Leave the game','Stay');
+  if(!yes)return;
+  await FB.api.update(fbPath('games',d.g),{left:{uid:FB.uid,name:(NET.name||side.toUpperCase()).slice(0,30),side:side.toUpperCase()},st:'left',upd:FB.api.now()}).catch(e=>toast(fbErrText('Could not leave',e),6000));
+ }
+ fbLeaveGame();if(G&&G.mode==='net')G=null;SCREEN='lobby';render()};
 H.fbdel=async d=>{if(!fbIsOwner())return;await FB.api.remove(fbPath('games',d.g)).catch(e=>toast(esc(e.code||e.message)));FB.api.remove(fbPath('states',d.g)).catch(()=>{})};
 /* rejoin on load: if this browser was in a game, reopen it when the lobby connects */
 const fbEnterBase=fbEnterClass;
-fbEnterClass=async function(code,quiet){const ok=await fbEnterBase(code,quiet);if(ok){try{const s=JSON.parse(FBLS().getItem('ocs-fb')||'{}');if(s.gid&&!FB.gid)setTimeout(()=>{const g=FB.games[s.gid];if(g&&((g.us&&g.us.uid===FB.uid)||(g.prc&&g.prc.uid===FB.uid)))fbOpenGame(s.gid,s.side,false)},800)}catch(e){}}return ok};
+fbEnterClass=async function(code,quiet){const ok=await fbEnterBase(code,quiet);if(ok){try{const s=JSON.parse(FBLS().getItem('ocs-fb')||'{}');if(s.gid&&!FB.gid)setTimeout(()=>{const g=FB.games[s.gid];if(g&&!g.left&&((g.us&&g.us.uid===FB.uid)||(g.prc&&g.prc.uid===FB.uid)))fbOpenGame(s.gid,s.side,false)},800)}catch(e){}}return ok};
 /* a watcher leaving the game screen goes back to the lobby */
 const quitBaseFB=H.quit;
 H.quit=function(){if(NET.watch){closeModal();fbLeaveGame();G=null;SCREEN='lobby';render();return}if(NET.fb){closeModal();SCREEN='lobby';G=null;fbLeaveGame();render();return}quitBaseFB()};
@@ -5658,7 +5673,7 @@ function contrail(a,b,dur,ship){
 }
 function flipReveal(el){
  const t=tok(+el.dataset.id);if(!t||!el.animate)return;const U=UNITS[t.u];
- const bk=document.createElement('img');bk.className='tflip-bk';bk.alt='';bk.onerror=()=>bk.remove();bk.src=`${CARD_DIR}tok/back_${t.s}_${U.need}${U.cls==='naval'?'w':''}.webp`;el.appendChild(bk);
+ const bk=document.createElement('img');bk.className='tflip-bk';bk.alt='';bk.onerror=()=>bk.remove();bk.src=tokBackSrc(t);el.appendChild(bk);
  setTimeout(()=>play('flip'),spd(120));
  el.animate([{transform:'perspective(420px) rotateY(0deg) scale(1)'},{transform:'perspective(420px) rotateY(90deg) scale(1.3)'}],{duration:spd(260),delay:spd(120),easing:'ease-in',fill:'backwards'}).finished
   .then(()=>{bk.remove();el.classList.add('glint');return el.animate([{transform:'perspective(420px) rotateY(-90deg) scale(1.3)'},{transform:'perspective(420px) rotateY(0deg) scale(1)'}],{duration:spd(460),easing:'cubic-bezier(.2,1.5,.4,1)'}).finished})
