@@ -10,8 +10,11 @@ Works on phones and laptops, no sign-in needed:
 - Play the computer (three difficulty levels, with a coach). The computer plays to its mission, weighs what your hidden mission is likely to be from what you do, and picks missions and postures the way strong players do
 - **Class lobby:** an instructor starts a class and shares a five-letter code; students join from their own phones, host or join games, and play live. The instructor sees every game's status and final score and can watch any game with all tokens face up
 - Play a classmate by turn code or pass and play
-- Sound effects and short battle animations: missile flights, explosions, radar lock-ons and missile-defense intercepts (volume in the menu)
-- **After-action review:** a VP-over-time chart, a replay of the whole game you can scrub turn by turn, the key moments, a debrief and battle statistics; print it or save it as a PDF
+- Cinematic battle effects: 3D dice that tumble and land, tokens that flip over when acquired, cards that fill the screen when played (response cards cut in), missile salvos with radar-guided interceptors, aircraft that break apart and leave burn marks, airbases that crack and burn until repaired, camera moves on big strikes, turn and ATO banners, and an end-of-game reveal where both mission cards flip and the scores tally
+- Distinct looks for cyber (code rain, cards locked out), electronic warfare (static and jamming) and space (satellite passes, links severed)
+- A living board: aircraft hover, ships rock, clouds drift, and the second ATO plays at dusk
+- Motion setting in the menu: Cinematic, Standard, or Fast for class; follows the device's Reduce Motion setting. Synthesized sound with a volume control
+- **After-action review:** a VP-over-time chart, a replay of the whole game you can scrub turn by turn (stepping forward replays the shots), the key moments, a debrief and battle statistics; print it or save it as a PDF
 - On-screen d4 dice, or enter your real dice
 - On phones, a card tray (Squadrons / Enablers buttons) shows your cards without covering the board
 - Full rules reference and every card and token from the real box: per side 5 missions, 5 postures, 10 squadrons and 34 enablers, with 34 US and 33 PRC tokens
