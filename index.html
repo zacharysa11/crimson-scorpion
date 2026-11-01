@@ -1199,6 +1199,7 @@ body{overflow-x:clip}
 .mc-body select,.mc-body input{max-width:100%;box-sizing:border-box}
 .mc-body .tb{width:100%}
 @media (max-width:560px){.mc-auth th{font-size:11px;padding:4px 2px}.mc-auth td{padding:4px 2px}.mc-auth td:first-child{font-size:13px}.mc-org td,.mc-org th{padding:4px 3px;font-size:13px}.mc-step{font-size:13px}}
+.mc-dq{z-index:95}
 </style>
 
 <div id="app"></div>
@@ -4407,7 +4408,8 @@ rattle=function(n=1){for(let i=0;i<3+n*2;i++)setTimeout(()=>play('clack'),i*55+M
 
 /* ---------------- visual effects ---------------- */
 function fxLayer(){let l=document.getElementById('fxl');if(!l){l=document.createElement('div');l.id='fxl';l.setAttribute('aria-hidden','true');document.body.appendChild(l)}return l}
-function fxQuick(){return RM||UI.speed<0.3}
+function fxQuick(){return RM||UI.speed<0.3||document.hidden}
+let LITE_=null;function LITE(){if(LITE_===null){try{LITE_=matchMedia('(pointer:coarse)').matches||innerWidth<=980}catch(e){LITE_=false}}return LITE_}
 function tokRect(id){return elRect(`.board .tok[data-id="${id}"]`)||elRect(`.tok[data-id="${id}"]`)}
 function zoneRect(z){return elRect(`[data-zone="${z}"]`)}
 function tkSize(){const b=document.getElementById('board');const v=b?parseFloat(getComputedStyle(b).getPropertyValue('--tk')):40;return isFinite(v)?v:40}
@@ -4430,7 +4432,7 @@ function missile(a,b,o={}){
   const step=now=>{const k=Math.min(1,(now-t0)/dur);const t=(k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2)*stop;const p=P(t),d=D(t);const ang=Math.atan2(d.y,d.x)*180/Math.PI;
    m.style.transform=`translate(${p.x-20}px,${p.y-7}px) rotate(${ang}deg) scale(${sc})`;
    pts.push(`${p.x.toFixed(1)},${p.y.toFixed(1)}`);if(pts.length>34)pts.shift();pl.setAttribute('points',pts.join(' '));
-   if(now-lastPuff>45){lastPuff=now;const s=spawn('fx-puff',p.x,p.y);anim(s,[{transform:'translate(-50%,-50%) scale(.4)',opacity:.55},{transform:'translate(-50%,-50%) scale(1.8)',opacity:0}],{duration:spd(900),easing:'ease-out'}).then(()=>s.remove())}
+   if(now-lastPuff>(LITE()?120:45)){lastPuff=now;const s=spawn('fx-puff',p.x,p.y);anim(s,[{transform:'translate(-50%,-50%) scale(.4)',opacity:.55},{transform:'translate(-50%,-50%) scale(1.8)',opacity:0}],{duration:spd(900),easing:'ease-out'}).then(()=>s.remove())}
    if(k<1)requestAnimationFrame(step);else{m.remove();anim(svg,[{opacity:1},{opacity:0}],{duration:spd(400)}).then(()=>svg.remove());res(p)}};
   requestAnimationFrame(step)});
 }
@@ -4443,9 +4445,9 @@ function explosion(p,size=1,o={}){
   anim(fire,[{transform:'translate(-50%,-50%) scale(.25)',opacity:1},{transform:'translate(-50%,-50%) scale(1.1)',opacity:1,offset:.35},{transform:'translate(-50%,-50%) scale(1.5)',opacity:0}],{duration:spd(720),easing:'ease-out'}),
   anim(ring,[{transform:'translate(-50%,-50%) scale(.2)',opacity:.9},{transform:'translate(-50%,-50%) scale(3.4)',opacity:0}],{duration:spd(600),easing:'cubic-bezier(.2,.7,.3,1)'})];
  if(!fxQuick()){
-  for(let i=0;i<Math.round(9*size);i++){const ang=Math.random()*Math.PI*2,r=(28+Math.random()*48)*s;const d=spawn('fx-debris',p.x,p.y,`background:${['#ffcf5a','#ff8a2a','#6b6b6b','#3b3b3b'][i%4]}`);
+  for(let i=0;i<Math.round((LITE()?4:9)*size);i++){const ang=Math.random()*Math.PI*2,r=(28+Math.random()*48)*s;const d=spawn('fx-debris',p.x,p.y,`background:${['#ffcf5a','#ff8a2a','#6b6b6b','#3b3b3b'][i%4]}`);
    jobs.push(anim(d,[{transform:'translate(-50%,-50%)',opacity:1},{transform:`translate(calc(-50% + ${Math.cos(ang)*r}px),calc(-50% + ${Math.sin(ang)*r+12*s}px)) rotate(${Math.random()*540}deg)`,opacity:0}],{duration:spd(650+Math.random()*350),easing:'cubic-bezier(.15,.6,.4,1)'}).then(()=>d.remove()))}
-  for(let i=0;i<3;i++){const k=spawn('fx-smoke',p.x+(i-1)*10*s,p.y,`width:${34*s}px;height:${34*s}px`);
+  for(let i=0;i<(LITE()?1:3);i++){const k=spawn('fx-smoke',p.x+(i-1)*10*s,p.y,`width:${34*s}px;height:${34*s}px`);
    jobs.push(anim(k,[{transform:'translate(-50%,-50%) scale(.3)',opacity:0},{transform:'translate(-50%,-60%) scale(1)',opacity:.55,offset:.25},{transform:`translate(-50%,${-90-30*i}%) scale(1.8)`,opacity:0}],{duration:spd(1300+i*150),easing:'ease-out',delay:spd(120)}).then(()=>k.remove()))}
   if(o.shake)shake(o.shake);
  }
@@ -5178,14 +5180,7 @@ function fallbackDl(html,fn){try{const url=URL.createObjectURL(new Blob([html],{
 
 /* ---- motion: tokens glide between bands and fly out of their squadron card ---- */
 const _renderGame=renderGame;
-renderGame=function(){
- const before={};document.querySelectorAll('.board [data-id]').forEach(el=>{const r=el.getBoundingClientRect();if(r.width)before[el.dataset.id]=r});
- _renderGame();
- if(RM||UI.speed<0.3||!G)return;
- document.querySelectorAll('.board [data-id]').forEach(el=>{let b=before[el.dataset.id];const t=tok(+el.dataset.id);
-  if(!b&&t&&t.q!=null)b=before[t.q];if(!b||!el.animate)return;const r=el.getBoundingClientRect();const dx=b.left-r.left,dy=b.top-r.top;if(Math.abs(dx)+Math.abs(dy)<2)return;
-  el.animate([{transform:`translate(${dx}px,${dy}px) scale(${before[el.dataset.id]?1:.6})`},{transform:'none'}],{duration:spd(420),easing:'cubic-bezier(.2,.75,.2,1)'})});
-};
+renderGame=function(){_renderGame()};
 /* ---- drag a token onto a band to move it ---- */
 let DRAG=null;
 document.addEventListener('pointerdown',e=>{
@@ -5266,7 +5261,7 @@ const MOTION_SPEED={cine:1,std:0.8,fast:0.45};
 UI.motion=(()=>{try{const m=localStorage.getItem('ocs-motion');if(m&&MOTION_SPEED[m])return m;const s=parseFloat(localStorage.getItem('ocs-speed')||'1');return s&&s<=0.5?'fast':'cine'}catch(e){return 'cine'}})();
 UI.speed=MOTION_SPEED[UI.motion];
 document.documentElement.dataset.motion=RM?'fast':UI.motion;
-function RICH(){return !RM&&UI.motion!=='fast'&&UI.speed>=0.3}
+function RICH(){return !RM&&UI.motion!=='fast'&&UI.speed>=0.3&&!document.hidden}
 function CINE(){return RICH()&&UI.motion==='cine'}
 function setMotion(m){if(!MOTION_SPEED[m])return;UI.motion=m;UI.speed=MOTION_SPEED[m];saveOpt('ocs-motion',m);saveOpt('ocs-speed',UI.speed);document.documentElement.dataset.motion=RM?'fast':m;if(SCREEN==='game')render()}
 const menuBaseP10=H.menu;
@@ -5309,7 +5304,7 @@ function ringAt(p,side,big){const r=spawn('cc-ring '+(side||''),p.x,p.y,`width:$
 
 /* ---------------- camera ---------------- */
 async function camIn(p,k=1.16){
- if(!CINE()||!p)return null;const b=boardEl();if(!b||!b.animate)return null;
+ if(!CINE()||!p||LITE()||fxBusyN()>1)return null;const b=boardEl();if(!b||!b.animate)return null;
  const r=b.getBoundingClientRect();if(!r.width)return null;
  const ox=Math.max(0,Math.min(100,(p.x-r.left)/r.width*100)),oy=Math.max(0,Math.min(100,(p.y-r.top)/r.height*100));
  b.style.transformOrigin=`${ox}% ${oy}%`;
@@ -5483,7 +5478,7 @@ function breakupAt(r,src,o={}){
   d.style.clipPath=i?'polygon(52% 0,100% 0,100% 100%,38% 100%,58% 62%,44% 34%)':'polygon(0 0,52% 0,44% 34%,58% 62%,38% 100%,0 100%)';
   const dir=i?1:-1;const W=r.width,Hh=r.height;
   anim(d,[{transform:'translate(0,0) rotate(0deg) scale(1)',opacity:1,filter:'brightness(1.4) saturate(1.2)'},{transform:`translate(${dir*W*.35}px,${Hh*.35}px) rotate(${dir*35}deg) scale(.9)`,opacity:1,filter:'brightness(.7) sepia(.5)',offset:.35},{transform:`translate(${dir*W*1.1}px,${Hh*2.4}px) rotate(${dir*220}deg) scale(.35)`,opacity:0,filter:'brightness(.25) sepia(1)'}],{duration:spd(1400),easing:'cubic-bezier(.45,0,.85,.55)'}).then(()=>d.remove());
-  let k=0;const iv=setInterval(()=>{if(!d.isConnected||k++>16){clearInterval(iv);return}const q=d.getBoundingClientRect();if(!q.width)return;const s=spawn('fx-smoke kb-smk',q.left+q.width/2,q.top+q.height/2,`width:${16+k}px;height:${16+k}px`);anim(s,[{transform:'translate(-50%,-50%) scale(.5)',opacity:.7},{transform:'translate(-50%,-80%) scale(1.8)',opacity:0}],{duration:spd(900),easing:'ease-out'}).then(()=>s.remove())},spd(70))});
+  let k=LITE()?99:0;const iv=setInterval(()=>{if(!d.isConnected||k++>16){clearInterval(iv);return}const q=d.getBoundingClientRect();if(!q.width)return;const s=spawn('fx-smoke kb-smk',q.left+q.width/2,q.top+q.height/2,`width:${16+k}px;height:${16+k}px`);anim(s,[{transform:'translate(-50%,-50%) scale(.5)',opacity:.7},{transform:'translate(-50%,-80%) scale(1.8)',opacity:0}],{duration:spd(900),easing:'ease-out'}).then(()=>s.remove())},spd(70))});
 }
 function killToken(id,o={}){const el=tokEl(id);if(!el)return;const r=el.getBoundingClientRect();const img=el.querySelector('.timg');UI.fxKilled.add(+id);el.style.visibility='hidden';breakupAt(r,img&&img.src,o)}
 /* burn marks, stored per game and ATO in US orientation */
@@ -6361,6 +6356,30 @@ save=function(){
   setTimeout(()=>toast(g.mc?'Back on the ops floor: your Mission Commander game was restored.':'Your game was restored where you left off.',3500),400);
  }catch(e){}
 })();
+
+/* =====================================================================
+   p12: FX GOVERNOR. Keeps effects one-at-a-time and inside a budget so the
+   page stays smooth and phones don't run out of graphics memory.
+   - battle cinematics play strictly in order (no two dice/strike sequences overlap)
+   - fire-and-forget particles are capped; extra ones are simply skipped
+   - nothing animates while the tab is hidden
+   ===================================================================== */
+UI.fxBusy=0;
+function fxBusyN(){return UI.fxBusy||0}
+function fxBudget(){return LITE()?26:80}
+function fxRoom(){const l=document.getElementById('fxl');return !document.hidden&&(!l||l.childElementCount<fxBudget())}
+const spawnBaseGV=spawn;
+spawn=function(cls,x,y,css){if(fxRoom())return spawnBaseGV(cls,x,y,css);const d=document.createElement('div');d.className=cls;return d};
+const contrailBaseGV=contrail;
+contrail=function(a,b,dur,ship){if(!fxRoom()||(LITE()&&fxBusyN()))return;return contrailBaseGV(a,b,dur,ship)};
+const radarConeBaseGV=radarCone;
+radarCone=function(from,toward,dur){if(!fxRoom())return;return radarConeBaseGV(from,toward,dur)};
+/* one cinematic at a time: queue calls instead of overlapping them */
+let FXQ=Promise.resolve();
+const playNewFxBaseGV=playNewFx;
+playNewFx=function(){const run=FXQ.then(async()=>{UI.fxBusy++;try{await playNewFxBaseGV()}catch(e){console.error(e)}finally{UI.fxBusy--}});FXQ=run.catch(()=>{});return run};
+/* a returning tab should not replay a backlog of effects */
+document.addEventListener('visibilitychange',()=>{if(document.hidden){const l=document.getElementById('fxl');if(l)l.innerHTML=''}else if(G&&typeof UI.fxSeen==='number'&&G.fxn!=null&&fxBusyN()===0){UI.fxSeen=G.fxn}});
 
 </script>
 
