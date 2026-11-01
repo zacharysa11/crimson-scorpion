@@ -1185,6 +1185,20 @@ body{overflow-x:clip}
 
 .mc-strip{display:none}
 @media (max-width:980px){#game.mc .center{flex-direction:column;align-items:center;justify-content:flex-start;gap:4px}.mc-strip{display:flex;gap:6px;width:100%;justify-content:space-around;padding:2px 4px}.mc-strip span{display:flex;flex-direction:column;align-items:center;font-size:11px;line-height:1.1;border-left:3px solid var(--ok);padding-left:5px}.mc-strip span small{color:var(--mute);font-size:10px}.mc-strip span.amber{border-color:var(--amber)}.mc-strip span.red{border-color:var(--bad)}}
+.screen .sticky-confirm{z-index:20;position:sticky}
+/* phones: keep the living board but drop the costly layers (blend modes, blur filters, repainting backgrounds) that make mobile browsers reload the page */
+@media (pointer:coarse),(max-width:980px){
+ .cine-water{animation:none;mix-blend-mode:normal;opacity:.08}
+ .cine-cloud{filter:none;will-change:auto;opacity:.22}
+ .cine-fire{filter:none;mix-blend-mode:normal}
+ .cine-smoke{filter:none}
+ .cine-dusk{mix-blend-mode:normal;opacity:.6}
+ .cine-scar.fresh::after{mix-blend-mode:normal}
+ :root:not([data-motion=fast]) .board.pb .band.pband.ec::after{animation:none;mix-blend-mode:normal}
+}
+.mc-body select,.mc-body input{max-width:100%;box-sizing:border-box}
+.mc-body .tb{width:100%}
+@media (max-width:560px){.mc-auth th{font-size:11px;padding:4px 2px}.mc-auth td{padding:4px 2px}.mc-auth td:first-child{font-size:13px}.mc-org td,.mc-org th{padding:4px 3px;font-size:13px}.mc-step{font-size:13px}}
 </style>
 
 <div id="app"></div>
@@ -6151,7 +6165,7 @@ function renderMcPlan(){
  let body='';
  if(tab==='intent'){
   body=`<h3>Commander's intent</h3><p class="small muted">Your end state and up to three ranked priorities. Priorities change how the packages weigh targets; they are not suggestions.</p>
-  <div class="lbl">End state</div><select id="mcEnd" data-mc="end" aria-label="End state" style="margin-top:4px;max-width:420px">${[['win','Win the campaign on points'],['win10','Win by 10 VP or more'],['win20','Decisive: win by 20 VP or more'],['hold','Hold the enemy under my VP limit; the score is secondary']].map(([k,v])=>`<option value="${k}" ${m.intent.end===k?'selected':''}>${v}</option>`).join('')}</select>
+  <div class="lbl">End state</div><select id="mcEnd" data-mc="end" aria-label="End state" style="margin-top:4px;width:100%;max-width:420px">${[['win','Win the campaign on points'],['win10','Win by 10 VP or more'],['win20','Decisive: win by 20 VP or more'],['hold','Hold the enemy under my VP limit; the score is secondary']].map(([k,v])=>`<option value="${k}" ${m.intent.end===k?'selected':''}>${v}</option>`).join('')}</select>
   <div class="lbl" style="margin-top:12px">Priorities (tap to rank, tap again to remove)</div><div class="mc-pri">${Object.entries(MC_PRI).map(([k,p])=>{const i=m.intent.pri.indexOf(k);return `<button class="choice${i>=0?' sel':''}" data-a="mcpri" data-k="${k}"><span class="mc-rank">${i>=0?i+1:''}</span><b>${p.nm}</b><small>${p.s}</small></button>`}).join('')}</div>`;
  }else if(tab==='org'){
   body=`<h3>Task organisation</h3><p class="small muted">Assign each squadron to a package. <b>HAMMER</b> strikes, <b>VIPER</b> fights for the air, <b>SPARE</b> stays on the ground until you commit it. Each package commander has a temperament you set.</p>
@@ -6323,6 +6337,30 @@ renderResults=function(){renderResultsBaseMC();if(!mcOn())return;try{const w=app
 /* phone hand tray is tactical: keep it closed in MC mode */
 const handBaseMC=H.hand;H.hand=d=>{if(mcOn())return;handBaseMC(d)};
 try{if(SCREEN==='home')render()}catch(e){}
+/* =====================================================================
+   SURVIVE A RELOAD: phones drop background tabs and claude.ai reloads an
+   artifact when it is republished. Save robustly and drop the player
+   straight back into their game instead of the home screen.
+   ===================================================================== */
+const saveBaseRS=save;
+save=function(){
+ if(!G)return;
+ if(G.mode!=='ai'){return saveBaseRS()}
+ const put=()=>{localStorage.setItem('ocs-save',JSON.stringify(G));localStorage.setItem('ocs-save-at',String(Date.now()))};
+ try{put()}catch(e){try{localStorage.removeItem('ocs-aar');put()}catch(e2){try{const f=G.fx,l=G.log;G.fx=[];G.log=l.slice(-20);put();G.fx=f;G.log=l}catch(e3){}}}
+};
+(function autoResume(){
+ try{
+  if(G||SCREEN!=='home')return;
+  const raw=localStorage.getItem('ocs-save');if(!raw)return;
+  const at=+localStorage.getItem('ocs-save-at')||0;if(!at||Date.now()-at>12*3600e3)return;
+  let fb={};try{fb=JSON.parse(localStorage.getItem('ocs-fb')||'{}')}catch(e){}
+  if(fb.gid)return;
+  const g=JSON.parse(raw);if(!g||g.v!==GV||g.phase==='over')return;
+  H.resume();
+  setTimeout(()=>toast(g.mc?'Back on the ops floor: your Mission Commander game was restored.':'Your game was restored where you left off.',3500),400);
+ }catch(e){}
+})();
 
 </script>
 
