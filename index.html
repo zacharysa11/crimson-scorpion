@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Crimson Scorpion Simulator</title><title>Crimson Scorpion Simulator</title>
+<title>Crimson Scorpion Simulator</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Orbitron:wght@500;700&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
@@ -1129,6 +1130,61 @@ body{overflow-x:clip}
 @media (prefers-reduced-motion:reduce){.cine-cloud,.cine-water,.cine-smoke{display:none}.cine-fire{animation:none}.board.pb .tok{animation:none!important}}
 :root[data-motion=fast] .cine-cloud,:root[data-motion=fast] .cine-water,:root[data-motion=fast] .cine-smoke{display:none}
 @media print{#mreveal{display:none!important}}
+/* ===== Mission Commander mode ===== */
+.mc-mode{border-color:var(--amber)}.mc-mode .k{color:var(--amber)}
+.mc-step{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px;color:var(--mute);font-size:14px}
+.mc-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.mc-body h3{font-size:20px;margin:0 0 6px}
+.mc-pri{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:6px}
+.mc-pri .choice{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:10px 12px 10px 38px;position:relative}
+.mc-pri .choice small{color:var(--mute)}
+.mc-pri.sm{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}.mc-pri.sm .choice{padding:8px 8px 8px 34px;font-size:13px}
+.mc-rank{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;border:1px solid var(--line2);font-family:var(--f-mono);font-size:12px;display:flex;align-items:center;justify-content:center;color:var(--mute)}
+.choice.sel .mc-rank{background:var(--amber);color:#1b1404;border-color:var(--amber)}
+.mc-org select,.mc-auth select{min-height:34px;padding:4px 8px;width:100%}
+.mc-auth td,.mc-auth th{text-align:center}.mc-auth td:first-child,.mc-auth th:first-child{text-align:left}
+.mc-auth input[type=radio]{width:20px;height:20px;min-height:0;accent-color:var(--amber)}
+.mc-temp{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px}.mc-temp label{display:flex;align-items:center;gap:8px;font-size:14px}.mc-temp select{min-height:34px;padding:4px 8px}
+.mc-risk{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px}
+.mc-risk label{display:flex;flex-direction:column;gap:4px}.mc-risk label span{font-weight:600}.mc-risk label small{color:var(--mute)}
+.mc-brief h3{font-size:16px;margin:12px 0 4px;color:var(--amber)}.mc-brief h3:first-child{margin-top:0}.mc-brief p,.mc-brief ul{margin:0 0 4px;font-size:14px}.mc-brief ul{padding-left:18px}
+/* ops floor */
+#game.mc .center .board{filter:saturate(.92)}
+.mc-gauges{display:flex;flex-direction:column;gap:6px}
+.mc-g{display:grid;grid-template-columns:1fr auto;gap:2px 8px;font-size:13px}
+.mc-g i{grid-column:1/-1;display:block;height:6px;background:#ffffff14;border-radius:3px;overflow:hidden}
+.mc-g i b{display:block;height:100%;background:var(--ok);transition:width .4s}
+.mc-g.amber i b{background:var(--amber)}.mc-g.red i b{background:var(--bad)}
+.mc-g.red .mc-gv{color:var(--bad)}.mc-g.amber .mc-gv{color:var(--amber)}
+.mc-pkg{margin-bottom:8px}.mc-pkh{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.mc-sq{display:grid;grid-template-columns:1fr auto;gap:0 8px;font-size:13px;padding:3px 0;border-top:1px solid var(--line)}
+.mc-sq .mc-sqn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc-sq .mc-cp{grid-column:1/-1;display:block;height:4px;background:#ffffff14;border-radius:2px;overflow:hidden}.mc-cp b{display:block;height:100%;background:var(--us);transition:width .4s}
+.mc-sq.dead{opacity:.5}.mc-sq.dead .mc-sqn{text-decoration:line-through}
+.mc-ens{display:flex;flex-wrap:wrap;gap:4px}.mc-ens .pill{font-size:11px;font-weight:500}.mc-ens .pill.off{opacity:.4;text-decoration:line-through}
+.pill.bad{color:#fff;background:var(--bad);border-color:var(--bad)}
+.mc-feed{display:flex;flex-direction:column;gap:6px;max-height:46vh;overflow:auto;font-size:13px}
+.mc-msg{border-left:3px solid var(--line2);padding:3px 8px;background:#ffffff08;border-radius:0 6px 6px 0}
+.mc-msg .mc-from{font-family:var(--f-mono);font-weight:700;font-size:12px;margin-right:6px}
+.mc-kind{font-family:var(--f-mono);font-size:11px;color:var(--mute);margin-right:6px}
+.mc-msg.k-loss,.mc-msg.k-sqloss,.mc-msg.k-base{border-color:var(--bad)}.mc-msg.k-bda{border-color:var(--ok)}.mc-msg.k-risk,.mc-msg.k-flash{border-color:var(--amber)}.mc-msg.hq{background:#f3b23a14}
+.mc-dec{display:flex;flex-direction:column;gap:3px;max-height:24vh;overflow:auto}
+.mc-dq{position:fixed;left:50%;bottom:calc(66px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(560px,calc(100% - 20px));background:var(--panel);border:1px solid var(--amber);border-radius:10px;padding:12px 14px;z-index:60;box-shadow:0 12px 40px #000a;animation:mcin .25s ease-out both}
+@keyframes mcin{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+.mc-dqh{display:flex;align-items:center;gap:8px;margin-bottom:6px}.mc-dqh .mc-clock{margin-left:auto;font-size:18px;font-weight:700;color:var(--amber)}.mc-clock.late{color:var(--bad);animation:mcblink .6s steps(2) infinite}
+@keyframes mcblink{to{opacity:.4}}
+.mc-status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:40vw}
+.mc-fragom{max-height:88vh;overflow:auto}
+/* hot wash and debrief */
+.mc-hw{margin-top:14px}.mc-hw3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.mc-hw3 ul{padding-left:18px;margin:4px 0}
+.mc-debrief .tb td{vertical-align:middle}
+.mc-bar{display:inline-block;width:70px;height:8px;background:#ffffff14;border-radius:4px;overflow:hidden;vertical-align:middle;margin-right:6px}.mc-bar b{display:block;height:100%;background:var(--amber)}
+.mc-chart{width:100%;max-width:560px;height:auto;background:#0f171b;border:1px solid var(--line);border-radius:6px}
+@media (max-width:980px){.mc-feed{max-height:none}#game.mc .bottombar{gap:5px;padding-left:6px;padding-right:6px}#game.mc .bottombar .btn{padding:6px 8px;font-size:12.5px}.mc-dq{bottom:calc(60px + env(safe-area-inset-bottom,0px))}.mc-status{display:none}}
+@media print{.mc-dq{display:none}}
+
+.mc-strip{display:none}
+@media (max-width:980px){#game.mc .center{flex-direction:column;align-items:center;justify-content:flex-start;gap:4px}.mc-strip{display:flex;gap:6px;width:100%;justify-content:space-around;padding:2px 4px}.mc-strip span{display:flex;flex-direction:column;align-items:center;font-size:11px;line-height:1.1;border-left:3px solid var(--ok);padding-left:5px}.mc-strip span small{color:var(--mute);font-size:10px}.mc-strip span.amber{border-color:var(--amber)}.mc-strip span.red{border-color:var(--bad)}}
 </style>
 
 <div id="app"></div>
@@ -5841,5 +5897,433 @@ H.aarplay=()=>{
 const aarGoBaseP10=aarGo;
 aarGo=function(i){aarGoBaseP10(i);try{const b=document.querySelector('.aar-stage .board');if(b&&b.classList.contains('pb')&&AMBIENTon()&&!b.querySelector('.cine-under')){const L=document.createElement('div');L.className='cine-under';const now=performance.now()/1000;L.innerHTML=[[14,26,90],[50,50,120]].map(([y,w,p],j)=>`<i class="cine-cloud" style="top:${y}%;width:${w}%;animation-duration:${p}s;animation-delay:-${((now+j*37)%p).toFixed(2)}s"></i>`).join('');const img=b.querySelector(':scope>.bimg');if(img)img.after(L)}}catch(e){}};
 
+/* =====================================================================
+   p11: MISSION COMMANDER MODE
+   A separate mode layered on the 1-player game. The player commands the
+   US side at the operational level: intent, task organisation, authorities,
+   risk limits and a comm plan. Subordinate packages (the existing US AI)
+   execute within that guidance; the commander approves, denies and re-tasks
+   from an ops floor. Nothing here runs unless G.mc is set.
+   ===================================================================== */
+const MC_PRI={aew:{nm:'Kill the enemy AEW / EW',s:'Blind their air picture first'},bases:{nm:'Suppress enemy airbases',s:'Strike the Airbase and Contingency Location'},ships:{nm:'Sink enemy ships',s:'Hunt the surface combatants'},fighters:{nm:'Win air superiority',s:'Kill enemy fighters in the air'},bombers:{nm:'Kill the bombers',s:'H-6K before it reaches our base'},preserve:{nm:'Preserve combat power',s:'Only high-odds engagements, stay out of threat rings'},cyber:{nm:'Cyber / EW first',s:'Play non-kinetic cards before kinetic ones'}};
+const MC_PKG={strike:{nm:'Strike',cs:'HAMMER',col:'#f08a3c'},ca:{nm:'Counter-Air',cs:'VIPER',col:'#5a8cf0'},res:{nm:'Reserve',cs:'SPARE',col:'#8ba3ab'},sup:{nm:'Support',cs:'ANVIL',col:'#8a5cc2'},base:{nm:'Base Ops',cs:'BASE OPS',col:'#e9c62f'},hq:{nm:'Commander',cs:'CDR',col:'#f3b23a'}};
+const MC_AUTH={a2a:'Air-to-air engagements',strike:'Surface and base strikes',activate:'Launching a squadron',single:'Single-use enabler cards',multi:'Multiple-use enabler cards',resp:'Response cards (decoy, recovery, base defence)'};
+const MC_AUTH_LV={pre:'Pre-authorised',report:'Execute and report',approve:'Request approval'};
+const MC_TEMPER={agg:'Aggressive',bal:'Balanced',cau:'Cautious'};
+/* risk presets per 2-ATO campaign, calibrated from 300 simulated campaigns (median: 37 enemy VP, 50% of fighters lost, 3 squadrons) */
+const MC_RISK={low:{evp:20,fk:25,sk:1},mod:{evp:32,fk:40,sk:2},high:{evp:45,fk:60,sk:4}};
+const MC_CLOCK={0:'No clock (wait for me)',20:'20 seconds',40:'40 seconds',60:'60 seconds'};
+function mcOn(){return !!(G&&G.mc)}
+function mcNew(o){return{stage:'plan',intent:{end:'win10',pri:['aew','bases']},pkg:{},temper:{strike:'bal',ca:'bal',res:'cau'},auth:{a2a:'pre',strike:'report',activate:'pre',single:'approve',multi:'report',resp:'approve'},risk:Object.assign({},MC_RISK.mod),comms:{thr:'normal',alt:true,clock:o.clock??40,silence:'deny'},feed:[],dec:[],hist:[],cum:{fk:0,fd:0,sk:0},committed:false,halt:false,inj:{},riskAsked:{},tmp:{},stats:{sat:0},acc:[]}}
+function mcIsFighter(t){const c=UNITS[t.u].cls;return c==='g4'||c==='g5'}
+function mcPkgOfSq(qid){const q=sqById(qid);if(!q)return 'sup';const p=G.mc.pkg[qid]||mcDefaultPkg(q);return p==='res'&&G.mc.committed?'strike':p}
+function mcDefaultPkg(q){const c=UNITS[SQ[q.k].u].cls;return c==='g5'||c==='aew'?'ca':'strike'}
+function mcPkgOfTok(t){return t.q>0?mcPkgOfSq(t.q):'sup'}
+function mcCS(p){return (MC_PKG[p]||MC_PKG.sup).cs}
+function mcPriRank(k){const i=G.mc.intent.pri.indexOf(k);return i<0?0:[1,.6,.35][i]}
+function mcTemper(p){let t=G.mc.temper[p]||'bal';const lv=mcWorst();if(lv==='amber'&&t==='agg')t='bal';else if(lv==='amber')t='cau';return t}
+/* ---- gauges ---- */
+function mcGauges(){
+ const m=G.mc;const rolled=m.tmp.rolled===G.ato;const us=rolled?[]:G.toks.filter(t=>t.s==='US'&&mcIsFighter(t));
+ const fk=m.cum.fk+us.filter(t=>t.l==='dead').length,fd=m.cum.fd+us.length;
+ const sk=m.cum.sk+(rolled?0:G.sqs.filter(q=>q.s==='US'&&q.dead).length);
+ const evp=scoreSide('PRC').total;
+ const limN=Math.max(1,Math.round(fd*m.risk.fk/100));
+ return{evp:{v:evp,lim:m.risk.evp,lbl:'Enemy VP'},fk:{v:fk,n:fd,lim:limN,pct:m.risk.fk,lbl:'Fighters lost'},sk:{v:sk,lim:m.risk.sk,lbl:'Squadrons lost'}};
+}
+function mcLevel(g){const r=g.lim>0?g.v/g.lim:(g.v>0?1:0);return r>=1?'red':r>=.5?'amber':'green'}
+function mcWorst(){const key=G.ato+':'+G.turnNo+':'+G.S.PRC.kills.length+':'+G.mc.risk.evp+G.mc.risk.fk+G.mc.risk.sk;if(UI.mcWK===key)return UI.mcW;const g=mcGauges();const o={green:0,amber:1,red:2};let w='green';for(const k in g){const l=mcLevel(g[k]);if(o[l]>o[w])w=l}UI.mcWK=key;UI.mcW=w;return w}
+function mcRollCum(){const m=G.mc;const us=G.toks.filter(t=>t.s==='US'&&mcIsFighter(t));m.cum.fk+=us.filter(t=>t.l==='dead').length;m.cum.fd+=us.length;m.cum.sk+=G.sqs.filter(q=>q.s==='US'&&q.dead).length}
+/* ---- comms ---- */
+function mcComms(){const cy=G.cyber.PRC;if(cy>=4&&!G.mc.comms.alt)return 'lost';if(cy>=3)return 'degraded';return 'ok'}
+function mcLostPkg(){if(mcComms()!=='lost')return null;const m=G.mc;if(!m.tmp.lost||m.tmp.lost.a!==G.ato)m.tmp.lost={a:G.ato,p:Math.random()<.5?'strike':'ca'};return m.tmp.lost.p}
+function mcGarble(s){return s.replace(/\d/g,()=>Math.random()<.5?'▒':'▒')}
+const MC_LV={loss:2,sqloss:1,bda:2,spot:2,winch:2,base:1,miss:3,risk:0,req:0,flash:0,frago:0,sitrep:0,exec:2};
+function mcReport(from,kind,txt,o={}){
+ const m=G.mc;const thr={tight:3,normal:2,loose:1}[m.comms.thr]||2;if((MC_LV[kind]??2)>thr)return;
+ const c=mcComms();const lost=mcLostPkg();
+ if(lost&&from===lost&&kind!=='risk'&&kind!=='frago'){m.stats.dropped=(m.stats.dropped||0)+1;return}
+ const it={a:G.ato,t:G.turnNo,from,kind,txt,st:'ok',show:G.turnNo};
+ if(c!=='ok'&&from!=='hq'&&kind!=='frago'){if(Math.random()<.5){it.st='delayed';it.show=G.turnNo+1}if(Math.random()<.4){it.txt=mcGarble(txt);it.st=it.st==='delayed'?'delayed garbled':'garbled'}}
+ m.feed.push(it);if(m.feed.length>60)m.feed.shift();
+ if(o.log!==false)log(`${mcCS(from)} // ${kind.toUpperCase()} // ${txt}`,'US');
+}
+/* ---- snapshots and turn reports ---- */
+function mcSnap(){return{dead:G.toks.filter(t=>t.s==='US'&&t.l==='dead').map(t=>t.id),pdead:G.toks.filter(t=>t.s==='PRC'&&t.l==='dead').map(t=>t.id),sqd:G.sqs.filter(q=>q.s==='US'&&q.dead).map(q=>q.id),blk:G.S.US.blk,pon:G.toks.filter(t=>t.s==='PRC'&&onBoard(t)).map(t=>t.id),winch:G.toks.filter(t=>t.s==='US'&&t.w&&onBoard(t)).map(t=>t.id),cy:G.cyber.PRC}}
+function mcDiffReports(p){
+ const byPkg={};
+ for(const t of G.toks){if(t.s!=='US'||t.l!=='dead'||p.dead.includes(t.id))continue;const pk=mcPkgOfTok(t);(byPkg[pk]=byPkg[pk]||[]).push(t)}
+ for(const pk in byPkg){const L=byPkg[pk];const left=G.toks.filter(t=>t.s==='US'&&onBoard(t)&&mcPkgOfTok(t)===pk).length;mcReport(pk,'loss',`${L.length}x ${L.map(t=>UNITS[t.u].nm).join(', ')} lost${L[0].r!=null?', band '+L[0].r:''} // ${left} airborne remaining`)}
+ for(const q of G.sqs){if(q.s!=='US'||!q.dead||p.sqd.includes(q.id))continue;mcReport('base','sqloss',`${SQ[q.k].nm} destroyed on the ground`)}
+ if(G.S.US.blk>p.blk)mcReport('base','base',`Airbase hit: ${G.S.US.blk}/3 damage blocks`);
+ const kills=G.toks.filter(t=>t.s==='PRC'&&t.l==='dead'&&!p.pdead.includes(t.id));
+ if(kills.length)mcReport(UI.mcLastPkg||'strike','bda',`BDA: ${kills.map(t=>UNITS[t.u].nm).join(', ')} destroyed`);
+ const newOn=G.toks.filter(t=>t.s==='PRC'&&onBoard(t)&&!p.pon.includes(t.id));
+ if(newOn.length)mcReport('ca','spot',`${newOn.length} new enemy contact${newOn.length>1?'s':''}, band ${[...new Set(newOn.map(t=>t.r))].join('/')}${newOn.some(t=>t.a)?' ('+newOn.filter(t=>t.a).map(t=>UNITS[t.u].nm).join(', ')+')':''}`);
+ const nw=G.toks.filter(t=>t.s==='US'&&t.w&&onBoard(t)&&!p.winch.includes(t.id));
+ if(nw.length)mcReport(mcPkgOfTok(nw[0]),'winch',`${nw.length} aircraft Winchester${G.S.US.ens.some(e=>!e.used&&EN[e.k].fx==='ar')?' // REQ tanker / rearm':''}`);
+ if(G.cyber.PRC>p.cy&&G.cyber.PRC>=3)mcReport('hq','flash',G.cyber.PRC>=4?'PRC network dominance: comms lost with one package':'PRC cyber rate 3: comms degraded, expect delayed and garbled reports');
+}
+function mcTick(){
+ const k=G.ato+':'+G.turnNo+':'+G.turn;if(UI.mcKey===k)return;UI.mcKey=k;
+ if(UI.mcPrev&&UI.mcPrev.ato===G.ato){try{mcDiffReports(UI.mcPrev)}catch(e){console.error(e)}}
+ UI.mcPrev=Object.assign(mcSnap(),{ato:G.ato});
+ if(G.turn==='US'&&G.phase==='play'){const g=mcGauges();G.mc.hist.push({a:G.ato,t:G.turnNo,evp:g.evp.v/g.evp.lim,fk:g.fk.v/g.fk.lim,sk:g.sk.lim?g.sk.v/g.sk.lim:g.sk.v,us:scoreSide('US').total,prc:g.evp.v});if(G.mc.hist.length>120)G.mc.hist.shift()}
+}
+/* ---- decisions (the queue) ---- */
+function mcAsk(req){
+ const m=G.mc;const t0=performance.now();const vp={us:scoreSide('US').total,prc:scoreSide('PRC').total};
+ const def=req.def!=null?req.def:(m.comms.silence==='consent');
+ const lost=mcLostPkg();
+ const rec=(choice,ms,how)=>{m.dec.push({a:G.ato,t:G.turnNo,kind:req.kind,from:req.from,title:req.title,choice,ms:Math.round(ms),how,vp});if(m.dec.length>80)m.dec.shift();log(`CDR ${how==='timeout'?'(no answer) ':how==='nocontact'?'(no contact) ':''}${choice?(req.yes||'approved'):(req.no||'denied')}: ${req.title}`,'US')};
+ if(lost&&req.from===lost&&req.kind!=='inject'&&req.kind!=='risk'){rec(def,0,'nocontact');mcReport('hq','flash',`NO CONTACT with ${mcCS(lost)}: executing last guidance (${def?'proceeds':'holds'})`);return Promise.resolve(def)}
+ return new Promise(res=>{
+  UI.mcReq={req,t0,res:(c,how)=>{clearInterval(UI.mcClock);UI.mcReq=null;rec(c,performance.now()-t0,how);m.feed.push({a:G.ato,t:G.turnNo,from:'hq',kind:'req',txt:`${c?(req.yes||'Approved'):(req.no||'Denied')}${how==='timeout'?' (clock expired)':''}: ${req.title}`,st:'ok',show:G.turnNo});render();res(c)}};
+  render();try{play('chime')}catch(e){}
+  const clock=+m.comms.clock||0;
+  if(clock){UI.mcClock=setInterval(()=>{if(!mcOn()){clearInterval(UI.mcClock);UI.mcReq=null;return}const left=clock-(performance.now()-t0)/1000;const el=document.querySelector('.mc-clock');if(el){el.textContent=Math.max(0,Math.ceil(left))+'s';el.classList.toggle('late',left<8)}if(left<=0&&UI.mcReq)UI.mcReq.res(def,'timeout')},250)}
+ });
+}
+H.mcyes=()=>{if(UI.mcReq)UI.mcReq.res(true,'user')};
+H.mcno=()=>{if(UI.mcReq)UI.mcReq.res(false,'user')};
+function mcAuth(kind){return G.mc.auth[kind]||'pre'}
+async function mcClear(kind,from,title,body,cost){
+ const a=mcAuth(kind);
+ if(a==='approve'){const ok=await mcAsk({kind,from,title,body,cost,yes:'Approve',no:'Deny'});return ok}
+ if(a==='report')mcReport(from,'exec',title);
+ return true;
+}
+/* ---- odds text for a request ---- */
+function mcShotCost(s){try{const t=tok(s.t),W=UNITS[t.u][s.w];const x=s.target;let tgt,p;if(x.kind==='tok'){const e=tok(x.id);tgt=UNITS[e.u].full;const md=s.w==='srf'&&wouldMD('US',t.r,e.r);p=probNeed(W.k,0,hitMode('US',{t,w:s.w,base:false,trow:e.r},md))}else{tgt=x.z==='cl'?'enemy Contingency Location':'enemy Airbase';const md=wouldMD('US',t.r,HOME.PRC);p=probNeed(W.k,0,hitMode('US',{t,w:s.w,base:true,trow:HOME.PRC},md))}const thr=threatAt('US',t.r);return{tgt,txt:`${Math.round(p*100)}% to hit · ${thr?thr+' enemy shooter'+(thr>1?'s':'')+' can reach the firing position':'no enemy shooters in reach'}${UNITS[t.u].cls!=='ada'&&UNITS[t.u].cls!=='naval'?' · aircraft goes Winchester':''}`}}catch(e){return{tgt:'target',txt:''}}}
+/* ---- the US turn, run through the packages ---- */
+async function mcRunUS(){
+ if(UI.aiRunning||UI.busy||!mcOn()||G.phase!=='play'||G.turn!=='US')return;
+ UI.aiRunning=true;UI.busy=true;const side='US';
+ try{
+  render();await sleep(spd(500));
+  await mcInject();if(G.phase!=='play')return;
+  await mcRiskCheck();if(G.phase!=='play')return;
+  if(G.mc.halt===G.ato){log('US packages hold position (offensive operations suspended).','US');endTurn();return}
+  /* enabler */
+  const e=aiChooseEnabler(side);
+  if(e){const k=G.S[side].ens[e.i].k,E=EN[k];const kind=E.resp===1?'resp':E.use==='single'?'single':'multi';
+   const ok=await mcClear(kind,'sup',`Play ${E.nm}`,`${esc(E.txt)}${E.use==='single'?' <b>Single use.</b>':''}`);
+   if(ok&&G.phase==='play'){PRE={defer:false};G.lost=[];const r=playEnabler(side,e.i,e.p||{});await playNewFx();render();if(r&&!r.cancelled)await aiFollow(side,r);PRE={};await sleep(spd(300))}
+   else if(!ok)G.mc.tmp.deniedEn=(G.mc.tmp.deniedEn||0)+1}
+  if(G.phase!=='play'||G.turn!==side)return;
+  const d=aiDecideAction(side);
+  if(d.type==='activate'){const q=sqById(d.qid);const pk=mcPkgOfSq(d.qid);
+   const ok=await mcClear('activate',pk,`Launch ${SQ[q.k].nm}`,`${mcCS(pk)} requests to launch ${plural(tokensOnCard(q).length,'aircraft')} to ${d.dest&&d.dest.z==='standoff'?'Standoff':'US band '+(d.dest?d.dest.r:1)}.`);
+   if(ok&&G.phase==='play'){activate(d.qid,d.dest);await playNewFx();render();await sleep(spd(500))}
+   else{G.mc.tmp.deniedAct=(G.mc.tmp.deniedAct||0)+1;log(`${mcCS(pk)} holds ${SQ[q.k].nm} on the ground as directed.`,'US')}
+   if(G.phase==='play')endTurn();return}
+  if(d.type==='pass'){endTurn();return}
+  await mcMAS(side);
+  if(G.phase==='play'&&G.turn===side)endTurn();
+ }catch(err){console.error(err);if(G.phase==='play'&&G.turn==='US')endTurn()}
+ finally{PRE={};UI.aiRunning=false;UI.busy=false;afterChange(true)}
+}
+async function mcMAS(side){
+ const a=bestAcquire(side);
+ if(a&&a.ev>0.2){for(const id of a.targets){const t=tok(a.t);if(!t||!canAcquireWith(t))break;let tid=id;const tg=acqTargets(t);if(!tg.some(e=>e.id===tid)){if(!tg.length)break;tid=tg[0].id}doAcquire(a.t,tid);await playNewFx();render();if(G.phase!=='play')return}}
+ let s=bestShot(side);const ms=G.act.mv?null:bestMoveShot(side);
+ if(ms&&(!s||ms.ev>s.ev+0.3)){doMove(ms.mv.id,ms.mv.dest);render();await sleep(spd(450));s=bestShot(side)}
+ if(s&&s.ev>mcShotFloor(s)){
+  const t=tok(s.t);const pk=mcPkgOfTok(t);const c=mcShotCost(s);
+  const ok=await mcClear(s.w==='srf'?'strike':'a2a',pk,`${UNITS[t.u].nm} ${s.w==='srf'?'strike on':'engage'} ${c.tgt}`,c.txt);
+  if(ok&&G.phase==='play'){UI.mcLastPkg=pk;G.lost=[];const r=doShoot(s.t,s.w,s.target);await playNewFx();render();if(r&&(r.needDmg||r.pending))await aiFollow(side,r)}
+  else if(!ok){G.mc.tmp.deniedShot=(G.mc.tmp.deniedShot||0)+1;log(`${mcCS(pk)} holds fire as directed.`,'US')}}
+ if(G.phase!=='play')return;
+ if(!G.act.mv){const p=bestPositional(side);if(p){doMove(p.id,p.dest);render();await sleep(spd(450))}}
+ if(G.act.aq&&G.act.aqLeft>0){const t=tok(G.act.aqTok);if(t){const tg=acqTargets(t).sort((x,y)=>tval(y)-tval(x));if(tg[0]){doAcquire(t.id,tg[0].id);render();await playNewFx()}}}
+}
+function mcShotFloor(s){const t=tok(s.t);if(!t)return 0.1;const tm=mcTemper(mcPkgOfTok(t));return tm==='agg'?0.05:tm==='cau'?0.6:0.1}
+/* ---- guidance applied to the existing AI ---- */
+const tvalForBaseMC=tvalFor;
+tvalFor=function(side,e){let v=tvalForBaseMC(side,e);if(!mcOn()||side!=='US')return v;const c=UNITS[e.u].cls;
+ const b=k=>mcPriRank(k);v*=1+(c==='aew'||c==='ew'?.9*b('aew'):0)+(c==='naval'?.8*b('ships'):0)+(c==='g4'||c==='g5'?.5*b('fighters'):0)+(c==='bomber'?.8*b('bombers'):0);
+ return v};
+const zoneEVBaseMC=zoneEV;
+zoneEV=function(att,z,x,dis){let v=zoneEVBaseMC(att,z,x,dis);if(mcOn()&&att==='US')v*=1+.7*mcPriRank('bases');return v};
+const bestShotBaseMC=bestShot;
+bestShot=function(side,fromTok,atRow){
+ if(!mcOn()||side!=='US'||fromTok!=null)return bestShotBaseMC(side,fromTok,atRow);
+ let best=null;const pres=mcPriRank('preserve');
+ for(const t of G.toks){if(t.s!==side||!onBoard(t))continue;const b=bestShotBaseMC(side,t.id,atRow);if(!b)continue;
+  const tm=mcTemper(mcPkgOfTok(t));b.ev*=tm==='agg'?1.15:tm==='cau'?.85:1;
+  if(pres)b.ev-=threatAt(side,atRow!=null?atRow:t.r)*.25*pres;
+  if(!best||b.ev>best.ev)best=b}
+ return best;
+};
+const bestMoveShotBaseMC=bestMoveShot;
+bestMoveShot=function(side){const b=bestMoveShotBaseMC(side);if(!b||!mcOn()||side!=='US')return b;const t=tok(b.mv.id);if(t){const tm=mcTemper(mcPkgOfTok(t));if(tm==='cau')b.ev-=threatAt(side,b.mv.dest.r)*.3;b.ev-=threatAt(side,b.mv.dest.r)*.25*mcPriRank('preserve')}return b};
+const canActivateBaseMC=canActivate;
+canActivate=function(q){const ok=canActivateBaseMC(q);if(!ok||!mcOn()||!q||q.s!=='US'||UI.mcPlanning)return ok;if(mcPkgOfSq(q.id)==='res')return false;if(mcPriRank('preserve')>=1&&mcWorst()!=='green')return false;return ok};
+const aiChooseEnablerBaseMC=aiChooseEnabler;
+aiChooseEnabler=function(side){
+ if(mcOn()&&side==='US'&&mcPriRank('cyber')){const S=G.S[side];const ok=i=>i>=0&&!enAvail(side,i);const find=pred=>S.ens.findIndex((e,j)=>!e.used&&pred(e.k)&&ok(j));let i;
+  if(ok(i=find(k=>fxOf(k)==='cyber')))return{i};if(ok(i=find(k=>EN[k].nk&&['spoof','dew','oew','sbew'].includes(fxOf(k)))))return{i}}
+ return aiChooseEnablerBaseMC(side);
+};
+const aiDecideActionBaseMC=aiDecideAction;
+aiDecideAction=function(side){const d=aiDecideActionBaseMC(side);if(!mcOn()||side!=='US'||d.type==='activate')return d;
+ const top=G.mc.intent.pri[0];const offensive=top&&top!=='preserve'&&top!=='cyber';
+ const myOn=G.toks.filter(t=>t.s==='US'&&onBoard(t)&&!t.w).length;
+ if(offensive&&myOn<2&&!G.act.hot&&!G.act.actv){const a=bestActivation(side,1);if(a&&canActivate(sqById(a.qid)))return{type:'activate',...a}}
+ return d};
+const rollForBaseMC=rollFor;
+rollFor=async function(side,spec){if(!mcOn())return rollForBaseMC(side,spec);const dm=UI.diceMode;UI.diceMode='auto';try{return await rollForBaseMC(side,spec)}finally{UI.diceMode=dm}};
+const confirmBoxBaseMC=confirmBox;
+confirmBox=function(title,body,yes,no){
+ if(!mcOn()||G.phase!=='play'||UI.mcPlanning||UI.mcFrago)return confirmBoxBaseMC(title,body,yes,no);
+ const a=mcAuth('resp');if(a!=='approve'){if(a==='report')mcReport('sup','exec',String(title).replace(/<[^>]+>/g,''));return Promise.resolve(true)}
+ return mcAsk({kind:'resp',from:'sup',title:String(title).replace(/<[^>]+>/g,''),body,yes,no});
+};
+const askDiscardBaseMC=askDiscard;
+askDiscard=async function(victim,n){if(!mcOn()||victim!=='US')return askDiscardBaseMC(victim,n);
+ const S=G.S.US;const idx=S.ens.map((e,i)=>i).filter(i=>!S.ens[i].used).sort((a,b)=>(EN[S.ens[a].k].use==='single')-(EN[S.ens[b].k].use==='single')||(EN[S.ens[a].k].resp===1)-(EN[S.ens[b].k].resp===1));
+ PRE.discard=idx.slice(0,n);mcReport('sup','loss',`Enemy cyber forced discard: ${PRE.discard.map(i=>EN[S.ens[i].k].nm).join(', ')}`)};
+const myTurnBaseMC=myTurn;
+myTurn=function(){if(mcOn()&&!UI.mcPlanning)return false;return myTurnBaseMC()};
+/* ---- risk ---- */
+async function mcRiskCheck(){
+ const m=G.mc;const g=mcGauges();
+ for(const k of ['evp','fk','sk']){const lv=mcLevel(g[k]);const key=k+':'+G.ato;
+  if(lv==='amber'&&!m.riskAsked['amb'+key]){m.riskAsked['amb'+key]=1;mcReport('hq','risk',`${g[k].lbl} at ${g[k].v}${k==='fk'?' of '+g[k].lim:'/'+g[k].lim}: packages shift to cautious engagement`)}
+  if(lv==='red'&&!m.riskAsked[key]){m.riskAsked[key]=1;
+   const ok=await mcAsk({kind:'risk',from:'hq',title:`${g[k].lbl} limit reached (${g[k].v}${k==='fk'?' of '+g[k].n+' fielded, limit '+g[k].lim:' / '+g[k].lim})`,body:'Offensive operations pause until you decide. <b>Accept risk</b> raises the limit and is logged for the debrief. <b>Pull back</b> suspends offensive action for the rest of this ATO; packages still defend and reserve stays available.',yes:'Accept risk',no:'Pull back',def:false});
+   if(ok){m.acc.push({k,a:G.ato,t:G.turnNo});if(k==='evp')m.risk.evp=Math.round(m.risk.evp*1.5);if(k==='fk')m.risk.fk=Math.min(100,m.risk.fk+20);if(k==='sk')m.risk.sk+=1;mcReport('hq','frago',`Commander accepts additional risk: ${g[k].lbl} limit raised`)}
+   else{m.halt=G.ato;mcReport('hq','frago','FRAGO: offensive operations suspended this ATO. Hold and defend.')}}}
+}
+/* ---- injects ---- */
+async function mcInject(){
+ const m=G.mc;if(G.turnNo<3||Math.random()>.3)return;
+ const have=k=>G.S.US.ens.findIndex(e=>!e.used&&EN[e.k].fx===k);
+ const list=[];
+ if(!m.inj.tanker&&have('ar')>=0)list.push('tanker');
+ const ship=G.toks.find(t=>t.s==='PRC'&&onBoard(t)&&UNITS[t.u].cls==='naval');if(!m.inj.tst&&ship)list.push('tst');
+ if(!m.inj.hhq&&mcGauges().fk.v>0)list.push('hhq');
+ const aew=G.toks.find(t=>t.s==='PRC'&&onBoard(t)&&UNITS[t.u].cls==='aew'&&!t.a);if(!m.inj.aew&&aew)list.push('aew');
+ if(!m.inj.comms&&!m.comms.alt&&G.cyber.PRC>=2)list.push('comms');
+ if(!list.length)return;const k=list[Math.floor(Math.random()*list.length)];m.inj[k]=1;
+ if(k==='tanker'){const ok=await mcAsk({kind:'inject',from:'hq',title:'CAOC: KC-135 diverted. Aerial Refueling may be unavailable this ATO',body:'Accept the loss, or escalate to the CAOC for priority tanking (about even odds, costs you a decision cycle).',yes:'Escalate',no:'Accept'});
+  const keep=ok&&Math.random()<.5;if(!keep){const i=have('ar');if(i>=0){G.S.US.ens[i].used=1;log('Aerial Refueling is unavailable: tanker diverted by the CAOC.','US')}}mcReport('hq','flash',keep?'CAOC approves priority tanking: Aerial Refueling retained':'Aerial Refueling lost for this ATO')}
+ if(k==='tst'){const ok=await mcAsk({kind:'inject',from:'ca',title:`TST: enemy surface combatant exposed in band ${ship.r}`,body:'Time-sensitive target. Make ships priority one for this turn and pre-authorise the strike, or hold to the plan.',yes:'Engage',no:'Hold plan'});if(ok){m.tmp.pri=m.intent.pri.slice();m.intent.pri=['ships',...m.intent.pri.filter(p=>p!=='ships')].slice(0,3);m.tmp.priUntil=G.turnNo+1;m.tmp.auth=m.auth.strike;m.auth.strike='pre';mcReport('hq','frago','FRAGO: ships priority one this turn, strike pre-authorised')}}
+ if(k==='hhq'){const ok=await mcAsk({kind:'inject',from:'hq',title:'HHQ: fighter losses are drawing attention. Reduce the loss limit by one aircraft?',body:'Comply (tighter limit, packages go cautious sooner) or push back and keep your plan.',yes:'Comply',no:'Push back'});if(ok){const g=mcGauges();m.risk.fk=Math.max(5,Math.round((g.fk.lim-1)/Math.max(1,g.fk.n)*100));mcReport('hq','frago','Fighter loss limit tightened per HHQ')}}
+ if(k==='aew'){const ok=await mcAsk({kind:'inject',from:'ca',title:`INTEL: ${UNITS[aew.u].full} airborne in band ${aew.r}`,body:'Make the AEW priority one for the next two turns, or acknowledge and keep the plan.',yes:'Priority one',no:'Acknowledge'});if(ok){m.tmp.pri=m.intent.pri.slice();m.intent.pri=['aew',...m.intent.pri.filter(p=>p!=='aew')].slice(0,3);m.tmp.priUntil=G.turnNo+3;mcReport('hq','frago','FRAGO: enemy AEW is priority one for two turns')}}
+ if(k==='comms'){const ok=await mcAsk({kind:'inject',from:'strike',title:'SIGINT: PRC jamming the primary net. HAMMER reports intermittent contact',body:'Your comm plan has no alternate channel. Switch to an alternate now, or continue on primary.',yes:'Switch to alternate',no:'Continue'});if(ok){m.comms.alt=true;mcReport('hq','frago','Comm plan amended: alternate channel in use')}}
+}
+function mcExpireTmp(){const m=G.mc;if(m.tmp.priUntil!=null&&G.turnNo>=m.tmp.priUntil){if(m.tmp.pri)m.intent.pri=m.tmp.pri;if(m.tmp.auth)m.auth.strike=m.tmp.auth;m.tmp.pri=null;m.tmp.auth=null;m.tmp.priUntil=null}}
+/* ---- flow hooks ---- */
+async function mcAct(fn){if(UI.busy)return;UI.busy=true;try{await sleep(spd(400));fn();await playNewFx()}catch(e){console.error(e)}finally{UI.busy=false}afterChange(true)}
+const afterChangeBaseMC=afterChange;
+afterChange=function(local){
+ if(mcOn()){
+  const m=G.mc;
+  if(G.phase==='setup'&&G.setupSide==='US'&&m.stage==='exec'&&G.ato>1){m.stage='plan';m.halt=false;m.riskAsked={};UI.mcPrev=null}
+  if(G.phase==='setup'&&G.setupSide==='PRC'&&m.stage!=='exec'){if(local)save();SCREEN=m.stage==='brief'?'mcbrief':'mcplan';render();return}
+  if(G.phase==='atoEnd'&&!m.tmp.rolled){m.tmp.rolled=G.ato;mcRollCum();mcReport('hq','sitrep',`ATO ${G.ato} SITREP: US ${scoreSide('US').total} VP, enemy ${scoreSide('PRC').total} VP`)}
+  if(G.phase==='setup')m.tmp.rolled=0;
+  if(G.phase==='init'){SCREEN='game';render();mcAct(()=>startInitiative());return}
+  if(G.phase==='choose'&&G.initWinner==='US'){SCREEN='game';render();mcAct(()=>chooseFirst('US'));return}
+  if(G.phase==='intel'){SCREEN='game';render();mcAct(()=>doIntel());return}
+ }
+ afterChangeBaseMC(local);
+ if(mcOn()&&G.phase==='play'&&SCREEN==='game'){try{mcExpireTmp();mcTick()}catch(e){console.error(e)}
+  if(G.turn==='US'&&!UI.busy&&!UI.aiRunning&&!UI.mcPaused)setTimeout(()=>{if(G&&G.phase==='play'&&G.turn==='US'&&!UI.busy&&!UI.aiRunning&&!UI.mcPaused)mcRunUS()},spd(700))}
+};
+H.mcpause=()=>{UI.mcPaused=!UI.mcPaused;render();if(!UI.mcPaused)afterChange(false)};
+H.mcreserve=()=>{if(!mcOn()||G.mc.committed)return;G.mc.committed=true;mcReport('hq','frago','FRAGO: reserve committed. SPARE squadrons released to HAMMER.');render()};
+/* ---- home + start ---- */
+const renderHomeBaseMC=renderHome;
+renderHome=function(){renderHomeBaseMC();try{const ms=app.querySelectorAll('.modes');const m=ms[1];if(m&&!app.querySelector('[data-a="newmc"]')){const b=document.createElement('button');b.className='mode mc-mode';b.setAttribute('data-a','newmc');b.innerHTML=`<span class="k">COMMAND</span><h3>Mission Commander</h3><p>Command US forces at the operational level. Set intent, task your packages, authorities and risk limits, then run the fight from the ops floor through your subordinates.</p>`;m.prepend(b)}}catch(e){}};
+H.newmc=()=>{modal(`<h2>Mission Commander</h2><p class="small">You command, your packages fly. Plan the mission, brief it, then approve, deny and re-task from the ops floor. The computer plays the PRC.</p><div class="opts" style="margin-top:0"><div class="opt"><label class="lbl" for="mDiff">Enemy</label><select id="mDiff"><option value="easy">Recruit (easy)</option><option value="normal" selected>Officer (normal)</option><option value="hard">Commander (hard)</option></select></div><div class="opt"><label class="lbl" for="mAto">Campaign</label><select id="mAto"><option value="1">1 ATO cycle (quick)</option><option value="2" selected>2 ATO cycles (full)</option></select></div><div class="opt"><label class="lbl" for="mClock">Decision clock</label><select id="mClock">${Object.entries(MC_CLOCK).map(([k,v])=>`<option value="${k}" ${k==='40'?'selected':''}>${v}</option>`).join('')}</select></div></div><div class="acts2"><button class="btn ghost" data-a="mclose">Cancel</button><button class="btn pri" data-a="startmc">Take command</button></div>`)};
+H.startmc=()=>{const diff=$('#mDiff').value,atos=+$('#mAto').value,clock=+$('#mClock').value;closeModal();TUT.on=false;newGame('ai',{human:'US',diff,atos,coach:false});G.mc=mcNew({clock});UI.fxSeen=0;UI.lastActor=null;UI.sel=null;UI.selSq=null;UI.mode=null;UI.mcPaused=false;UI.mcPrev=null;UI.mcKey=null;afterChange(true)};
+const renderSetupBaseMC=renderSetup;
+renderSetup=function(){renderSetupBaseMC();if(!mcOn())return;try{const h=app.querySelector('.wrap');if(h){const d=document.createElement('div');d.className='mc-step';d.innerHTML=`<span class="pill amb">MISSION COMMANDER</span> Step 1 of 3: <b>Force selection</b>. Pick the mission card, posture, squadrons and enablers you are bringing. Next you will task them.`;h.prepend(d)}}catch(e){}};
+/* ---- planning screen ---- */
+function mcSqs(){return G.sqs.filter(q=>q.s==='US')}
+function mcFighters(){return mcSqs().reduce((a,q)=>a+(mcIsFighter({u:SQ[q.k].u})?SQ[q.k].n:0),0)}
+function renderMcPlan(){
+ UI.mcPlanning=true;const m=G.mc;const tab=UI.mcTab||'intent';const sqs=mcSqs();
+ for(const q of sqs)if(!m.pkg[q.id])m.pkg[q.id]=mcDefaultPkg(q);
+ const tabs=[['intent','Intent'],['org','Task org'],['auth','Authorities'],['risk','Risk'],['comms','Comms']];
+ let body='';
+ if(tab==='intent'){
+  body=`<h3>Commander's intent</h3><p class="small muted">Your end state and up to three ranked priorities. Priorities change how the packages weigh targets; they are not suggestions.</p>
+  <div class="lbl">End state</div><select id="mcEnd" data-mc="end" aria-label="End state" style="margin-top:4px;max-width:420px">${[['win','Win the campaign on points'],['win10','Win by 10 VP or more'],['win20','Decisive: win by 20 VP or more'],['hold','Hold the enemy under my VP limit; the score is secondary']].map(([k,v])=>`<option value="${k}" ${m.intent.end===k?'selected':''}>${v}</option>`).join('')}</select>
+  <div class="lbl" style="margin-top:12px">Priorities (tap to rank, tap again to remove)</div><div class="mc-pri">${Object.entries(MC_PRI).map(([k,p])=>{const i=m.intent.pri.indexOf(k);return `<button class="choice${i>=0?' sel':''}" data-a="mcpri" data-k="${k}"><span class="mc-rank">${i>=0?i+1:''}</span><b>${p.nm}</b><small>${p.s}</small></button>`}).join('')}</div>`;
+ }else if(tab==='org'){
+  body=`<h3>Task organisation</h3><p class="small muted">Assign each squadron to a package. <b>HAMMER</b> strikes, <b>VIPER</b> fights for the air, <b>SPARE</b> stays on the ground until you commit it. Each package commander has a temperament you set.</p>
+  <table class="tb mc-org"><thead><tr><th>Squadron</th><th>Aircraft</th><th>Package</th></tr></thead><tbody>${sqs.map(q=>`<tr><td>${esc(SQ[q.k].nm)}</td><td class="mono">${SQ[q.k].n}x ${esc(UNITS[SQ[q.k].u].nm)}</td><td><select data-mc="pkg" data-id="${q.id}">${['strike','ca','res'].map(p=>`<option value="${p}" ${m.pkg[q.id]===p?'selected':''}>${MC_PKG[p].cs} · ${MC_PKG[p].nm}</option>`).join('')}</select></td></tr>`).join('')}</tbody></table>
+  <div class="mc-temp">${['strike','ca','res'].map(p=>`<label><span class="pill" style="border-color:${MC_PKG[p].col};color:${MC_PKG[p].col}">${MC_PKG[p].cs}</span> commander<select data-mc="temper" data-p="${p}">${Object.entries(MC_TEMPER).map(([k,v])=>`<option value="${k}" ${m.temper[p]===k?'selected':''}>${v}</option>`).join('')}</select></label>`).join('')}</div>
+  <p class="small muted">Aggressive takes lower-odds shots; cautious only engages at good odds and avoids threat. Enabler-generated units (ships, EC-130, ADA) are <b>ANVIL</b>, under your direct control.</p>`;
+ }else if(tab==='auth'){
+  body=`<h3>Authorities matrix</h3><p class="small muted">Decentralised execution: what the packages may do on their own, what they must tell you about, and what waits for your approval. Approvals pause the fight and run on the decision clock.</p>
+  <table class="tb mc-auth"><thead><tr><th>Action</th>${Object.values(MC_AUTH_LV).map(v=>`<th>${v}</th>`).join('')}</tr></thead><tbody>${Object.entries(MC_AUTH).map(([k,v])=>`<tr><td>${v}</td>${Object.keys(MC_AUTH_LV).map(l=>`<td><input type="radio" name="au-${k}" data-mc="auth" data-k="${k}" value="${l}" ${m.auth[k]===l?'checked':''} aria-label="${v}: ${MC_AUTH_LV[l]}"></td>`).join('')}</tr>`).join('')}</tbody></table>`;
+ }else if(tab==='risk'){
+  const nf=mcFighters()*(G.maxAto||2)/(G.ato>1?1:1);const scale=G.maxAto===1?.5:1;
+  body=`<h3>Operational risk tolerance</h3><p class="small muted">Your limits for the campaign. Under half: normal operations. Over half: packages go cautious and you get a report. At the limit: offensive action pauses until you accept more risk or pull back. Presets are calibrated from 300 simulated campaigns.</p>
+  <div class="row">${Object.entries(MC_RISK).map(([k,r])=>`<button class="btn sm" data-a="mcrisk" data-k="${k}">${k==='low'?'Low risk':k==='mod'?'Moderate':'High risk'}: ${Math.round(r.evp*scale)} VP · ${r.fk}% · ${Math.max(1,Math.round(r.sk*scale))} sqn</button>`).join('')}</div>
+  <div class="mc-risk"><label><span>Enemy points allowed</span><input type="number" min="1" max="99" data-mc="evp" value="${m.risk.evp}"><small>VP the PRC may score against you</small></label>
+  <label><span>Fighter losses</span><input type="number" min="5" max="100" step="5" data-mc="fk" value="${m.risk.fk}"><small>% of the ${mcFighters()} fighters you brought this ATO = ${Math.max(1,Math.round(mcFighters()*m.risk.fk/100))} aircraft</small></label>
+  <label><span>Squadrons lost</span><input type="number" min="0" max="9" data-mc="sk" value="${m.risk.sk}"><small>Squadron Cards destroyed</small></label></div>`;
+ }else{
+  body=`<h3>Communications plan</h3><p class="small muted">What gets reported to you, how fast you must decide, and what happens when you don't. PRC cyber at rate 3 degrades the net; rate 4 with no alternate channel cuts a package off.</p>
+  <div class="mc-risk"><label><span>Reporting threshold</span><select data-mc="thr">${[['tight','Tight: every loss, contact, miss and move'],['normal','Normal: losses, kills, contacts, base hits, Winchester'],['loose','Loose: squadron losses and base hits only']].map(([k,v])=>`<option value="${k}" ${m.comms.thr===k?'selected':''}>${v}</option>`).join('')}</select><small>Tight floods the net; loose means you learn about losses at the SITREP.</small></label>
+  <label><span>Alternate channel</span><select data-mc="alt"><option value="1" ${m.comms.alt?'selected':''}>Planned (SATCOM backup)</option><option value="0" ${m.comms.alt?'':'selected'}>None</option></select><small>Without one, PRC network dominance cuts a package off.</small></label>
+  <label><span>Decision clock</span><select data-mc="clock">${Object.entries(MC_CLOCK).map(([k,v])=>`<option value="${k}" ${+m.comms.clock===+k?'selected':''}>${v}</option>`).join('')}</select><small>How long a request waits for you.</small></label>
+  <label><span>If I don't answer</span><select data-mc="silence"><option value="deny" ${m.comms.silence==='deny'?'selected':''}>Silence means hold (deny)</option><option value="consent" ${m.comms.silence==='consent'?'selected':''}>Silence means consent (proceed)</option></select><small>Also applies to a package that has lost contact.</small></label></div>
+  <div class="panel small" style="margin-top:10px"><b>Report formats on the net:</b> SPOTREP (new contact) · LOSSREP (aircraft lost) · BDA (enemy destroyed) · REQ (request for approval or support) · RISK (limit warning) · SITREP (end of ATO) · FLASH (inject)</div>`;
+ }
+ app.innerHTML=`<div class="screen"><div class="wrap" style="max-width:900px"><div class="mc-step"><span class="pill amb">MISSION COMMANDER</span> Step 2 of 3: <b>Mission planning</b> · ATO ${G.ato}${m.replan?' (update the plan for the new ATO)':''}</div>
+ <div class="mc-tabs">${tabs.map(([k,v])=>`<button class="btn sm ${tab===k?'on':''}" data-a="mctab" data-t="${k}">${v}</button>`).join('')}</div>
+ <div class="panel mc-body">${body}</div>
+ <div class="sticky-confirm"><button class="btn ghost" data-a="quit">Quit</button><button class="btn pri" data-a="mcbrief">Build the brief →</button></div></div></div>`;
+}
+H.mctab=d=>{UI.mcTab=d.t;render()};
+H.mcpri=d=>{const p=G.mc.intent.pri;const i=p.indexOf(d.k);if(i>=0)p.splice(i,1);else if(p.length<3)p.push(d.k);else return toast('Three priorities at most. Remove one first.');render()};
+H.mcrisk=d=>{const r=MC_RISK[d.k];const scale=G.maxAto===1?.5:1;G.mc.risk={evp:Math.round(r.evp*scale),fk:r.fk,sk:Math.max(1,Math.round(r.sk*scale))};render()};
+document.addEventListener('change',e=>{const el=e.target.closest('[data-mc]');if(!el||!mcOn())return;const m=G.mc,k=el.dataset.mc,v=el.value;
+ if(k==='end')m.intent.end=v;else if(k==='pkg')m.pkg[+el.dataset.id]=v;else if(k==='temper')m.temper[el.dataset.p]=v;else if(k==='auth')m.auth[el.dataset.k]=v;
+ else if(k==='evp'||k==='fk'||k==='sk')m.risk[k]=Math.max(0,+v||0);else if(k==='thr')m.comms.thr=v;else if(k==='alt')m.comms.alt=v==='1';else if(k==='clock')m.comms.clock=+v;else if(k==='silence')m.comms.silence=v;
+ if(k==='fk'||k==='pkg')render();if(UI.mcFrago)mcFragoNote(k)});
+H.mcbrief=()=>{G.mc.stage='brief';save();SCREEN='mcbrief';render()};
+H.mcback=()=>{G.mc.stage='plan';SCREEN='mcplan';render()};
+/* ---- brief ---- */
+function mcBriefHTML(){
+ const m=G.mc,S=G.S.US,M=missionOf('US'),P=postureOf('US');const sqs=mcSqs();
+ const byP=p=>sqs.filter(q=>m.pkg[q.id]===p);
+ const ens=S.ens.map(e=>EN[e.k]);const cat=c=>ens.filter(E=>c(E)).map(E=>E.nm);
+ const g=mcGauges();
+ return `<div class="mc-brief">
+ <h3>1. Situation</h3><p><b>Enemy.</b> PRC forces defending from their Airbase in band 6. Posture, mission and order of battle unknown until contact; expect fighters forward, SAMs on the base and missile strikes on ours.<br><b>Friendly.</b> ${P?P.nm+' posture, ':''}${sqs.length} squadrons, ${ens.length} enabler cards. Airbase damage threshold 3 blocks.</p>
+ <h3>2. Mission</h3><p>US forces conduct <b>${esc(M.nm)}</b>: ${esc(M.txt)} ${esc(M.lines.join(' '))}</p>
+ <h3>3. Execution</h3><p><b>Intent.</b> End state: ${({win:'win the campaign on points',win10:'win by 10 VP or more',win20:'win decisively by 20 VP or more',hold:'hold the enemy under the VP limit'})[m.intent.end]}. Priorities: ${m.intent.pri.map((k,i)=>`(${i+1}) ${MC_PRI[k].nm}`).join(', ')||'none set'}.</p>
+ <ul>${['strike','ca','res'].map(p=>`<li><b>${MC_PKG[p].cs}</b> (${MC_PKG[p].nm}, ${MC_TEMPER[m.temper[p]]}): ${byP(p).map(q=>SQ[q.k].nm).join(', ')||'no squadrons'}${p==='res'?' · held on the ground until the commander commits':''}</li>`).join('')}<li><b>ANVIL</b> (Support): ${cat(E=>E.unit).join(', ')||'no unit enablers'}</li></ul>
+ <p><b>Commit / abort criteria.</b> Normal operations under half of each limit. Cautious engagement above half. Offensive operations pause at: enemy ${m.risk.evp} VP · ${m.risk.fk}% of fighters (${g.fk.lim} aircraft) · ${m.risk.sk} squadron${m.risk.sk===1?'':'s'} lost.</p>
+ <h3>4. Sustainment</h3><p>ISR: ${cat(E=>E.cat==='space'||E.fx==='isr').join(', ')||'none'} · Tanking / airlift: ${cat(E=>E.mob).join(', ')||'none'} · EW / cyber: ${cat(E=>E.cat==='cyber'||E.cat==='ew').join(', ')||'none'} · Defence: ${cat(E=>E.resp===1).join(', ')||'none'}</p>
+ <h3>5. Command and signal</h3><p>${Object.entries(MC_AUTH).map(([k,v])=>`${v}: <b>${MC_AUTH_LV[m.auth[k]].toLowerCase()}</b>`).join(' · ')}.<br>Net: ${m.comms.thr} reporting threshold, ${m.comms.alt?'alternate channel planned':'<b>no alternate channel</b>'}, decision clock ${MC_CLOCK[m.comms.clock]||m.comms.clock+'s'}, silence means ${m.comms.silence==='consent'?'consent':'hold'}.</p></div>`;
+}
+function renderMcBrief(){UI.mcPlanning=true;app.innerHTML=`<div class="screen"><div class="wrap" style="max-width:900px"><div class="mc-step"><span class="pill amb">MISSION COMMANDER</span> Step 3 of 3: <b>Mass brief</b> · ATO ${G.ato}</div><div class="panel">${mcBriefHTML()}<p class="small muted" style="margin-top:10px">This brief is the standard you are graded against. Anything briefed and not followed shows up in the debrief.</p></div><div class="sticky-confirm"><button class="btn" data-a="mcback">← Back to planning</button><button class="btn pri" data-a="mcstep">Step · begin execution</button></div></div></div>`}
+H.mcstep=()=>{const m=G.mc;m.stage='exec';m.replan=0;UI.mcPlanning=false;UI.mcPaused=false;mcReport('hq','frago',`Mission brief stepped. ${m.intent.pri.map(k=>MC_PRI[k].nm).join('; ')||'No priorities'}.`);afterChange(true)};
+const renderBaseMC=render;
+render=function(){if(SCREEN==='mcplan')return renderMcPlan();if(SCREEN==='mcbrief')return renderMcBrief();if(mcOn()&&SCREEN==='game')UI.mcPlanning=false;return renderBaseMC()};
+/* ---- ops floor ---- */
+function mcGaugeHTML(){const g=mcGauges();return `<div class="mc-gauges">${['evp','fk','sk'].map(k=>{const x=g[k];const lv=mcLevel(x);const pct=Math.min(100,x.lim?100*x.v/x.lim:(x.v?100:0));return `<div class="mc-g ${lv}" title="${x.lbl}"><span class="mc-gl">${x.lbl}</span><span class="mc-gv mono">${x.v}${k==='fk'?'/'+x.lim+' <small>('+Math.round(100*x.v/Math.max(1,x.n))+'%)</small>':'/'+x.lim}</span><i><b style="width:${pct}%"></b></i></div>`}).join('')}</div>`}
+function mcCopHTML(){
+ const m=G.mc;const sqs=mcSqs();const pk=p=>sqs.filter(q=>mcPkgOfSq(q.id)===p);
+ const row=q=>{const toks=G.toks.filter(t=>t.q===q.id);const air=toks.filter(t=>onBoard(t)).length,card=toks.filter(t=>t.l==='card'&&!t.g).length,dead=toks.filter(t=>t.l==='dead').length,w=toks.filter(t=>t.w&&onBoard(t)).length;const n=SQ[q.k].n;const cp=q.dead?0:Math.round(100*(air+card)/Math.max(1,n));
+  return `<div class="mc-sq${q.dead?' dead':''}"><span class="mc-sqn">${esc(SQ[q.k].nm.replace(' Fighter Squadron',' FS').replace(' Squadron',' Sqn'))}</span><i class="mc-cp"><b style="width:${cp}%"></b></i><span class="mono small">${q.dead?'DESTROYED':q.act?`${air} up${w?' · '+w+' winch':''}${dead?' · '+dead+' lost':''}`:`${card} ready`}</span></div>`};
+ const comms=mcComms();const lost=mcLostPkg();
+ const ens=G.S.US.ens;const used=ens.filter(e=>e.used).length;
+ return `<div class="sec"><h4><span class="lbl">Risk</span><span class="pill ${mcWorst()==='red'?'bad':mcWorst()==='amber'?'amb':''}">${mcWorst().toUpperCase()}</span></h4>${mcGaugeHTML()}${m.halt===G.ato?'<div class="small" style="color:var(--bad)">Offensive operations suspended this ATO</div>':''}</div>
+ <div class="sec"><h4><span class="lbl">Force status</span><span class="small muted">combat power</span></h4>${['strike','ca','res'].map(p=>{const L=pk(p);if(!L.length)return '';return `<div class="mc-pkg"><div class="mc-pkh"><span class="pill" style="border-color:${MC_PKG[p].col};color:${MC_PKG[p].col}">${MC_PKG[p].cs}</span><span class="small muted">${MC_TEMPER[mcTemper(p)]}${lost===p?' · <b style="color:var(--bad)">NO CONTACT</b>':''}${p==='res'&&!m.committed?' · held':''}</span></div>${L.map(row).join('')}</div>`}).join('')}</div>
+ <div class="sec"><h4><span class="lbl">Enablers</span><span class="mono small">${ens.length-used} of ${ens.length} left</span></h4><div class="mc-ens">${ens.map(e=>`<span class="pill${e.used?' off':''}" title="${esc(EN[e.k].txt)}">${esc(EN[e.k].nm)}${EN[e.k].use==='single'?' ¹':''}</span>`).join('')}</div></div>
+ <div class="sec"><h4><span class="lbl">Net</span><span class="pill ${comms==='ok'?'':'bad'}">${comms==='ok'?'COMMS GOOD':comms==='degraded'?'DEGRADED':'LINK LOST'}</span></h4><div class="small muted">Mission: <b style="color:var(--fg)">${esc(missionOf('US').nm)}</b> · Priorities: ${m.intent.pri.map((k,i)=>`${i+1}. ${MC_PRI[k].nm}`).join(' · ')||'none'}</div></div>`;
+}
+function mcFeedHTML(){
+ const m=G.mc;const items=m.feed.filter(it=>it.show<=G.turnNo||it.a<G.ato).slice(-40).reverse();
+ return `<div class="sec mc-net"><h4><span class="lbl">Net feed</span><span class="small muted">${m.comms.thr} threshold</span></h4><div class="mc-feed">${items.map(it=>`<div class="mc-msg k-${it.kind}${it.from==='hq'?' hq':''}"><span class="mc-from" style="color:${(MC_PKG[it.from]||MC_PKG.sup).col}">${mcCS(it.from)}</span><span class="mc-kind">${it.kind.toUpperCase()}</span><span class="mono small muted">A${it.a} T${it.t}</span>${it.st!=='ok'?`<span class="pill bad">${it.st.toUpperCase()}</span>`:''}<div>${esc(it.txt)}</div></div>`).join('')||'<p class="small muted">Nothing on the net yet.</p>'}</div></div>
+ <div class="sec"><h4><span class="lbl">Decision log</span><span class="mono small">${m.dec.length}</span></h4><div class="mc-dec">${m.dec.slice(-12).reverse().map(d=>`<div class="small"><span class="mono muted">A${d.a} T${d.t}</span> ${d.choice?'✓':'✗'} ${esc(d.title)} <span class="muted">(${d.how==='timeout'?'clock expired':d.how==='nocontact'?'no contact':(d.ms/1000).toFixed(0)+'s'})</span></div>`).join('')||'<p class="small muted">No decisions yet.</p>'}</div></div>`;
+}
+function mcReqHTML(){
+ const r=UI.mcReq;if(!r)return '';const q=r.req;const clock=+G.mc.comms.clock||0;
+ return `<div class="mc-dq" role="dialog" aria-live="assertive"><div class="mc-dqh"><span class="pill" style="border-color:${(MC_PKG[q.from]||MC_PKG.sup).col};color:${(MC_PKG[q.from]||MC_PKG.sup).col}">${mcCS(q.from)}</span><span class="mc-kind">${q.kind==='inject'?'FLASH':q.kind==='risk'?'RISK DECISION':'REQUEST'}</span>${clock?`<span class="mc-clock mono">${clock}s</span>`:'<span class="small muted">no clock</span>'}</div><b>${esc(q.title)}</b>${q.body?`<div class="small">${q.body}</div>`:''}${q.cost?`<div class="small muted">${esc(q.cost)}</div>`:''}<div class="row" style="justify-content:flex-end;margin-top:8px"><button class="btn" data-a="mcno">${esc(q.no||'Deny')}</button><button class="btn pri" data-a="mcyes">${esc(q.yes||'Approve')}</button></div></div>`;
+}
+const renderGameBaseMC=renderGame;
+renderGame=function(){
+ if(mcOn())UI.hand=null;
+ renderGameBaseMC();
+ if(!mcOn()||SCREEN!=='game')return;
+ try{
+  const L=app.querySelector('.side-l'),R=app.querySelector('.side-r'),B=app.querySelector('.bottombar');
+  if(L)L.innerHTML=mcCopHTML();if(R)R.innerHTML=mcFeedHTML();
+  const tray=app.querySelector('.hand');if(tray)tray.remove();
+  if(B){const paused=UI.mcPaused;const tab=UI.sheet;B.innerHTML=`<div class="tabs"><button class="btn ${tab==='l'?'on':''}" data-a="sheet" data-t="l">COP</button><button class="btn ${tab==='r'?'on':''}" data-a="sheet" data-t="r">Net</button></div><span class="sp" style="flex:1"></span><span class="small muted mc-status">${UI.mcReq?'Decision pending':paused?'Paused':G.phase==='play'&&G.turn==='US'?'US packages executing…':G.phase==='play'?'Enemy turn…':''}</span><button class="btn" data-a="mcfrago" ${UI.mcReq?'disabled':''}>FRAGO</button>${G.mc.committed?'':`<button class="btn" data-a="mcreserve" ${mcSqs().some(q=>G.mc.pkg[q.id]==='res')?'':'disabled'}>Commit <span class="tlab">reserve</span></button>`}<button class="btn ${paused?'pri':''}" data-a="mcpause">${paused?'Resume':'Pause'}</button>`}
+  const hud=app.querySelector('.hud .ttl');if(hud)hud.textContent='OPS FLOOR';
+  const c=app.querySelector('.center');if(c){const g=mcGauges();c.insertAdjacentHTML('afterbegin',`<div class="mc-strip">${['evp','fk','sk'].map(k=>`<span class="${mcLevel(g[k])}"><small>${g[k].lbl}</small><b>${g[k].v}/${g[k].lim}</b></span>`).join('')}<span class="${mcComms()==='ok'?'green':'red'}"><small>Net</small><b>${mcComms()==='ok'?'GOOD':mcComms().toUpperCase()}</b></span></div>`);fitBoard()}
+  const old=document.querySelector('.mc-dq');if(old)old.remove();
+  if(UI.mcReq){const g=document.getElementById('game');if(g)g.insertAdjacentHTML('beforeend',mcReqHTML())}
+  document.getElementById('game').classList.add('mc');
+ }catch(e){console.error(e)}
+};
+/* FRAGO: change priorities, temperaments, authorities and risk mid-fight */
+H.mcfrago=()=>{if(!mcOn()||UI.mcReq)return;UI.mcFrago=true;const m=G.mc;
+ modal(`<h2>FRAGO</h2><p class="small">Issue updated guidance. Packages act on it from their next action.</p>
+ <div class="lbl">Priorities</div><div class="mc-pri sm">${Object.entries(MC_PRI).map(([k,p])=>{const i=m.intent.pri.indexOf(k);return `<button class="choice${i>=0?' sel':''}" data-a="mcpri2" data-k="${k}"><span class="mc-rank">${i>=0?i+1:''}</span><b>${p.nm}</b></button>`}).join('')}</div>
+ <div class="mc-temp" style="margin-top:10px">${['strike','ca'].map(p=>`<label><span class="pill" style="border-color:${MC_PKG[p].col};color:${MC_PKG[p].col}">${MC_PKG[p].cs}</span><select data-mc="temper" data-p="${p}">${Object.entries(MC_TEMPER).map(([k,v])=>`<option value="${k}" ${m.temper[p]===k?'selected':''}>${v}</option>`).join('')}</select></label>`).join('')}</div>
+ <div class="mc-risk" style="margin-top:10px"><label><span>Enemy VP limit</span><input type="number" min="1" data-mc="evp" value="${m.risk.evp}"></label><label><span>Fighter loss %</span><input type="number" min="5" max="100" step="5" data-mc="fk" value="${m.risk.fk}"></label><label><span>Squadrons</span><input type="number" min="0" data-mc="sk" value="${m.risk.sk}"></label></div>
+ <table class="tb mc-auth" style="margin-top:10px"><tbody>${Object.entries(MC_AUTH).map(([k,v])=>`<tr><td>${v}</td><td><select data-mc="auth" data-k="${k}">${Object.entries(MC_AUTH_LV).map(([l,n])=>`<option value="${l}" ${m.auth[k]===l?'selected':''}>${n}</option>`).join('')}</select></td></tr>`).join('')}</tbody></table>
+ ${m.halt===G.ato?'<button class="btn" data-a="mcresume" style="margin-top:10px">Resume offensive operations</button>':''}
+ <div class="acts2"><button class="btn pri" data-a="mcfragook">Issue FRAGO</button></div>`,'mc-fragom');
+ UI.mcFragoNotes=[];};
+function mcFragoNote(k){UI.mcFragoNotes=UI.mcFragoNotes||[];if(!UI.mcFragoNotes.includes(k))UI.mcFragoNotes.push(k)}
+H.mcpri2=d=>{H.mcpri(d);mcFragoNote('pri');const el=document.querySelector(`.mc-fragom [data-a="mcpri2"][data-k="${d.k}"]`);document.querySelectorAll('.mc-fragom [data-a="mcpri2"]').forEach(b=>{const i=G.mc.intent.pri.indexOf(b.dataset.k);b.classList.toggle('sel',i>=0);b.querySelector('.mc-rank').textContent=i>=0?i+1:''});if(el)el.focus()};
+H.mcresume=()=>{G.mc.halt=false;mcFragoNote('resume')};
+H.mcfragook=()=>{closeModal();UI.mcFrago=false;const n=UI.mcFragoNotes||[];if(!n.length){toast('No changes issued.');render();return}
+ const m=G.mc;const what=n.map(k=>({pri:'priorities: '+(m.intent.pri.map(x=>MC_PRI[x].nm).join(', ')||'none'),temper:'package temperaments',evp:'enemy VP limit '+m.risk.evp,fk:'fighter loss limit '+m.risk.fk+'%',sk:'squadron limit '+m.risk.sk,auth:'authorities',resume:'offensive operations resumed'})[k]||k).join('; ');
+ m.dec.push({a:G.ato,t:G.turnNo,kind:'frago',from:'hq',title:'FRAGO: '+what,choice:true,ms:0,how:'user',vp:{us:scoreSide('US').total,prc:scoreSide('PRC').total}});mcReport('hq','frago','FRAGO issued: '+what);render()};
+const closeModalBaseMC=closeModal;
+closeModal=function(){closeModalBaseMC();if(UI.mcFrago){UI.mcFrago=false}};
+/* ---- hot wash at ATO end ---- */
+function mcHotWash(){
+ const m=G.mc;const g=mcGauges();const us=scoreSide('US').total,prc=g.evp.v;
+ const sus=[],imp=[];
+ if(us>prc)sus.push(`Leading ${us} to ${prc}: the plan is producing points.`);else imp.push(`Behind ${us} to ${prc}: the current priorities are not out-scoring the enemy's mission.`);
+ for(const k of ['evp','fk','sk']){const lv=mcLevel(g[k]);if(lv==='green')sus.push(`${g[k].lbl} well inside the limit (${g[k].v}/${g[k].lim}).`);else if(lv==='red')imp.push(`${g[k].lbl} limit reached (${g[k].v}/${g[k].lim})${m.acc.some(a=>a.k===k)?', accepted formally':' without a formal risk decision'}.`)}
+ const to=m.dec.filter(d=>d.how==='timeout').length;if(to)imp.push(`${to} request${to>1?'s':''} ran out the decision clock: the packages acted on the silence rule.`);
+ const unused=G.S.US.ens.filter(e=>!e.used&&EN[e.k].use==='single').length;if(unused>=3)imp.push(`${unused} single-use enablers never played.`);
+ if(m.stats.dropped)imp.push(`${m.stats.dropped} report${m.stats.dropped>1?'s':''} never reached you (no contact): plan an alternate channel.`);
+ const next=imp.length?imp[0].replace(/\.$/,'')+': fix that in the ATO '+(G.ato+1)+' plan.':'Keep the plan; consider a tighter risk limit to practise discipline.';
+ return `<div class="panel mc-hw"><h3 style="font-size:18px;margin-bottom:6px">Hot wash · senior mission commander</h3><div class="mc-hw3"><div><b>Sustain</b><ul class="small">${sus.map(s=>`<li>${esc(s)}</li>`).join('')||'<li>Nothing stands out yet.</li>'}</ul></div><div><b>Improve</b><ul class="small">${imp.map(s=>`<li>${esc(s)}</li>`).join('')||'<li>Clean ATO.</li>'}</ul></div><div><b>Next ATO</b><p class="small">${esc(next)}</p></div></div></div>`;
+}
+const renderAtoEndBaseMC=renderAtoEnd;
+renderAtoEnd=function(){renderAtoEndBaseMC();if(!mcOn())return;try{const w=app.querySelector('.wrap');const btn=w.querySelector('[data-a="nextato"]');const d=document.createElement('div');d.innerHTML=mcHotWash();(btn?btn.closest('.row'):null)?.before(d.firstChild)}catch(e){}};
+/* ---- debrief: grade sheet ---- */
+function mcGrade(){
+ const m=G.mc;const sc=finalScore();const us=sc.US.total,prc=sc.PRC.total;const g=mcGauges();
+ const need={win:1,win10:10,win20:20,hold:0}[m.intent.end];const margin=us-prc;
+ const intent=m.intent.end==='hold'?(prc<=m.risk.evp?100:Math.max(0,Math.round(100*m.risk.evp/prc))):Math.max(0,Math.min(100,Math.round(50+50*(margin-need)/Math.max(10,need*2)+(margin>=need?0:0))));
+ let risk=100;const notes=[];for(const k of ['evp','fk','sk']){if(mcLevel(g[k])==='red'){const acc=m.acc.some(a=>a.k===k);risk-=acc?20:40;notes.push(`${g[k].lbl} exceeded${acc?' (risk accepted)':' (no risk decision)'}`)}}
+ const under=['evp','fk','sk'].every(k=>g[k].lim&&g[k].v/g[k].lim<.25);if(under&&G.winner!=='US'){risk=Math.min(risk,55);notes.push('Risk-averse: far under every limit and still lost')}
+ risk=Math.max(0,risk);
+ const ens=G.S.US.ens;const used=ens.filter(e=>e.used).length;const unusedSingle=ens.filter(e=>!e.used&&EN[e.k].use==='single').length;const enab=Math.max(0,Math.min(100,Math.round(100*used/Math.max(1,ens.length))-unusedSingle*5+(m.tmp.deniedEn||0)*0));
+ const req=m.dec.filter(d=>d.kind!=='frago');const to=req.filter(d=>d.how==='timeout').length;const nc=req.filter(d=>d.how==='nocontact').length;const ans=req.filter(d=>d.how==='user');const avg=ans.length?ans.reduce((a,d)=>a+d.ms,0)/ans.length/1000:0;const clock=+m.comms.clock||40;
+ const time=req.length?Math.max(0,Math.round(100-100*to/req.length-Math.max(0,avg-clock*.5)*2)):80;
+ const comm=Math.max(0,Math.round(100-(nc?25:0)-(m.stats.dropped?15:0)-(m.comms.thr==='loose'&&m.cum.fk+g.fk.v>0?10:0)-(m.comms.thr==='tight'?10:0)));
+ const rows=[['Intent met',intent,m.intent.end==='hold'?`Enemy held to ${prc} VP against a limit of ${m.risk.evp}`:`Final margin ${margin>=0?'+':''}${margin} VP against an end state of +${need}`],['Risk discipline',risk,notes.join('; ')||'Stayed inside every limit you set'],['Enabler efficiency',enab,`${used} of ${ens.length} cards played${unusedSingle?', '+unusedSingle+' single-use never used':''}`],['Decision timeliness',time,req.length?`${req.length} decisions, ${to} timed out, average ${avg.toFixed(0)}s on a ${clock}s clock`:'No decisions were required'],['Reporting discipline',comm,`${m.comms.thr} threshold, ${m.comms.alt?'alternate channel planned':'no alternate channel'}${nc?', '+nc+' decisions made without contact':''}${m.stats.dropped?', '+m.stats.dropped+' reports lost':''}`]];
+ const overall=Math.round(rows.reduce((a,r)=>a+r[1],0)/rows.length);const letter=overall>=85?'Q1 · Qualified, exceptional':overall>=70?'Q2 · Qualified':overall>=55?'Q3 · Qualified with discrepancies':'U · Unqualified, re-fly';
+ return{rows,overall,letter};
+}
+function mcFocus(){
+ const m=G.mc;const out=[];const D=m.dec;
+ for(let i=0;i<D.length;i++){const d=D[i];const nx=D[i+1]?D[i+1].vp:{us:scoreSide('US').total,prc:scoreSide('PRC').total};const dm=(nx.us-nx.prc)-(d.vp.us-d.vp.prc);
+  let cause='Decision';if(d.kind==='risk'||d.kind==='frago')cause='Planning';if(d.how==='timeout'||d.how==='nocontact')cause='Communications';
+  out.push({d,dm,cause,txt:`A${d.a} T${d.t}: ${d.how==='timeout'?'Clock expired on':d.how==='nocontact'?'No contact for':d.choice?(d.yes||'Approved'):(d.no||'Denied')} "${d.title}". Margin moved ${dm>=0?'+':''}${dm} VP before your next decision.`})}
+ out.sort((a,b)=>(b.d.how!=='user')-(a.d.how!=='user')||Math.abs(b.dm)-Math.abs(a.dm));
+ return out.slice(0,3).map(f=>({...f,fix:f.cause==='Communications'?'Shorten your response: pre-authorise routine actions so the clock only runs on decisions that need you.':f.cause==='Planning'?'Set limits you can live with in the plan, and decide on risk before the gauge turns red.':f.dm<0?'Weigh the projected cost shown on the request against the priority it serves; a denial has a cost too.':'Sound call. Note what information you used and brief it as a decision point next time.'}));
+}
+function mcRiskChartSVG(){
+ const H=G.mc.hist;if(H.length<2)return '';const W=560,Ht=150,px=36,py=14;const n=H.length;const x=i=>px+(W-px-8)*i/(n-1);const y=v=>py+(Ht-py-18)*(1-Math.min(1.5,v)/1.5);
+ const line=(k,col)=>`<polyline fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round" points="${H.map((h,i)=>x(i)+','+y(h[k])).join(' ')}"/><text x="${W-6}" y="${y(H[n-1][k])+4}" text-anchor="end" font-size="10" fill="${col}">${k==='evp'?'Enemy VP':k==='fk'?'Fighters':'Squadrons'}</text>`;
+ const atoX=H.findIndex(h=>h.a===2);
+ return `<svg viewBox="0 0 ${W} ${Ht}" class="mc-chart" role="img" aria-label="Risk gauges across the campaign, as a share of each limit"><line x1="${px}" y1="${y(1)}" x2="${W-8}" y2="${y(1)}" stroke="var(--bad)" stroke-dasharray="4 4"/><text x="${px-4}" y="${y(1)+4}" text-anchor="end" font-size="10" fill="var(--bad)">limit</text><line x1="${px}" y1="${y(.5)}" x2="${W-8}" y2="${y(.5)}" stroke="var(--amber)" stroke-dasharray="2 6"/><text x="${px-4}" y="${y(.5)+4}" text-anchor="end" font-size="10" fill="var(--amber)">½</text><text x="${px-4}" y="${y(0)+4}" text-anchor="end" font-size="10" fill="var(--mute)">0</text>${atoX>0?`<line x1="${x(atoX)}" y1="${py}" x2="${x(atoX)}" y2="${Ht-18}" stroke="var(--line2)"/><text x="${x(atoX)+3}" y="${Ht-6}" font-size="10" fill="var(--mute)">ATO 2</text>`:''}<text x="${px}" y="${Ht-6}" font-size="10" fill="var(--mute)">US turns →</text>${line('evp','#e2584d')}${line('fk','#5a8cf0')}${line('sk','#f3b23a')}</svg>`;
+}
+function mcDebriefHTML(){
+ const gr=mcGrade();const fo=mcFocus();
+ return `<div class="panel mc-debrief"><div class="row" style="justify-content:space-between;align-items:flex-start"><div><div class="lbl">Mission commander · grade sheet</div><h3 style="font-size:26px;margin:4px 0">${gr.letter}</h3></div><div class="vp">${gr.overall}<span style="font-size:16px"> / 100</span></div></div>
+ <table class="tb"><thead><tr><th>Area</th><th>Score</th><th>Basis</th></tr></thead><tbody>${gr.rows.map(r=>`<tr><td>${r[0]}</td><td class="mono"><i class="mc-bar"><b style="width:${r[1]}%"></b></i> ${r[1]}</td><td class="small">${esc(r[2])}</td></tr>`).join('')}</tbody></table>
+ <h4 style="margin:14px 0 6px">Risk across the campaign</h4>${mcRiskChartSVG()||'<p class="small muted">Not enough turns to chart.</p>'}
+ <h4 style="margin:14px 0 6px">Debrief focus points</h4>${fo.length?`<ol class="small">${fo.map(f=>`<li><b>${f.cause}.</b> ${esc(f.txt)}<br><span class="muted">Instructional fix: ${esc(f.fix)}</span></li>`).join('')}</ol>`:'<p class="small muted">No command decisions were recorded: everything was pre-authorised. Tighten the authorities matrix to practise decision-making.</p>'}
+ <p class="small muted">This grades the decision process inside the OCS rules: intent, authorities, risk and comms discipline. It is a practice tool, not an MC upgrade.</p></div>`;
+}
+const renderResultsBaseMC=renderResults;
+renderResults=function(){renderResultsBaseMC();if(!mcOn())return;try{const w=app.querySelector('.wrap');const grid=w.querySelector('.res-grid');const d=document.createElement('div');d.innerHTML=mcDebriefHTML();d.firstChild.style.marginTop='14px';(grid||w.firstChild).after(d.firstChild)}catch(e){console.error(e)}};
+/* phone hand tray is tactical: keep it closed in MC mode */
+const handBaseMC=H.hand;H.hand=d=>{if(mcOn())return;handBaseMC(d)};
+try{if(SCREEN==='home')render()}catch(e){}
+
 </script>
+
 </body></html>
